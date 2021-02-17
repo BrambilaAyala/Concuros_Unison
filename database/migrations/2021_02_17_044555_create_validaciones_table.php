@@ -13,17 +13,30 @@ class CreateValidacionesTable extends Migration
      */
     public function up()
     {
+        Schema::create('revisores', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('apellido_paterno');
+            $table->string('apellido_materno');
+            $table->string('correo');
+            $table->string('contrasena');
+            $table->enum('rol', ['Revisor','Visualizador','Administrador']);
+            $table->timestamps();
+        });
         Schema::create('validaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('id_documento');
-            $table->string('id_revisor');
+            $table->unsignedBigInteger('id_documento');
+            $table->unsignedBigInteger('id_revisor');
             $table->text('comentario');
             $table->string('doc_aprobado');
             $table->string('doc_rechazado');
             $table->enum('estado',['Rechazado','En espera a validar','Aprobado']);
             $table->date('fecha_validacion');
             $table->timestamps();
+            $table->foreign('id_documento')->references('id')->on('documentos');
+            $table->foreign('id_revisor')->references('id')->on('revisores');
         });
+        
     }
 
     /**
@@ -33,6 +46,7 @@ class CreateValidacionesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('revisores');
         Schema::dropIfExists('validaciones');
     }
 }

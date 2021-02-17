@@ -15,7 +15,7 @@ class CreateAsesoresTable extends Migration
     {
         Schema::create('asesores', function (Blueprint $table) {
             $table->id();
-            $table->string('id_asistente');
+            $table->unsignedBigInteger('id_asistente');
             $table->string('nombre');
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
@@ -23,6 +23,7 @@ class CreateAsesoresTable extends Migration
             $table->integer('telefono');
             $table->string('escuela_origen');
             $table->timestamps();
+            $table->foreign('id_asistente')->references('id')->on('asistentes');
         });
     }
 
