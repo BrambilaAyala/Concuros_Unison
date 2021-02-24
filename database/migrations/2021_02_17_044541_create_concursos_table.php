@@ -15,7 +15,7 @@ class CreateConcursosTable extends Migration
     {
         Schema::create('concursos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre',255);
             $table->text('descripcion');
             $table->timestamps();
         });

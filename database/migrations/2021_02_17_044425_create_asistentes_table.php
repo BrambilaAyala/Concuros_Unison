@@ -15,18 +15,17 @@ class CreateAsistentesTable extends Migration
     {
         Schema::create('asistentes', function (Blueprint $table) {
             $table->id();
-            $table->string('curp');
-            $table->integer('folio');
-            $table->string('nombre');
-            $table->string('apellido_paterno');
-            $table->string('apellido_materno');
-            $table->string('escuela_origen');
-            $table->string('correo_electronico');
-            $table->string('contrasena');
-            $table->string('email')->unique();
+            $table->string('curp',55)->nullable();
+            $table->integer('folio',false,true)->nullable();
+            $table->string('nombre', 80);
+            $table->string('apellido_paterno', 80)->nullable();
+            $table->string('apellido_materno', 80)->nullable();
+            $table->string('escuela_origen', 255)->nullable();
+            $table->string('correo_electronico', 80)->unique();
+            $table->string('contrasena', 30);
             $table->date('fecha_nacimiento')->nullable();
-            $table->integer('telefono');
-            $table->timestamp('fecha_registro')->nullable();
+            $table->integer('telefono', false,true)->nullable();
+            $table->date('fecha_registro_aceptado')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

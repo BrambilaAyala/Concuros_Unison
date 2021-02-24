@@ -23,13 +23,14 @@ class CreateValidacionesTable extends Migration
             $table->enum('rol', ['Revisor','Visualizador','Administrador']);
             $table->timestamps();
         });
+        
         Schema::create('validaciones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_documento');
             $table->unsignedBigInteger('id_revisor');
             $table->text('comentario');
-            $table->string('doc_aprobado');
-            $table->string('doc_rechazado');
+            $table->string('doc_aprobado')->nullable();
+            $table->string('doc_rechazado')->nullable();
             $table->enum('estado',['Rechazado','En espera a validar','Aprobado']);
             $table->date('fecha_validacion');
             $table->timestamps();

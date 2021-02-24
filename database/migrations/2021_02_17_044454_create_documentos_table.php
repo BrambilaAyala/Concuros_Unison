@@ -16,9 +16,9 @@ class CreateDocumentosTable extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_asistente');
-            $table->string('foto_asistente');
-            $table->string('acta_asistente');
-            $table->string('constancia_escuela');
+            $table->string('foto_asistente', 200);
+            $table->string('acta_asistente', 200);
+            $table->string('constancia_escuela', 200);
             $table->date('fecha_creacion');
             $table->foreign('id_asistente')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
