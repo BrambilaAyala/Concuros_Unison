@@ -22,7 +22,7 @@ class CreateAsistentesTable extends Migration
             $table->string('apellido_materno', 80)->nullable();
             $table->string('escuela_origen', 255)->nullable();
             $table->string('correo_electronico', 80)->unique();
-            $table->string('contrasena', 30);
+            $table->string('contrasena', 100);
             $table->date('fecha_nacimiento')->nullable();
             $table->integer('telefono', false,true)->nullable();
             $table->date('fecha_registro_aceptado')->nullable();
