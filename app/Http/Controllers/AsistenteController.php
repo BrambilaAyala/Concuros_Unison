@@ -14,7 +14,7 @@ class AsistenteController extends Controller
      */
     public function index()
     {
-        //
+        return view('asistente.perfil');
     }
 
     /**
@@ -46,7 +46,7 @@ class AsistenteController extends Controller
      */
     public function show(Asistente $asistente)
     {
-        //
+        return view('asistente.perfil');
     }
 
     /**

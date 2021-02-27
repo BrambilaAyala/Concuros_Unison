@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito); @charset"UTF-8";
+
 
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
@@ -7084,7 +7085,7 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-  background-color: #fff !important;
+  background-color: #fff;
 }
 
 .bg-transparent {
@@ -8665,7 +8666,7 @@ button.bg-dark:focus {
 
 .pt-4,
 .py-4 {
-  padding-top: 1.5rem !important;
+  padding-top: 1.5rem;
 }
 
 .pr-4,
@@ -8675,7 +8676,7 @@ button.bg-dark:focus {
 
 .pb-4,
 .py-4 {
-  padding-bottom: 1.5rem !important;
+  padding-bottom: 1.5rem;
 }
 
 .pl-4,
