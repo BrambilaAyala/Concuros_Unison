@@ -5,12 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header" style="background-color: #9e9e9e; font-size: 48px; text-align: center;">
+                <div class="card-header h-principal">
                     {{ __('Registrate al concurso Regional de Física y Matemáticas') }}
                 </div>
 
-                <div class="container" style="margin-top: 20px">
-                    <div class="card-header" style="background-color: #e0e0e0; font-size: 20px; text-align: center;">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
+                <div class="container container-h-secundario">
+                    <div class="card-header h-secundario">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
                 </div>
                 
                 <div class="card-body">
