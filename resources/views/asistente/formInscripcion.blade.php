@@ -10,8 +10,9 @@
                 </div>
                 
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{route('asistentes.update', Auth::user()->id)}}" enctype="multipart/form-data">
                         @csrf
+                        @method("PUT")
                         <div class="form-group row">
                             <label for="curp" class="col-md-4 col-form-label text-md-right">{{ __('CURP') }}</label>
 
@@ -78,15 +79,15 @@
                                 <tbody>
                                     <tr>
                                         <td>Concurso Regional de Física</td>
-                                        <td><input type="checkbox" aria-label="" ></td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[0]" value="1" ></td>
                                     </tr>
                                     <tr>
                                         <td>Concurso Regional de Matemáticas</td>
-                                        <td><input type="checkbox" aria-label="" ></td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[1]" value="2" ></td>
                                     </tr>
                                     <tr>
                                         <td>Preselectivo para la Olimpiada Nacional de Fisíca</td>
-                                        <td><input type="checkbox" aria-label="" ></td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[2]" value="3" ></td>
                                     </tr>
                                 </tbody>
                             </table>

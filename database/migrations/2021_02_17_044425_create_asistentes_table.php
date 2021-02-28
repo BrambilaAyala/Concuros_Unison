@@ -16,7 +16,7 @@ class CreateAsistentesTable extends Migration
         Schema::create('asistentes', function (Blueprint $table) {
             $table->id();
             $table->string('curp',55)->nullable();
-            $table->integer('folio',false,true)->nullable();
+            $table->bigInteger('folio',false,true)->nullable();
             $table->string('nombre', 80);
             $table->string('apellido_paterno', 80)->nullable();
             $table->string('apellido_materno', 80)->nullable();
@@ -24,7 +24,7 @@ class CreateAsistentesTable extends Migration
             $table->string('correo_electronico', 80)->unique();
             $table->string('contrasena', 100);
             $table->date('fecha_nacimiento')->nullable();
-            $table->integer('telefono', false,true)->nullable();
+            $table->bigInteger('telefono',false,true)->nullable();
             $table->date('fecha_registro_aceptado')->nullable();
             $table->rememberToken();
             $table->timestamps();

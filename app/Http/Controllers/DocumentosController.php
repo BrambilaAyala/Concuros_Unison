@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Asistente as Asistente;
 use App\Documentos;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DocumentosController extends Controller
@@ -33,10 +35,20 @@ class DocumentosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($foto,$acta,$constancia,$idAsistente)
     {
-        //
+        $asistente = Asistente::findOrFail($idAsistente);
+        $fecha_creacion = Carbon::now()->setTimezone('GMT-7')->format('d_M_Y , g:ia');
+        
+        $documentos = new Documentos();
+        $documentos->foto_asistente = $foto;
+        $documentos->acta_asistente = $acta;
+        $documentos->constancia_escuela = $constancia;
+        $documentos->fecha_creacion = $fecha_creacion;
+        $asistente->documentos()->save($documentos);
+        $documentos->save();
     }
+    
 
     /**
      * Display the specified resource.

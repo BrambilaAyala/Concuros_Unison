@@ -37,4 +37,11 @@ class Asistente extends Authenticatable
         return $this->belongsTo(Asesor::class);
     }
 
+    public function concursos(){
+        return $this->belongsToMany(Concursos::class,'asistente_concurso','id_asistente','id_concurso');
+    }
+
+    public function documentos(){
+        return $this->hasMany(Documentos::class,'id_asistente');
+    }
 }

@@ -14,7 +14,6 @@ class CreateAsistenteConcurso extends Migration
     public function up()
     {
         Schema::create('asistente_concurso', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('id_concurso');
             $table->unsignedBigInteger('id_asistente');
             $table->foreign('id_concurso')->references('id')->on('concursos')->onDelete('cascade')->onUpdate('cascade');

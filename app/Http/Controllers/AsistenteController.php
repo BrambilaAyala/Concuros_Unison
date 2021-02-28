@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Asistente;
+use App\Concursos;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DocumentosController;
 
 class AsistenteController extends Controller
 {
@@ -70,6 +74,43 @@ class AsistenteController extends Controller
     public function update(Request $request, Asistente $asistente)
     {
         //
+        
+        
+        $idConcursos= $request->input('concurso');
+        $documentos = new DocumentosController();
+        $concursos = Concursos::findOrFail($idConcursos);
+
+        $asistente->curp = $request->input('curp');
+        
+        $asistente->fecha_nacimiento = $request->input('fecha_nacimiento');
+        $asistente->escuela_origen = $request->input('escuela_origen');
+        $asistente->telefono = $request->input('telefono');
+        
+        $asistente->concursos()->attach($concursos);        
+       
+
+        /**
+         * DOCUMENTOS
+         */
+        
+        $nombreArchivo = $request->file('foto_asistente')->getClientOriginalName();
+        $extension = $request->file('foto_asistente')->getClientOriginalExtension();
+        
+        $datetime = Carbon::now();
+        $datetime->setTimezone('GMT-7');
+        
+        $foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
+        $acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
+        $constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
+        
+        
+        $documentos->store($foto_asistente,$acta_asistente,$constancia_escuela,$asistente->id);
+        
+        
+    
+        $asistente->save();
+        return redirect()->route('asistentes.show', compact('asistente'));
+        
     }
 
     /**
