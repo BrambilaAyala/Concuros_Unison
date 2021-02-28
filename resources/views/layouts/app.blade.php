@@ -25,6 +25,7 @@
     <link href="/css/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="/css/redes-icon.css" rel="stylesheet">
     <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/registro_login.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
