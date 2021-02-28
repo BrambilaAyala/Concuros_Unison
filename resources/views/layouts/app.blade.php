@@ -11,8 +11,8 @@
 
     <!-- Scripts -->
     {{-- <script src="js/app.js" defer></script> --}}
-    <script src="js/jquery-3.5.1.js" defer></script>
-    <script src="js/bootstrap/bootstrap.js" defer></script>
+    <script src="/js/jquery-3.5.1.js" defer></script>
+    <script src="/js/bootstrap/bootstrap.js" defer></script>
 
     
 
@@ -22,9 +22,9 @@
 
     <!-- Styles -->
     {{-- <link href="css/app.css" rel="stylesheet"> --}}
-    <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
-    <link href="css/redes-icon.css" rel="stylesheet">
-    <link href="css/header.css" rel="stylesheet">
+    <link href="/css/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="/css/redes-icon.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
