@@ -11,8 +11,15 @@ class Documentos extends Model
         'foto_asistente', 'acta_asistente', 'constancia_escuela','fecha_creacion', 
     ];
 
+    /**
+     * funcion comentada por si se quiere tener la relacion uno a muchos
+     */
+    // public function asistente(){
+    //     return $this->hasOne(Asistente::class);
+    // }
+
     public function asistente(){
-        return $this->hasOne(Asistente::class);
+        return $this->belongsTo(Asistente::class);
     }
     
 }

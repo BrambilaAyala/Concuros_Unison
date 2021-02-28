@@ -75,9 +75,9 @@ class AsistenteController extends Controller
     {
         //
         
-        
         $idConcursos= $request->input('concurso');
         $documentos = new DocumentosController();
+        
         $concursos = Concursos::findOrFail($idConcursos);
 
         $asistente->curp = $request->input('curp');
@@ -91,21 +91,11 @@ class AsistenteController extends Controller
 
         /**
          * DOCUMENTOS
+         * se llama a la funcion store del controlador DocumentosController.
          */
-        
-        $nombreArchivo = $request->file('foto_asistente')->getClientOriginalName();
-        $extension = $request->file('foto_asistente')->getClientOriginalExtension();
-        
-        $datetime = Carbon::now();
-        $datetime->setTimezone('GMT-7');
-        
-        $foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
-        $acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
-        $constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$datetime->format('d_M_Y_h').'.'.$extension);
-        
-        
-        $documentos->store($foto_asistente,$acta_asistente,$constancia_escuela,$asistente->id);
-        
+
+        $documentos->store($request,$asistente);
+        //============
         
     
         $asistente->save();

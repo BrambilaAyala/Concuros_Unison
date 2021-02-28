@@ -41,7 +41,14 @@ class Asistente extends Authenticatable
         return $this->belongsToMany(Concursos::class,'asistente_concurso','id_asistente','id_concurso');
     }
 
+    /**
+     * linea comentada por si quieren que la relacion sea de 1 a muchos
+     */
+    // public function documentos(){
+    //     return $this->hasMany(Documentos::class,'id_asistente');
+    // }
+
     public function documentos(){
-        return $this->hasMany(Documentos::class,'id_asistente');
+        return $this->hasOne(Documentos::class,'id_asistente');
     }
 }
