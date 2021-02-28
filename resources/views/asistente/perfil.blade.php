@@ -105,7 +105,7 @@
                 </table>
                 <br>
                 <div style="font-size: 20px">
-                    <button class="btn btn-primary" style="float: right;" type="submit">Editar información para la inscripción</button>
+                    <a class="btn btn-primary" href="{{ route('asistentes.edit', 1) }}" style="float: right;" type="submit">Editar información para la inscripción</a>
                 </div>
             </div>
         </div>

@@ -57,7 +57,7 @@ class AsistenteController extends Controller
      */
     public function edit(Asistente $asistente)
     {
-        //
+        return view('asistente.formInscripcion', compact('$asistente'));
     }
 
     /**
