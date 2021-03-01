@@ -20,7 +20,7 @@ class CreateDocumentosTable extends Migration
             $table->string('acta_asistente', 200);
             $table->string('constancia_escuela', 200);
             $table->date('fecha_creacion');
-            $table->foreign('id_asistente')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_asistente')->references('id')->on('asistentes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

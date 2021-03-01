@@ -1,5 +1,5 @@
 
     <div class="container">
-            <div align="center"></div>
+            {{-- <div align="center"></div> --}}
     </div><!-- .container -->
 	
