@@ -12,10 +12,14 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
+/*     'asistentes' => [
+        'driver' => 'eloquent',
+        'model' => App\Asistente::class,
+    ], */
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'asistentes',
     ],
 
     /*
@@ -38,7 +42,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'asistentes',
         ],
 
         'api' => [
@@ -66,7 +70,7 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'asistentes' => [
             'driver' => 'eloquent',
             'model' => App\Asistente::class,
         ],
@@ -93,6 +97,11 @@ return [
     */
 
     'passwords' => [
+        'asistentes' => [
+            'provider' => 'asistentes',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',

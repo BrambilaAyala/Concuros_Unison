@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" style="background-color: white;">
+    <div class="container">
         <div class="justify-content-center">
             <div class="container">
-                <div class="card-header" style="background-color: #e0e0e0; font-size: 20px; text-align: center;">{{ __('Información de asistente') }}</div>
+                <div class="card-header h-secundario">{{ __('Información de asistente') }}</div>
             </div>
             <div class="card-body" style="overflow: hidden;">
                 <img style="height: 256px; float: left; " src="img/prueba.jpg" alt="">
@@ -38,8 +38,8 @@
         </div>
 
         <div class="container justify-content-center">
-            <div class="container" style="margin-top: 20px">
-                <div class="card-header" style="background-color: #e0e0e0; font-size: 20px; text-align: center;">
+            <div class="container container-h-secundario">
+                <div class="card-header h-secundario">
                     {{ __('Información necesaria para la inscripción') }}
                 </div>
             </div>
@@ -82,7 +82,7 @@
                     <span class="badge badge-dark">Sin subir</span>
                 </div>
                 <br>
-                <table class="table .table-hover" style="width: 500px; margin: 0 auto;">
+                <table class="table tabla-cursos">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col" colspan="3">Selecciona el o los concursos a los cuales te quieras inscribir</th>

@@ -17,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('welcome');
-});
-
 //Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
+/* Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
 
-Route::resource('asistentes', 'AsistenteController');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register'); */
+
+Route::resource('asistentes', 'AsistenteController')->middleware('auth');

@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="container" style="margin-top: 20px">
-                    <div class="card-header" style="background-color: #e0e0e0; font-size: 20px; text-align: center;">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
+                <div class="container container-h-secundario">
+                    <div class="card-header h-secundario">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
                 </div>
                 
                 <div class="card-body">
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <table class="table .table-hover" style="width: 500px; margin: 0 auto;">
+                            <table class="table table-hover tabla-cursos">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col" colspan="3">Selecciona el o los concursos a los cuales te quieras inscribir</th>

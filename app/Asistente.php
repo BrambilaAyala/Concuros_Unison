@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-use Illuminate\Database\Eloquent\Model;
 
 class Asistente extends Authenticatable
 {
@@ -32,6 +31,19 @@ class Asistente extends Authenticatable
     protected $hidden = [
         'contrasena', 'remember_token',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function getAuthPassword(){       
+        return $this->contrasena;     
+    }
 
     public function asesor(){
         return $this->belongsTo(Asesor::class);
