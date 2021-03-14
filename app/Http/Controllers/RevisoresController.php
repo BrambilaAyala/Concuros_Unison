@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Revisores;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class RevisoresController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:revisor');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,12 @@ class RevisoresController extends Controller
      */
     public function index()
     {
-        //
+        return view('revisor.index');
+    }
+
+    public function listaEspera()
+    {
+        return view('revisor.listaEspera');
     }
 
     /**
@@ -57,7 +68,7 @@ class RevisoresController extends Controller
      */
     public function edit(Revisores $revisores)
     {
-        //
+        return view('revisor.validacion', compact('revisores'));
     }
 
     /**
@@ -82,4 +93,7 @@ class RevisoresController extends Controller
     {
         //
     }
+
+
+
 }

@@ -11,8 +11,7 @@
 
     <!-- Scripts -->
     {{-- <script src="js/app.js" defer></script> --}}
-    <script src="/js/jquery-3.5.1.js" defer></script>
-    <script src="/js/bootstrap/bootstrap.js" defer></script>
+
 
     
 
@@ -39,5 +38,17 @@
     <footer style="height: 89px; position: fixed; bottom: 0; width: 100%; background-color:#004990">
         @include('includes.footer')
     </footer>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/bootstrap/bootstrap.js"></script>
+    <script>
+        $('#form_edit_asistente').submit(function(e) {
+          if ($('input[type=checkbox]:checked').length === 0) {
+            e.preventDefault();
+            alert('Debe seleccionar al menos un valor dentro de la tabla que contiene los concursos para continuar.');
+          }
+        });    
+    </script>
+    
 </body>
+
 </html>
