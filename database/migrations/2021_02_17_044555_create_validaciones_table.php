@@ -21,6 +21,7 @@ class CreateValidacionesTable extends Migration
             $table->string('correo');
             $table->string('contrasena');
             $table->enum('rol', ['Revisor','Visualizador','Administrador']);
+            $table->rememberToken();
             $table->timestamps();
         });
         

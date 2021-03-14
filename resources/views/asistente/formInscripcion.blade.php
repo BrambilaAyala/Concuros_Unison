@@ -6,11 +6,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="container container-h-secundario">
-                    <div class="card-header h-secundario">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
+                    <div class="card-header h-secundario">{{ __('Informacion para iniciar la inscripcion a algún concurso.') }}</div>
                 </div>
                 
                 <div class="card-body">
-                    <form method="POST" action="{{route('asistentes.update', Auth::user()->id)}}" enctype="multipart/form-data">
+                    <form method="POST" id="form_edit_asistente" action="{{route('asistentes.update', Auth::user()->id)}}" enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
                         <div class="form-group row">
@@ -76,7 +76,7 @@
                                         <th scope="col" colspan="3">Selecciona el o los concursos a los cuales te quieras inscribir</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     <tr>
                                         <td>Concurso Regional de Física</td>
                                         <td><input type="checkbox" aria-label="" name="concurso[0]" value="1" ></td>
@@ -136,4 +136,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

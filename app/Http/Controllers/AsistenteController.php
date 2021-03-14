@@ -11,6 +11,10 @@ use App\Http\Controllers\DocumentosController;
 
 class AsistenteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
     /**
      * Display a listing of the resource.
      *

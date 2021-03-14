@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    //dd(Auth::user()->documentos);
+@endphp
     <div class="container">
         <div class="justify-content-center">
             <div class="container">
@@ -21,65 +24,70 @@
                 </div>
                 <div style="font-size: 20px">
                     <label class="col-md-3 col-form-label text-md-left" for="">Nombre:</label>
-                    <label for="">Me llamo luis</label>
+                    <label for="">{{Auth::user()->nombre." ".Auth::user()->apellido_paterno." ".Auth::user()->apellido_materno}}</label>
                 </div>
                 <div style="font-size: 20px">
                     <label class="col-md-3 col-form-label text-md-left" for="">Correo utilizado: </label>
-                    <label for="">e@m.com</label>
+                    <label for="">{{Auth::user()->correo_electronico}}</label>
                 </div>
-                <div style="font-size: 20px">
+{{--                 <div style="font-size: 20px">
                     <label class="col-md-3 col-form-label text-md-left" for="">Congreso/s registrados:</label>
-                    <label for="">Aún no proporcionado</label>
-                </div>
+                    <label for=""> {{Auth::user()->}}</label>
+                </div> --}}
                 <div style="font-size: 20px">
                     <button class="btn btn-primary" style="float: right;" type="submit">Editar información de acceso</button>
                 </div>
             </div>
         </div>
 
+        @if (!Auth::user()->documentos)
         <div class="container justify-content-center">
             <div class="container container-h-secundario">
                 <div class="card-header h-secundario">
                     {{ __('Información necesaria para la inscripción') }}
                 </div>
             </div>
+            <div class="col-md-12 col-form-label" style="font-size: 20px">
+                <p>A continuacion se mostrara una pequeña lista con la informacion necesaria para empezar la inscripcion. 
+                Asegurate de tener toda la informacion para empezar el registro.</p>
+            </div>
             <div class="card-body" style="overflow: hidden;">
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">CURP:</label>
-                    <label for="">Una curp aquí</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">CURP</label>
+                    {{-- <label for="">Una curp aquí</label> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Fecha de nacimiento: </label>
-                    <label for="">Alguna fecha aquí</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Fecha de nacimiento</label>
+                    {{-- <label for="">Alguna fecha aquí</label> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Ciudad de origen:</label>
-                    <label for="">Euruapan</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Ciudad de origen</label>
+                    {{-- <label for="">Euruapan</label> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Telefono:</label>
-                    <label for="">numeros</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Telefono</label>
+                    {{-- <label for="">numeros</label> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Foto identificatoria:</label>
-                    <span class="badge badge-success">Inscrito</span>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Foto identificatoria</label>
+{{--                     <span class="badge badge-success">Aceptado</span>
                     <span class="badge badge-secondary">En proceso</span>
                     <span class="badge badge-danger">Rechazado</span>
-                    <span class="badge badge-dark">Sin subir</span>
+                    <span class="badge badge-dark">Sin subir</span> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Aconcta de nacimiento:</label>
-                    <span class="badge badge-success">Inscrito</span>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Acta de nacimiento</label>
+{{--                     <span class="badge badge-success">Aceptado</span>
                     <span class="badge badge-secondary">En proceso</span>
                     <span class="badge badge-danger">Rechazado</span>
-                    <span class="badge badge-dark">Sin subir</span>
+                    <span class="badge badge-dark">Sin subir</span> --}}
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-6 col-form-label text-md-right" for="">Constancia escolar:</label>
-                    <span class="badge badge-success">Inscrito</span>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Constancia escolar</label>
+{{--                     <span class="badge badge-success">Aceptado</span>
                     <span class="badge badge-secondary">En proceso</span>
                     <span class="badge badge-danger">Rechazado</span>
-                    <span class="badge badge-dark">Sin subir</span>
+                    <span class="badge badge-dark">Sin subir</span> --}}
                 </div>
                 <br>
                 <table class="table tabla-cursos">
@@ -103,11 +111,46 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="col-md-12 col-form-label" style="font-size: 20px">
+                    <p>Recuerda que antes de ser inscrito al evento se tienen que validar tus archivos subidos. 
+                    Solo hasta que estos sean validados sera que se te registrara al evento.</p>
+                </div>
                 <br>
                 <div style="font-size: 20px">
-                    <a class="btn btn-primary" href="{{ route('asistentes.edit', 1) }}" style="float: right;" type="submit">Editar información para la inscripción</a>
+                    <a class="btn btn-primary" href="{{ route('asistentes.edit', Auth::user()->id) }}" style="float: right;" type="submit">Editar información para la inscripción</a>
                 </div>
             </div>
         </div>
+        @else
+        <div class="container justify-content-center">
+            <div class="container container-h-secundario">
+                <div class="card-header h-secundario">
+                    {{ __('Información necesaria para la inscripción') }}
+                </div>
+            </div>
+            <div style="font-size: 20px">
+                <label class="col-md-6 col-form-label text-md-center" for="">Foto identificatoria</label>
+                <span class="badge badge-success">Aceptado</span>
+                <span class="badge badge-secondary">En proceso</span>
+                <span class="badge badge-danger">Rechazado</span>
+                <span class="badge badge-dark">Sin subir</span>
+            </div>
+            <div style="font-size: 20px">
+                <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
+                <span class="badge badge-success">Aceptado</span>
+                <span class="badge badge-secondary">En proceso</span>
+                <span class="badge badge-danger">Rechazado</span>
+                <span class="badge badge-dark">Sin subir</span>
+            </div>
+            <div style="font-size: 20px">
+                <label class="col-md-6 col-form-label text-md-center" for="">Constancia escolar</label>
+                <span class="badge badge-success">Aceptado</span>
+                <span class="badge badge-secondary">En proceso</span>
+                <span class="badge badge-danger">Rechazado</span>
+                <span class="badge badge-dark">Sin subir</span>
+            </div>
+        </div>
+        @endif
+        
     </div>
 @endsection

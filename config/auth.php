@@ -50,6 +50,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'revisor' => [
+            'driver'   => 'session',
+            'provider' => 'revisores',
+        ],
     ],
 
     /*
@@ -73,6 +78,11 @@ return [
         'asistentes' => [
             'driver' => 'eloquent',
             'model' => App\Asistente::class,
+        ],
+
+        'revisores' => [
+            'driver' => 'eloquent',
+            'model'  => App\Revisores::class,
         ],
 
         // 'users' => [
