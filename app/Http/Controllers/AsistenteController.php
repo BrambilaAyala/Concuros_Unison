@@ -92,7 +92,7 @@ class AsistenteController extends Controller
         
         $asistente->concursos()->attach($concursos);        
        
-
+        $asistente->save();
         /**
          * DOCUMENTOS
          * se llama a la funcion store del controlador DocumentosController.
@@ -102,7 +102,7 @@ class AsistenteController extends Controller
         //============
         
     
-        $asistente->save();
+        // $asistente->save();
         return redirect()->route('asistentes.show', compact('asistente'));
         
     }

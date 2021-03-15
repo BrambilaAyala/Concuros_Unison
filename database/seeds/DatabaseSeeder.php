@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ConcursosSeeder::class,
             RevisoresSeeder::class,
+            AsistenteSeeder::class,
         ]);
     }
 }

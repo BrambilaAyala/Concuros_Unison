@@ -51,6 +51,7 @@ class DocumentosController extends Controller
     public function store(Request $request, Asistente $asistente)
     {
 
+        // dd($asistente->curp);
         /**
          * fechas utilizadas con el formato dia_mes_anio, hora:minutos am-pm
          */
