@@ -14,20 +14,28 @@
 
         @endauth
 
-        <a href="#"><span class="icon-tt"></span></a>
-        <a href="#"><span class="icon-fb"></span></a>
+        <a href="https://twitter.com/Concursofismat"><span class="icon-tt"></span></a>
+        <a href="https://www.facebook.com/Concursofismat/"><span class="icon-fb"></span></a>
     </div>
 </div>
 
 <div class="container center-header">
-
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <img src="/img/logo_uni.jpg" style="position: relative; margin-top: 0.5em;" alt="">
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10 ban-tit">
+            <h1 id="tit">Concurso Regional de Física y Matemáticas</h1>
+            <h2 id="sub">Departamento de Física y Matemáticas</h2>
+        </div>
+    </div>
 </div>
 
 <nav class="navbar navbar-expand-md navbar-light shadow-sm">
-    <div class="container">
-        <a class="txt-brand" href="{{ url('/') }}">
-            {{-- {{ config('app.name', 'SICRFyM') }} --}}<b>SICRFyM</b>
-        </a>
+    <div class="container" style="background-color: #f7a11a" >
+{{--         <a class="txt-brand" href="{{ url('/') }}">
+            {{ config('app.name', 'SICRFyM') }}<b>SICRFyM</b>
+        </a> --}}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>

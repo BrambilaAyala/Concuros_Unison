@@ -11,9 +11,43 @@
     height: 145px;
 }
 
+.ban-tit{
+  position: relative; 
+  margin-top: 0.5em; 
+  /* margin-left: 2em; */
+  font-family: 'Conv_ZapfHumanist', Sans-Serif;
+}
+
+#tit{
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#sub{
+  color: #444444; 
+  font-size: 26px;
+}
+
 nav{
     height: 50px;
     background-color: #f7a11a;
+}
+@media screen and (max-width: 767px) {
+  nav{
+    height: auto;
+  }
+
+  .ban-tit{
+    padding-left: 45px;
+  }
+
+  #tit{
+    font-size: 26px;
+  }
+  
+  #sub{
+    font-size: 16px;
+  }
 }
 
 .txt-brand {
