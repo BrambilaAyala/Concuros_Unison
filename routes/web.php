@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('/');
+/* Route::get('/', function () {
+    return view('auth.register');
+})->name('/'); */
+Route::redirect('/', '/register')->middleware('guest')->name('/');
 //Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 /* Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

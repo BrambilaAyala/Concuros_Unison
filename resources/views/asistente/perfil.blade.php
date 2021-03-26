@@ -34,9 +34,9 @@
                     <label class="col-md-3 col-form-label text-md-left" for="">Congreso/s registrados:</label>
                     <label for=""> {{Auth::user()->}}</label>
                 </div> --}}
-                <div style="font-size: 20px">
+                {{-- <div style="font-size: 20px">
                     <button class="btn btn-primary" style="float: right;" type="submit">Editar información de acceso</button>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -125,29 +125,34 @@
         <div class="container justify-content-center">
             <div class="container container-h-secundario">
                 <div class="card-header h-secundario">
-                    {{ __('Información necesaria para la inscripción') }}
+                    {{ __('Estado de los documentos proporcionados') }}
                 </div>
             </div>
-            <div style="font-size: 20px">
-                <label class="col-md-6 col-form-label text-md-center" for="">Foto identificatoria</label>
-                <span class="badge badge-success">Aceptado</span>
-                <span class="badge badge-secondary">En proceso</span>
-                <span class="badge badge-danger">Rechazado</span>
-                <span class="badge badge-dark">Sin subir</span>
-            </div>
-            <div style="font-size: 20px">
-                <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
-                <span class="badge badge-success">Aceptado</span>
-                <span class="badge badge-secondary">En proceso</span>
-                <span class="badge badge-danger">Rechazado</span>
-                <span class="badge badge-dark">Sin subir</span>
-            </div>
-            <div style="font-size: 20px">
-                <label class="col-md-6 col-form-label text-md-center" for="">Constancia escolar</label>
-                <span class="badge badge-success">Aceptado</span>
-                <span class="badge badge-secondary">En proceso</span>
-                <span class="badge badge-danger">Rechazado</span>
-                <span class="badge badge-dark">Sin subir</span>
+            <div class="card-body" style="overflow: hidden;">
+                <div style="font-size: 20px">
+                    <label class="col-md-6 col-form-label text-md-center" for="">Foto identificatoria</label>
+                    <span class="badge badge-success">Aceptado</span>
+                    <span class="badge badge-secondary">En proceso</span>
+                    <span class="badge badge-danger">Rechazado</span>
+                    <span class="badge badge-dark">Sin subir</span>
+                </div>
+                <div style="font-size: 20px">
+                    <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
+                    <span class="badge badge-success">Aceptado</span>
+                    <span class="badge badge-secondary">En proceso</span>
+                    <span class="badge badge-danger">Rechazado</span>
+                    <span class="badge badge-dark">Sin subir</span>
+                </div>
+                <div style="font-size: 20px">
+                    <label class="col-md-6 col-form-label text-md-center" for="">Constancia escolar</label>
+                    <span class="badge badge-success">Aceptado</span>
+                    <span class="badge badge-secondary">En proceso</span>
+                    <span class="badge badge-danger">Rechazado</span>
+                    <span class="badge badge-dark">Sin subir</span>
+                </div>
+                <div style="font-size: 20px">
+                    <a class="btn btn-primary" href="#" style="float: right;" type="submit">Editar documento/s rechazado/s</a>
+                </div>
             </div>
         </div>
         @endif
