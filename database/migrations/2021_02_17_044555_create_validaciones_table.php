@@ -28,12 +28,12 @@ class CreateValidacionesTable extends Migration
         Schema::create('validaciones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_documento');
-            $table->unsignedBigInteger('id_revisor');
-            $table->text('comentario');
+            $table->unsignedBigInteger('id_revisor')->nullable();
+            $table->text('comentario')->nullable();
             $table->string('doc_aprobado')->nullable();
             $table->string('doc_rechazado')->nullable();
             $table->enum('estado',['Rechazado','En espera a validar','Aprobado']);
-            $table->date('fecha_validacion');
+            $table->date('fecha_validacion')->nullable();
             $table->timestamps();
             $table->foreign('id_documento')->references('id')->on('documentos');
             $table->foreign('id_revisor')->references('id')->on('revisores');
