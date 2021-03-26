@@ -21,5 +21,9 @@ class Documentos extends Model
     public function asistente(){
         return $this->belongsTo(Asistente::class);
     }
+
+    public function validaciones(){
+        return $this->hasMany(Validaciones::class,'id_documento');
+    }
     
 }
