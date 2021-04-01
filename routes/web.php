@@ -14,28 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* Route::get('/', function () {
-    return view('auth.register');
-})->name('/'); */
-Route::redirect('/', '/register')->middleware('guest')->name('/');
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', function () {
+    return view('welcome');
+})->name('/');
+//Route::redirect('/', '/register')->middleware('guest')->name('/');
+
 Auth::routes();
-/* Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
-
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register'); */
 
 Route::resource('asistentes', 'AsistenteController');
+
 //Route::resource('revisores', 'RevisoresController');
 
 Route::prefix('revisores')->group(function () {
     Route::get('/', 'RevisoresController@index')->name('revisores.index');
-    Route::get('/{revisore}/validacion', 'RevisoresController@edit')->name('revisores.edit');
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
+    Route::get('/{revisore}/validacion', 'RevisoresController@edit')->name('revisores.edit');
+    Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
+    Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
+    
 });
+
 Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');

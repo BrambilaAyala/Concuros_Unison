@@ -26,16 +26,14 @@
         </div>
         <div class="col-md-10 col-sm-10 col-xs-10 ban-tit">
             <h1 id="tit">Concurso Regional de Física y Matemáticas</h1>
-            <h2 id="sub">Departamento de Física y Matemáticas</h2>
+            <h2 id="sub">Departamento de Física y Departamento de Matemáticas</h2>
         </div>
     </div>
 </div>
 
 <nav class="navbar navbar-expand-md navbar-light shadow-sm">
     <div class="container" style="background-color: #f7a11a" >
-{{--         <a class="txt-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'SICRFyM') }}<b>SICRFyM</b>
-        </a> --}}
+        <a class="txt-brand" id="tab-inicio" href="{{ url('/') }}">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,15 +51,15 @@
                 @guest
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="txt-brand" href="{{ route('register') }}">{{ __('Registrate') }}</a>
+                            <a class="txt-brand" id="tab-register" href="{{ route('register') }}">{{ __('Registro') }}</a>
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="txt-brand"  href="{{ route('login') }}">{{ __('Accede') }}</a>
+                        <a class="txt-brand"  id="tab-login"  href="{{ route('login') }}">{{ __('Acceso') }}</a>
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="txt-brand"  href="{{ route('asistentes.index') }}">{{ __('Perfil') }}</a>
+                        <a class="txt-brand" id="tab-asistentes"  href="{{ route('asistentes.index') }}">{{ __('Perfil') }}</a>
                     </li>
                 @endguest  
             </ul>
