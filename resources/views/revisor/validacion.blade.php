@@ -93,6 +93,7 @@
     
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary" aria-required="true">Vlidar</button>
+                    <a type="button" href="{{route('revisores.lista-espera')}}" class="btn btn-secondary" aria-required="true">Cancelar</a>
                 </div>
             </form>      
         </div>
