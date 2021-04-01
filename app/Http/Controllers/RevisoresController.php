@@ -28,6 +28,16 @@ class RevisoresController extends Controller
         return view('revisor.listaEspera');
     }
 
+    public function listaAsistentes()
+    {
+        return view('revisor.listaAsistentes');
+    }
+
+    public function listaInscritos()
+    {
+        return view('revisor.listaInscritos');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

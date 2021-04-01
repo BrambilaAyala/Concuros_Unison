@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>SICRFyM - Admin</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/css/admin/all.min.css">
@@ -44,6 +44,34 @@
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/js/admin/adminlte.min.js"></script>
+    <script>
+      /// Url actual
+      let pathname = new String(window.location.pathname);
+      let url = pathname.replace("/revisores/", "");
+
+      /// Elementos de li
+      const tabs = ["lista-espera", "lista-asistentes", "lista-inscritos"];
+
+      tabs.forEach(e => {
+          /// Compara el url actual con el arreglo
+          if ( url === e) {
+              /// Agregar tab- para hacer que coincida la Id
+              setActive("tab-" + e);
+          }
+          if (url === "lista-espera" || url === "lista-asistentes" || url === "lista-inscritos"){
+            setMenuOpen("dd")
+          }
+      });
+
+      /// Funcion que asigna la clase active
+      function setActive(id) {
+          document.getElementById(id).setAttribute("class", "nav-link active");
+      }
+      /// Funcion que asigna la clase menu-open
+      function setMenuOpen(id){
+        document.getElementById(id).setAttribute("class", "nav-item has-treeview menu-open");
+      }
+  </script>
 </body>
 
 </html>

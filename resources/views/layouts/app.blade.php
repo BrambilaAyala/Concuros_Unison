@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>SICREFyM</title>
 
     <!-- Scripts -->
     {{-- <script src="js/app.js" defer></script> --}}
@@ -40,6 +40,30 @@
     </footer>
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap/bootstrap.js"></script>
+    <script>
+        /// Url actual
+        let pathname = new String(window.location.pathname);
+        let url = pathname.replace("/", "");
+
+        /// Elementos de li
+        const tabs = ["register", "login", "asistentes"];
+
+        tabs.forEach(e => {
+            /// Compara el url actual con el arreglo
+            if ( url === e) {
+                /// Agregar tab- para hacer que coincida la Id
+                setActive("tab-" + e);
+            }
+            if(url == ""){
+                setActive("tab-inicio");
+            }
+        });
+
+        /// Funcion que asigna la clase active
+        function setActive(id) {
+            document.getElementById(id).setAttribute("class", "txt-brand active");
+        }
+    </script>
     <script>
         $('#form_edit_asistente').submit(function(e) {
           if ($('input[type=checkbox]:checked').length === 0) {

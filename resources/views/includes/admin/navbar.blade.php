@@ -30,7 +30,7 @@
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
 			<a href="{{route('revisores.index')}}" class="brand-link">
-				<span class="brand-text font-weight-light" >SICRFyM</span>
+				<span class="brand-text font-weight-light" >SICRFyM Admin</span>
 			</a>
 
 			<!-- Sidebar -->
@@ -40,7 +40,7 @@
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 					<!-- Add icons to the links using the .nav-icon class
 						with font-awesome or any other icon font library -->
-						<li class="nav-item has-treeview ">
+						<li class="nav-item has-treeview" id="dd">
 							<a href="#" class="nav-link">
 								<i class="nav-icon fas fa-user"></i>
 								<p>
@@ -50,7 +50,7 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<a href="#" class="nav-link">
+									<a href="{{route('revisores.lista-asistentes')}}" id="tab-lista-asistentes" class="nav-link" id="tab-">
 										<i class="nav-icon fas fa-users"></i>
 										<p>
 											Todos los asistentes.
@@ -58,7 +58,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="{{route('revisores.lista-espera')}}" class="nav-link">
+									<a href="{{route('revisores.lista-espera')}}" id="tab-lista-espera" class="nav-link">
 										<i class="nav-icon fa fa-user-plus"></i>
 										<p>
 											Asistentes en espera.
@@ -66,7 +66,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="#" class="nav-link">
+									<a href="{{route('revisores.lista-inscritos')}}" id="tab-lista-inscritos" class="nav-link">
 										<i class="nav-icon fas fa-address-book"></i>
 										<p>
 											Asistentes inscritos.
