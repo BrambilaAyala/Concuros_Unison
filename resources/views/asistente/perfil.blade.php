@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    //dd(Auth::user()->documentos->validaciones[0]->estado);
+    // dd(Auth::user()->documentos->validaciones);
 @endphp
     <div class="container">
         <div class="justify-content-center">

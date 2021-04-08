@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Asistente;
 use App\Revisores;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use DB;
 class RevisoresController extends Controller
 {
     public function __construct()
@@ -30,12 +31,19 @@ class RevisoresController extends Controller
 
     public function listaAsistentes()
     {
-        return view('revisor.listaAsistentes');
+        $asistentes = Asistente::all();
+        
+        return view('revisor.listaAsistentes',compact('asistentes'));
     }
 
     public function listaInscritos()
     {
-        return view('revisor.listaInscritos');
+        $asistentesInscritos = DB::table('asistentes')
+            ->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
+            ->select('asistentes.*', 'documentos.fecha_creacion')
+            ->get();
+        
+        return view('revisor.listaInscritos', compact('asistentesInscritos'));
     }
 
     /**

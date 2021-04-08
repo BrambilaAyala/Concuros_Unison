@@ -28,11 +28,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Puede ser el nombre completo si se desea.</td>
-                        <td>la fecha en la que fueron subidos los documentos enviados</td>
-                        <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td>
-                      </tr>
+                      @foreach ($asistentesInscritos as $asistenteInscrito)
+                        <tr>
+                          <td>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</td>
+                          <td>{{$asistenteInscrito->fecha_creacion}}</td>
+                          <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td>
+                        </tr>
+                      @endforeach
+                      
                     </tbody>
                   </table>
                 </div>
