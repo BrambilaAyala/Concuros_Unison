@@ -24,7 +24,7 @@
                       <tr>
                         <th>Nombre</th>
                         <th>Fecha de envio de documento</th>
-                        <th>Validar asistente</th>
+                        <th>No. Folio</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -106,7 +106,9 @@ class AsistenteController extends Controller
         return redirect()->route('asistentes.show', compact('asistente'));
         
     }
-
+    public function actualizarDocumentos(){
+        dd('hola');
+    }
     /**
      * Remove the specified resource from storage.
      *
