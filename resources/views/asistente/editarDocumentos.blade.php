@@ -10,7 +10,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <form method="POST" id="form_edit_asistente" action="{{route('asistentes.update', Auth::user()->id)}}" enctype="multipart/form-data">
+                    <form method="POST" id="" action="{{route('asistentes.update', Auth::user()->id)}}" enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 

@@ -106,8 +106,12 @@ class AsistenteController extends Controller
         return redirect()->route('asistentes.show', compact('asistente'));
         
     }
-    public function actualizarDocumentos(){
-        dd('hola');
+    public function actualizarDocumentosRechazados(){
+        return 'hola';
+    }
+
+    public function indexRechazados(){
+        return view('asistente.editarDocumentos');
     }
     /**
      * Remove the specified resource from storage.

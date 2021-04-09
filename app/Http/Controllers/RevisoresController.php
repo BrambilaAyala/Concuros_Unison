@@ -38,6 +38,9 @@ class RevisoresController extends Controller
 
     public function listaInscritos()
     {
+        /**
+         * 
+         */
         $asistentesInscritos = DB::table('asistentes')
             ->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
             ->join('validaciones', function($join){
