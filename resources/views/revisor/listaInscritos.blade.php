@@ -24,15 +24,20 @@
                       <tr>
                         <th>Nombre</th>
                         <th>Fecha de envio de documento</th>
-                        <th>Validar asistente</th>
+                        <th>Concursos</th>
+                        <th>No. Folio</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Puede ser el nombre completo si se desea.</td>
-                        <td>la fecha en la que fueron subidos los documentos enviados</td>
-                        <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td>
-                      </tr>
+                      @foreach ($asistentesInscritos as $asistenteInscrito)
+                        <tr>
+                          <td>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</td>
+                          <td>{{$asistenteInscrito->fecha_creacion}}</td>
+                          <td>{{$asistenteInscrito->nombre_concurso}}</td>
+                          <td>{{$asistenteInscrito->folio}}</td>
+                        </tr>
+                      @endforeach
+                      
                     </tbody>
                   </table>
                 </div>

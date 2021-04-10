@@ -2,6 +2,7 @@
 
 @section('content')
     <!-- Content Header -->
+    <input type="text" id="myInput" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -24,20 +25,48 @@
                       <tr>
                         <th>Nombre</th>
                         <th>Fecha de envio de documento</th>
-                        <th>Validar asistente</th>
+                        <th>No. Folio</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Puede ser el nombre completo si se desea.</td>
-                        <td>la fecha en la que fueron subidos los documentos enviados</td>
-                        <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td>
-                      </tr>
+                      @foreach ($asistentes as $asistente)
+                        <tr id='test'>
+                          <td><p id='nombre'>{{$asistente->nombre}} {{$asistente->apellido_paterno}} {{$asistente->apellido_materno}}</p></td>
+                          @if (isset($asistente->documentos->fecha_creacion))
+                            <td><p id='fechaEnvioDoc'>{{$asistente->documentos->fecha_creacion}}</p></td>
+                          @else 
+                            <td><p>Alumno no inscrito</p> </td>
+                          @endif
+                          
+                          {{-- <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td> --}}
+                        </tr>
+                      @endforeach
+                      
                     </tbody>
                   </table>
                 </div>
               </div>
         </div>
     </div>
+<script>
+  function buscadorPorNombre() {
 
+    let input, filter, tr, td, a, i, valorTxt;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    tr = document.querySelectorAll("#test");
+    for (let i = 0; i < tr.length; i++) {
+      td = tr[i].firstElementChild;
+      p = td.getElementsByTagName("p")[0]
+      valorTxt = p.textContent || p.innerText;
+      if (valorTxt.toUpperCase().indexOf(filter) > -1) {
+          
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+    
+  }
+</script>
 @endsection

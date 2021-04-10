@@ -22,6 +22,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('asistentes', 'AsistenteController');
+Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->name('asistentes.rechazado');
+// Route::prefix('asistentes')->group(function(){
+//     Route::get('/', 'AsistenteController@index')->name('asistentes.index');
+//     Route::post('/', 'AsistenteController@store')->name('asistentes.store');
+//     Route::get('/create', 'AsistenteController@create')->name('asistentes.create');
+//     Route::put('/{asistente}', 'AsistenteController@update')->name('asistentes.update');
+//     Route::get('/{asistente}', 'AsistenteController@show')->name('asistentes.show');
+//     Route::get('/{asistente}/edit', 'AsistenteController@edit')->name('asistentes.edit');
+//     Route::get('/documentos-rechazados', 'AsistenteController@actualizarDocumentosRechazados')->name('asistentes.rechazado');
+// });
+
+
 
 //Route::resource('revisores', 'RevisoresController');
 
@@ -32,6 +44,7 @@ Route::prefix('revisores')->group(function () {
     Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
+   
     
 });
 

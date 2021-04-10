@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    //dd(Auth::user()->documentos->validaciones[0]->estado);
+    // dd(Auth::user()->documentos->validaciones);
 @endphp
     <div class="container">
         <div class="justify-content-center">
@@ -149,7 +149,8 @@
                             <span class="badge badge-dark">Sin subir</span>
                         </div>
                         <div style="font-size: 20px">
-                            <a class="btn btn-primary" href="#" style="float: right;" type="submit">Editar documento/s rechazado/s</a>
+                            @csrf
+                            <a class="btn btn-primary" href="{{route('asistentes.rechazado')}}" style="float: right;" type="submit">Editar documento/s rechazado/s</a>
                         </div>
                     </div>
                 </div>
