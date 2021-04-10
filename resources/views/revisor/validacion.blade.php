@@ -2,11 +2,15 @@
 
 @section('content')
 
+@php
+    //dd($asistente);
+@endphp
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-8">
-                <h1 class="m-0 text-dark">Validacion del asistente [Nombre]</h1>
+                <h1 class="m-0 text-dark">Validacion del asistente {{$asistente->nombre}}</h1>
                 <hr style="background-color: black;">
             </div>
         </div>
@@ -20,79 +24,70 @@
                 <h3 class="card-title"></h3>
             </div>
     
-            <form role="form">
+            <form role="form" method="POST" action="{{route('validaciones.update', $asistente->id)}}">
+                @csrf
+                @method("PUT")
                 <div class="card-body">
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Nombre: </label>
-                        <label for=""></label>
+                        <label for="">{{$asistente->nombre.' '.$asistente->apellido_paterno.' '.$asistente->apellido_materno}}</label>
                     </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Fecha de nacimiento:</label>
-                        <label for=""></label>
+                        <label for="">{{$asistente->fecha_nacimiento}}</label>
                     </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">CURP: </label>
-                        <label for=""></label>
+                        <label for="">{{$asistente->curp}}</label>
                     </div>
-                    <div class="form-group" style="font-size: 20px">
-                        <label class="col-md-2 col-form-label text-md-left" for="">Ciudad de origen:</label>
-                        <label for=""></label>
-                    </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Escuela de origen:</label>
-                        <label for=""></label>
+                        <label for="">{{$asistente->escuela_origen}}</label>
                     </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Foto identificatoria:</label>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Abrir
-                        </button>
+                        <img src="/storage/{{$asistente->foto_asistente}}" style="height: 600px" alt="">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" name="fotoRechazo" value="Foto identificatoria">
+                            <label for="customCheckbox1" class="custom-control-label">Foto identificatoria?</label>
+                        </div>
+                        <div class="form-group" style="font-size: 20px">
+                            <textarea style="width: 100%" name="textoFotoRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
+                        </div>
                     </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Acta de nacimiento:</label>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Abrir
-                        </button>
+                        <img src="/storage/{{$asistente->acta_asistente}}" style="height: 600px" alt="">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox2" name="actaRechazo" value="Acta de nacimiento">
+                            <label for="customCheckbox2" class="custom-control-label">Rechazar Acta de nacimiento?</label>
+                        </div>
+                        <div class="form-group" style="font-size: 20px">
+                            <textarea style="width: 100%" name="textoActaRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
+                        </div>
                     </div>
+
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Constancia escolar:</label>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Abrir
-                        </button>
-                    </div>
-    
-    
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
-                            <label for="customRadio1" class="custom-control-label">Aprovado</label>
+                        <img src="/storage/{{$asistente->constancia_escuela}}" style="height: 600px" alt="">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox3" name="constanciaRechazo" value="Constancia escolar">
+                            <label for="customCheckbox3" class="custom-control-label">Rechazar Acta de nacimiento?</label>
                         </div>
-                        <div class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="customRadio2" name="customRadio">
-                            <label for="customRadio2" class="custom-control-label">Rechazado</label>
+                        <div class="form-group" style="font-size: 20px">
+                            <textarea style="width: 100%" name="textoConstanciaRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
                         </div>
                     </div>
-    
-                    <div class="form-group col-sm-2">
-                        <label>Razón de rechazo</label>
-                        <select class="custom-select">
-                            <option>Seleccionar</option>
-                            <option>Foto</option>
-                            <option>Acta</option>
-                            <option>Constancia</option>
-                            <option>Todas las anteriores</option>
-                        </select>
-                    </div>
-    
-                    <div class="form-group" style="font-size: 20px">
-                        <textarea style="width: 100%" name="" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
-                    </div>
-                  
     
                 </div>
     
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" aria-required="true">Vlidar</button>
+                    <button type="submit" class="btn btn-primary" aria-required="true">Validar</button>
                     <a type="button" href="{{route('revisores.lista-espera')}}" class="btn btn-secondary" aria-required="true">Cancelar</a>
                 </div>
             </form>      
@@ -100,24 +95,4 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-         {{--  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> --}}
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <embed src="/storage/Brochure.pdf" type="application/pdf" width="100%" height="600px" />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
 @endsection

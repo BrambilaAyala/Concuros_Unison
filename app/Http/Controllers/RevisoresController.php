@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Revisores;
+use App\Asistente;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class RevisoresController extends Controller
 {
@@ -25,7 +26,13 @@ class RevisoresController extends Controller
 
     public function listaEspera()
     {
-        return view('revisor.listaEspera');
+        $asistentes = Asistente::join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
+        ->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->where('estado', 'Espera')
+        ->select('asistentes.id', 'asistentes.nombre', 'documentos.created_at')
+        ->orderBy('created_at', 'asc')->get();
+        //$asistentes_espera = $asistentes->where()
+        //dd($asistentes);
+        return view('revisor.listaEspera', compact('asistentes'));
     }
 
     public function listaAsistentes()
@@ -78,7 +85,7 @@ class RevisoresController extends Controller
      */
     public function edit(Revisores $revisores)
     {
-        return view('revisor.validacion', compact('revisores'));
+        //
     }
 
     /**

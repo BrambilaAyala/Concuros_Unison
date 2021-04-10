@@ -72,7 +72,7 @@
                     <label class="col-md-12 col-form-label text-md-center" for="">Fecha de nacimiento</label>
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-12 col-form-label text-md-center" for="">Ciudad de origen</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Escuela de origen</label>
                 </div>
                 <div style="font-size: 20px">
                     <label class="col-md-12 col-form-label text-md-center" for="">Telefono</label>
