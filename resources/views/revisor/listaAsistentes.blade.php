@@ -26,6 +26,7 @@
                         <th>Nombre</th>
                         <th>Fecha de envio de documento</th>
                         <th>No. Folio</th>
+                        <th>Acción</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -33,12 +34,19 @@
                         <tr id='test'>
                           <td><p id='nombre'>{{$asistente->nombre}} {{$asistente->apellido_paterno}} {{$asistente->apellido_materno}}</p></td>
                           @if (isset($asistente->documentos->fecha_creacion))
-                            <td><p id='fechaEnvioDoc'>{{$asistente->documentos->fecha_creacion}}</p></td>
+                            <td><p >{{$asistente->documentos->fecha_creacion}}</p></td>
+                            @if (isset($asistente->folio))
+                              <td><p >{{$asistente->folio}}</p></td>
+                            @else 
+                              <td><p >Alumno sin número de folio</p></td>
+                            @endif
+                            
                           @else 
                             <td><p>Alumno no inscrito</p> </td>
+                            <td><p >Alumno sin número de folio</p></td>
                           @endif
                           
-                          {{-- <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td> --}}
+                          <td><a class="btn btn-primary" href="{{ route('revisores.edit', Auth::user()->id) }}"  type="submit">Validar</a></td>
                         </tr>
                       @endforeach
                       
