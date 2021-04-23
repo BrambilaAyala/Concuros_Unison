@@ -77,7 +77,7 @@
                         <img src="/storage/{{$asistente->constancia_escuela}}" style="height: 600px" alt="">
                         <div class="custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" id="customCheckbox3" name="constanciaRechazo" value="Constancia escolar">
-                            <label for="customCheckbox3" class="custom-control-label">Rechazar Acta de nacimiento?</label>
+                            <label for="customCheckbox3" class="custom-control-label">Rechazar Constancia escolar?</label>
                         </div>
                         <div class="form-group" style="font-size: 20px">
                             <textarea style="width: 100%" name="textoConstanciaRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>

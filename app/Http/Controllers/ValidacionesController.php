@@ -103,12 +103,23 @@ class ValidacionesController extends Controller
 
             $asistente->save();
         }else{
-            $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
-            $comentario = implode("\n", array_filter($comentario, function($v){return $v != null; }));
-            
             $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
-            $doc_rechazo = implode(", ", array_filter($doc_rechazo, function($v){return $v != null; }));
+            $doc_rechazo = array_filter($doc_rechazo, function($v){return $v != null; });
 
+            $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
+            $comentario = array_filter($comentario, function($v){return $v != null; });
+
+            for ($i=0; $i < count($comentario); $i++) { 
+                $comentario[$i] = $doc_rechazo[$i].": ".$comentario[$i];
+            }
+
+            $doc_rechazo = implode(", ", $doc_rechazo);
+            $comentario = implode("\n", $comentario);
+
+            //dd($comentario, $doc_rechazo);
+
+            $validacion->comentario = $comentario;
+            $validacion->doc_rechazado = $doc_rechazo;
             $validacion->estado = "Rechazado";
         }
 

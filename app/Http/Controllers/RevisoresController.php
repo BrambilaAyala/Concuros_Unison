@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Asistente;
 use App\Revisores;
-use App\Asistente;
 use Illuminate\Http\Request;
 
 
