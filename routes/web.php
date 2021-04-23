@@ -40,7 +40,8 @@ Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->nam
 Route::prefix('revisores')->group(function () {
     Route::get('/', 'RevisoresController@index')->name('revisores.index');
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
-    Route::get('/{revisore}/validacion', 'RevisoresController@edit')->name('revisores.edit');
+    Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
+    Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
    

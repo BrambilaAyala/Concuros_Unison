@@ -33,6 +33,8 @@ class CreateValidacionesTable extends Migration
             $table->string('doc_aprobado')->nullable();
             $table->string('doc_rechazado')->nullable();
             $table->enum('estado',['Espera','Rechazado','Aprobado']);
+            $table->string('fecha_validacion')->nullable();
+            $table->enum('estado',['Espera','Rechazado','Aprobado']);
             $table->date('fecha_validacion')->nullable();
             $table->timestamps();
             $table->foreign('id_documento')->references('id')->on('documentos');

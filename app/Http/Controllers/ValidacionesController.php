@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Asistente;
+use App\Documentos;
 use App\Validaciones;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ValidacionesController extends Controller
 {
@@ -55,9 +59,14 @@ class ValidacionesController extends Controller
      * @param  \App\Validaciones  $validaciones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Validaciones $validaciones)
+    public function edit(Asistente $asistente)
     {
-        //
+        //dd($asistente);
+        $asistente = Asistente::where('asistentes.id', $asistente->id)->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
+        ->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
+
+        //dd($asistente);
+        return view('revisor.validacion', compact('asistente'));
     }
 
     /**
@@ -67,9 +76,48 @@ class ValidacionesController extends Controller
      * @param  \App\Validaciones  $validaciones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Validaciones $validaciones)
+    public function update(Request $request, Asistente $asistente)
     {
-        //
+        $documento = Documentos::where('id_asistente', $asistente->id)->get()->last();
+        $validacion = Validaciones::where('id_documento', $documento->id)->get()->last();
+        $fecha_actual = Carbon::now();
+        $año_edicio_folio = $fecha_actual->year;
+        $cursos_folio = [0,0,0];
+        $cantidad_alumnos_aprobados = count(Validaciones::where('estado','Aprobado')->get());
+        $alumnos_aprobados_folio = "".$cantidad_alumnos_aprobados+1;
+        $fecha_actual = $fecha_actual->setTimezone('GMT-7')->format('d_M_Y , g:ia');
+
+        if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
+            $validacion->estado = "Aprobado";
+
+            $asistente->fecha_registro_aceptado = $fecha_actual;
+
+            foreach ($asistente->concursos()->get() as $curso_id) {
+                $cursos_folio[$curso_id->id-1] = 1;
+            };
+            $alumnos_aprobados_folio = str_pad($alumnos_aprobados_folio, 3, 0, STR_PAD_LEFT);
+
+            $folio = $año_edicio_folio."-".implode("", $cursos_folio)."-".$alumnos_aprobados_folio;
+            
+            $asistente->folio = $folio;
+
+            $asistente->save();
+        }else{
+            $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
+            $comentario = implode("\n", array_filter($comentario, function($v){return $v != null; }));
+            
+            $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
+            $doc_rechazo = implode(", ", array_filter($doc_rechazo, function($v){return $v != null; }));
+
+            $validacion->estado = "Rechazado";
+        }
+
+        $validacion->fecha_validacion = $fecha_actual;
+        
+        $validacion->save();
+
+        return redirect()->route('revisores.lista-espera');
+        
     }
 
     /**
