@@ -83,8 +83,8 @@ class ValidacionesController extends Controller
         $fecha_actual = Carbon::now();
         $año_edicio_folio = $fecha_actual->year;
         $cursos_folio = [0,0,0];
-        $cantidad_alumnos_aprobados = count(Validaciones::where('estado','Aprobado')->get());
-        $alumnos_aprobados_folio = "".$cantidad_alumnos_aprobados+1;
+        $cantidad_alumnos_aprobados = count(Validaciones::where('estado','Aprobado')->get()) + 1;
+        $alumnos_aprobados_folio = "".$cantidad_alumnos_aprobados;
         $fecha_actual = $fecha_actual->setTimezone('GMT-7')->format('d_M_Y , g:ia');
 
         if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
