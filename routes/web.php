@@ -23,6 +23,8 @@ Auth::routes();
 
 Route::resource('asistentes', 'AsistenteController');
 Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->name('asistentes.rechazado');
+
+
 // Route::prefix('asistentes')->group(function(){
 //     Route::get('/', 'AsistenteController@index')->name('asistentes.index');
 //     Route::post('/', 'AsistenteController@store')->name('asistentes.store');
@@ -48,6 +50,7 @@ Route::prefix('revisores')->group(function () {
     
 });
 
+Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualizarDocumentosRechazados')->name('asistentes.actualizarRechazados');
 Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');

@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    // dd(Auth::user()->documentos->validaciones);
+    // dd(Auth::user()->documentos->validaciones()->latest()->first()->estado);
 @endphp
     <div class="container">
         <div class="justify-content-center">
@@ -14,13 +14,13 @@
                 <div style="font-size: 20px">
                     <label for=""><b>Estatus de la inscripción</b></label>
                     @if (Auth::user()->documentos)
-                        @if (Auth::user()->documentos->validaciones[0]->estado == "Rechazado")
+                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Rechazado")
                             <span class="badge badge-danger">Rechazado</span>
                         @endif
-                        @if (Auth::user()->documentos->validaciones[0]->estado == "Espera")
+                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Espera")
                             <span class="badge badge-secondary">En proceso</span>
                         @endif
-                        @if (Auth::user()->documentos->validaciones[0]->estado == "Aprobado")
+                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Aprobado")
                             <span class="badge badge-success">Inscrito</span>
                         @endif
                     @else
