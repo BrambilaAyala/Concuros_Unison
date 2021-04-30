@@ -42,11 +42,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        //$credentials = $request->only('correo_electronico', 'contrasena');
+
         if (Auth::attempt(['correo_electronico' => $request->get('correo_electronico'), 'password' => $request->get('contrasena')])) {
             // Authentication passed...
             return redirect()->intended('/');
         }
-        return back();
+
+        return back()->withErrors(['correo_electronico' => trans('auth.failed')])->withInput(request(['correo_electronico']));
     }
 } 
