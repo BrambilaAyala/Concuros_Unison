@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DocumentosController;
-
+use DB;
 class AsistenteController extends Controller
 {
     public function __construct()
@@ -22,8 +22,11 @@ class AsistenteController extends Controller
      */
     public function index()
     {
+        
         return view('asistente.perfil');
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -106,12 +109,22 @@ class AsistenteController extends Controller
         return redirect()->route('asistentes.show', compact('asistente'));
         
     }
-    public function actualizarDocumentosRechazados(){
-        return 'hola';
-    }
+    
 
     public function indexRechazados(){
-        return view('asistente.editarDocumentos');
+        
+        $cabecera = array();
+        $estadosDocumentos = DB::table('documentos')
+            ->where('documentos.id_asistente', '=' ,auth()->user()->id)
+            ->join('validaciones', 'validaciones.id_documento', '=' , 'documentos.id')
+            ->get();
+        $cabecera['documentos_rechazados'] = explode(',',$estadosDocumentos[0]->doc_rechazado);
+        $cabecera['documentos_rechazados'] = array_map('trim',$cabecera['documentos_rechazados']);
+        // dd($cabecera['estados_documentos']);
+        return view('asistente.editarDocumentos', compact('cabecera'));
+
+        
+        // return view('asistente.editarDocumentos');
     }
     /**
      * Remove the specified resource from storage.

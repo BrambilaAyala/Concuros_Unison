@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asistente;
 use App\Revisores;
+// use App\Asistente;
 use Illuminate\Http\Request;
 
 
@@ -33,13 +34,24 @@ class RevisoresController extends Controller
         ->select('asistentes.id', 'asistentes.nombre', 'documentos.created_at')
         ->orderBy('created_at', 'asc')->get();
         //$asistentes_espera = $asistentes->where()
-        //dd($asistentes);
+        // dd($asistentes);
         return view('revisor.listaEspera', compact('asistentes'));
     }
 
     public function listaAsistentes()
     {
-        $asistentes = Asistente::orderBy('nombre')->get();
+        $asistentes = Asistente::with('documentos')->has('documentos')->get();
+        // $asistentes = Asistente::join('documentos','asistentes.id', '=', 'documentos.id_asistente')
+        // ->orderBy('nombre')->latest('documentos.created_at')->get();
+        // collect($asistentes);
+        // foreach ($asistentes as $key => $asistente) {
+        //     if ($asistente->documentos) {
+        //         $asistentes[$key] = $asistente;
+        //     }
+        // }
+        // $asistentes = $asistentes->unique('nombre')->values()->all();
+        // dd($asistentes);
+        
         
         return view('revisor.listaAsistentes',compact('asistentes'));
     }
