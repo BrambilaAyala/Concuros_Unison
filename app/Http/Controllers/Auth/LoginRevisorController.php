@@ -54,7 +54,7 @@ class LoginRevisorController extends Controller
             // Authentication passed...
             return redirect()->intended('revisores');
         }
-        return back();
+        return back()->withErrors(['correo_electronico' => trans('auth.failed')])->withInput(request(['correo_electronico']));
     }
 
     public function logout(Request $request)
