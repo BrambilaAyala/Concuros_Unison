@@ -83,14 +83,14 @@
 						<div class="col-lg-12">
 							<form id="login-form" action="{{ route('admin.login') }}" method="post" role="form" style="display: block;">
 								@csrf
-								@error('correo_electronico')
+								@error('correo')
 									<span class="invalid-feedback" role="alert">
 										<strong style="color: red;">*{{ $message }}</strong>
 									</span>
 									<br>
 								@enderror
 								<div class="form-group">
-									<input type="email" name="correo_electronico" id="username" tabindex="1" class="form-control" placeholder="Correo" value="{{ old('correo_electronico') }}" required>
+									<input type="email" name="correo" id="username" tabindex="1" class="form-control" placeholder="Correo" value="{{ old('correo') }}" required>
 								</div>
 								<div class="form-group">
 									<input type="password" name="contrasena" id="password" tabindex="2" class="form-control" placeholder="Contraseña" required>
