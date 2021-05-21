@@ -119,7 +119,7 @@
             </div>
         </div>
         @else
-            @if (Auth::user()->documentos->validaciones[0]->estado == "Rechazado")
+            @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Rechazado")
                 <div class="container justify-content-center">
                     <div class="container container-h-secundario">
                         <div class="card-header h-secundario">

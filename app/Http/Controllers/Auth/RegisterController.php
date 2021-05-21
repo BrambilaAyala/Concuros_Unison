@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'nombre' => ['required', 'string', 'max:255'],
             'apellido_paterno' => ['required', 'string', 'max:255'],
             'apellido_materno' => ['required', 'string', 'max:255'],
-            'correo_electronico' => ['required', 'string', 'max:255', 'unique:users'],
+            'correo_electronico' => ['required', 'string', 'max:255', 'unique:asistentes'],
             'contrasena' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 /* 

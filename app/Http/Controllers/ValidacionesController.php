@@ -7,6 +7,7 @@ use App\Documentos;
 use App\Validaciones;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\String_;
 
 class ValidacionesController extends Controller
@@ -62,9 +63,10 @@ class ValidacionesController extends Controller
     public function edit(Asistente $asistente)
     {
         //dd($asistente);
-        $asistente = Asistente::where('asistentes.id', $asistente->id)->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
+/*         $asistente = Asistente::where('asistentes.id', $asistente->id)->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
         ->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
-
+ */
+        $asistente = $asistente->Join('documentos','documentos.id_asistente','=','asistentes.id')->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
         //dd($asistente);
         return view('revisor.validacion', compact('asistente'));
     }
@@ -105,12 +107,15 @@ class ValidacionesController extends Controller
         }else{
             $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
             $doc_rechazo = array_filter($doc_rechazo, function($v){return $v != null; });
+            //dd($doc_rechazo);
 
             $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
             $comentario = array_filter($comentario, function($v){return $v != null; });
 
-            for ($i=0; $i < count($comentario); $i++) { 
-                $comentario[$i] = $doc_rechazo[$i].": ".$comentario[$i];
+            $comentario = array_combine($doc_rechazo, $comentario);
+            
+            foreach ($comentario as $key => $value) {
+                $comentario[$key] = "$key: $value";
             }
 
             $doc_rechazo = implode(", ", $doc_rechazo);
