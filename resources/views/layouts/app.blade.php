@@ -25,6 +25,7 @@
     <link href="/css/redes-icon.css" rel="stylesheet">
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/registro_login.css" rel="stylesheet">
+    <link href="/css/croppie.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -40,6 +41,7 @@
     </footer>
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap/bootstrap.js"></script>
+    <script src="/js/croppie.js"></script>
     <script>
         /// Url actual
         let pathname = new String(window.location.pathname);
@@ -71,6 +73,61 @@
             alert('Debe seleccionar al menos un valor dentro de la tabla que contiene los concursos para continuar.');
           }
         });    
+    </script>
+
+<script>  
+    $(document).ready(function(){
+    
+        $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            viewport: {
+                //Tamaño del recorte
+                width:150,
+                height:180,
+                type:'square' //circle
+            },
+            boundary:{
+                //Tamaño de la muestra de imagen
+                width:300,
+                height:300
+            }
+        });
+        
+        $('#foto_asistente').on('change', function(){
+            var reader = new FileReader();
+            reader.onload = function (event) {
+            $image_crop.croppie('bind', {
+                url: event.target.result
+            }).then(function(){
+                console.log('jQuery bind complete');
+            });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#uploadimageModal').modal('show');
+        });
+        
+        $('.crop_image').click(function(event){
+            $image_crop.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function(response){
+                console.log(response);
+                $('#image_croped').val(response)
+                $('#uploadimageModal').modal('hide');
+                /* $.ajax({
+                    url:"upload.php",
+                    type: "POST",
+                    data:{"image": response},
+                    success:function(data)
+                    {
+                    $('#uploadimageModal').modal('hide');
+                    $('#uploaded_image').html(data);
+                    }
+                }); */
+            })
+        });
+    
+    });  
     </script>
     
 </body>

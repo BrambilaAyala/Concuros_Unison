@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoginRevisorController extends Controller
 {
@@ -50,11 +51,28 @@ class LoginRevisorController extends Controller
     {
         //dd($request);
         //$credentials = $request->only('correo', 'contrasena');
-        if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
+        $val = Validator::make($request->all(),[
+            'correo' => ['required', 'exists:revisores'],
+            'contrasena' => ['required', 'min:6'],
+        ]);
+
+        //dd($val);
+
+        if ($val->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($val->errors());
+        }else{
+            if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
+                return redirect()->intended('revisores');
+            }else{
+                return back()->withErrors(['contrasena' => trans('auth.password')])->withInput(request(['contrasena']));
+            }
+        }
+ /*        if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
             // Authentication passed...
             return redirect()->intended('revisores');
-        }
-        return back()->withErrors(['correo' => trans('auth.failed')])->withInput(request(['correo']));
+        } */
+        //return back();
     }
 
     public function logout(Request $request)

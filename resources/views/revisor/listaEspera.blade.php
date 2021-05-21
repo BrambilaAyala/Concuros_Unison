@@ -1,6 +1,9 @@
 @extends('layouts.app_admin')
 
 @section('content')
+@php
+    //dd($asistentes);
+@endphp
     <!-- Content Header -->
     <div class="content-header">
         <div class="container-fluid">

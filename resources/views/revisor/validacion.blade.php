@@ -52,7 +52,7 @@
 
                     <div class="form-group" style="font-size: 20px">
                         <label class="col-md-2 col-form-label text-md-left" for="">Foto identificatoria:</label>
-                        <img src="/storage/{{$asistente->foto_asistente}}" style="height: 600px" alt="">
+                        <img src="/storage/{{$asistente->foto_asistente}}" style="height: 180px" alt="">
                         <div class="custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" id="customCheckbox1" name="fotoRechazo" value="Foto identificatoria" onchange="javascript:showContent('customCheckbox1', 'textFoto')">
                             <label for="customCheckbox1" class="custom-control-label">Rechazar Foto identificatoria?</label>

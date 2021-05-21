@@ -51,7 +51,7 @@ class DocumentosController extends Controller
     // }
     public function store(Request $request, Asistente $asistente)
     {
-
+        //dd($request);
         // dd($asistente->curp);
         /**
          * fechas utilizadas con el formato dia_mes_anio, hora:minutos am-pm
@@ -63,26 +63,38 @@ class DocumentosController extends Controller
         $documentos = new Documentos();
         $validacion = new Validaciones();
 
+        //Desarma la informacion obtenida de la imagen recortada
+        $data = $request->image_croped;
+        $image_array_1 = explode(";", $data);
+        $image_array_2 = explode(",", $image_array_1[1]);
+        //crea la imagen apartir del codigo desarmado
+        $data = base64_decode($image_array_2[1]);
+        //crea el nombre de la imagen
+        $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
+        //nombra la imagen guardandola en el folder seleccionado 
+        file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+
         $extensiones = [
-            'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
+            /* 'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(), */
             'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
             'constancia_escuela' => $request->file('constancia_escuela')->getClientOriginalExtension()
         ];
         
-        $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
+        /* $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']); */
+        $documentos->foto_asistente = "fotos-de-asistentes/$imageName";
         $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']);
         $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']);
         $documentos->fecha_creacion = $fecha_creacion;
+
+        //dd($documentos);
+
         $asistente->documentos()->save($documentos);
         $documentos->validaciones()->create([$documentos->id]);
         $documentos->save();
         
+        
         // dd($validacion->documento());
         // $nombreArchivo = $request->file('foto_asistente')->getClientOriginalName();
-        
-        
-        
-
         
     }
     
@@ -100,13 +112,25 @@ class DocumentosController extends Controller
         // dd($documentos);
         $validacion = new Validaciones();
 
+        //Desarma la informacion obtenida de la imagen recortada
+        $data = $request->image_croped;
+        $image_array_1 = explode(";", $data);
+        $image_array_2 = explode(",", $image_array_1[1]);
+        //crea la imagen apartir del codigo desarmado
+        $data = base64_decode($image_array_2[1]);
+        //crea el nombre de la imagen
+        $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
+        //nombra la imagen guardandola en el folder seleccionado 
+        file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+
         $extensiones = [
-            'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
+            //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
             'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
             'constancia_escuela' => $request->file('constancia_escuela')->getClientOriginalExtension()
         ];
         
-        $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
+        //$documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
+        $documentos->foto_asistente = "fotos-de-asistentes/$imageName";
         $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']);
         $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']);
         $documentos->fecha_creacion = $fecha_creacion;

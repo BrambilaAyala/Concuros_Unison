@@ -81,6 +81,8 @@ class AsistenteController extends Controller
     public function update(Request $request, Asistente $asistente)
     {
         //
+
+        //dd($request);
         
         $idConcursos= $request->input('concurso');
         $documentos = new DocumentosController();
@@ -103,7 +105,7 @@ class AsistenteController extends Controller
 
         $documentos->store($request,$asistente);
         //============
-        
+
     
         // $asistente->save();
         return redirect()->route('asistentes.show', compact('asistente'));
