@@ -97,8 +97,13 @@
                             <label for="foto_asistente" class="col-md-4 col-form-label text-md-right">{{ __('Foto del Asistente') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foto_asistente" type="file" class="form-control" name="foto_asistente" id="foto_asistente" accept="image/png, image/jpeg" required>
+                                <input id="foto_asistente" type="file" class="form-control @error('foto_asistente') is-invalid @enderror" name="foto_asistente" id="foto_asistente" accept="image/png, image/jpeg" required>
                                 <input type="hidden" name="image_croped" id="image_croped" value="">
+                                @error('foto_asistente')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -106,7 +111,12 @@
                             <label for="acta_asistente" class="col-md-4 col-form-label text-md-right">{{ __('Acta de nacimiento') }}</label>
 
                             <div class="col-md-6">
-                                <input id="acta_asistente" type="file" class="form-control" name="acta_asistente" accept="image/png, image/jpeg" required>
+                                <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" accept="image/png, image/jpeg" required>
+                                @error('acta_asistente')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -114,7 +124,12 @@
                             <label for="constancia_escuela" class="col-md-4 col-form-label text-md-right">{{ __('Constancia escolar') }}</label>
 
                             <div class="col-md-6">
-                                <input id="constancia_escuela" type="file" class="form-control" name="constancia_escuela" accept="image/png, image/jpeg" required>
+                                <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" accept="image/png, image/jpeg" required>
+                                @error('constancia_escuela')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 

@@ -96,15 +96,12 @@
                     <tbody>
                         <tr>
                             <td>Concurso Regional de Física</td>
-                            <td><input type="checkbox" aria-label="" disabled></td>
                         </tr>
                         <tr>
                             <td>Concurso Regional de Matemáticas</td>
-                            <td><input type="checkbox" aria-label="" disabled></td>
                         </tr>
                         <tr>
                             <td>Preselectivo para la Olimpiada Nacional de Fisíca</td>
-                            <td><input type="checkbox" aria-label="" disabled></td>
                         </tr>
                     </tbody>
                 </table>
