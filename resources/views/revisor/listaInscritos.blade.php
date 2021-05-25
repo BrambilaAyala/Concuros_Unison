@@ -23,7 +23,7 @@
                     <thead>
                       <tr>
                         <th>Nombre</th>
-                        <th>Fecha de envio de documento</th>
+                        {{-- <th>Fecha de envio de documento</th> --}}
                         <th>Concursos</th>
                         <th>No. Folio</th>
                       </tr>
@@ -32,7 +32,7 @@
                       @foreach ($asistentesInscritos as $asistenteInscrito)
                         <tr>
                           <td>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</td>
-                          <td>{{$asistenteInscrito->fecha_creacion}}</td>
+                          {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
                           <td>{{$asistenteInscrito->nombre_concurso}}</td>
                           <td>{{$asistenteInscrito->folio}}</td>
                         </tr>

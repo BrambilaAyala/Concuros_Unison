@@ -13,7 +13,9 @@
         </div>
     </div>
     <!-- /.content-header -->
-    
+   {{-- @php
+       dd($asistentes[1]->concursos);
+   @endphp --}}
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid" >
@@ -28,10 +30,11 @@
                     <thead>
                       <tr>
                         <th>Nombre</th>
-                        <th>Fecha de envio de documento</th>
+                        {{-- <th>Fecha de envio de documento</th> --}}
                         <th>No. Folio</th>
-                        {{-- <th>Estado de inscripción</th>
-                        <th>Acción</th> --}}
+                        <th>Concursos inscrito</th>
+                        <th>Estado de inscripción</th>
+                        {{-- <th>Acción</th> --}}
                       </tr>
                     </thead>
                     <tbody>
@@ -43,17 +46,31 @@
                         <tr id='tablaTR'>
                           <td><p id='nombre'>{{$asistente->nombre}} {{$asistente->apellido_paterno}} {{$asistente->apellido_materno}}</p></td>
                           {{-- @if (isset($asistente->documentos->last()->fecha_creacion)) --}}
-                            <td><p>{{$asistente->documentos->fecha_creacion}}</p></td>
+                            {{-- <td><p >{{$asistente->documentos->fecha_creacion}}</p></td> --}}
 
                             @if (isset($asistente->folio))
                               <td><p >{{$asistente->folio}}</p></td>
-                              {{-- <td><p>{{$asistente->documentos->last()->validaciones[$key]->estado}}</p></td> --}}
                             @else 
                             
                               <td><p >Alumno sin número de folio</p></td>
-                              {{-- <td><p>{{$asistente->documentos->last()->validaciones[$key]->estado}}</p></td> --}}
                             @endif
-                          
+                            {{-- 
+                              Codigo para concatenar los concursos inscrito del alumno  
+                            --}}
+                            @php
+                              
+                              $concursos = Array();
+                              for($i = 0 ; $i <  count($asistente->concursos) ; $i++){
+                                $concursos[] = $asistente->concursos[$i]->nombre ;
+                                
+                              }
+                              $resultado = implode(", ",$concursos);
+                            @endphp
+                            {{-- 
+                              FIN CODIGO
+                            --}}
+                            <td><p>{{$resultado}}</p></td>
+                            <td><p>{{$asistente->documentos->validaciones->last()->estado}}</p></td>
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
                               <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}"  type="submit">Validar</a></td>
                             @endif --}}
