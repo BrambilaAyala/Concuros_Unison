@@ -7,6 +7,7 @@ use App\Documentos;
 use App\Validaciones;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentosController extends Controller
 {
@@ -99,6 +100,20 @@ class DocumentosController extends Controller
     }
     
     public function actualizarDocumentosRechazados(Request $request, Asistente $asistente){
+        $val = Validator::make($request->all(),[
+            'image_croped' => ['sometimes', 'min:5000'],
+            'foto_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'acta_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'constancia_escuela' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
+        ]);
+
+        //dd($val);
+
+        if ($val->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($val->errors());
+        }  
+        
         /**
          * DOCUMENTOS
          * se llama a la funcion store del controlador DocumentosController.

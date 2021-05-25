@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DocumentosController;
 use DB;
+use Illuminate\Support\Facades\Validator;
+
 class AsistenteController extends Controller
 {
     public function __construct()
@@ -81,8 +83,26 @@ class AsistenteController extends Controller
     public function update(Request $request, Asistente $asistente)
     {
         //
-
         //dd($request);
+
+        $val = Validator::make($request->all(),[
+            'curp' => ['required', 'regex:/^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/'],
+            'fecha_nacimiento' => ['required', 'date_format:Y-m-d'],
+            'escuela_origen' => ['required', ],
+            'telefono' => ['required', 'digits:10',],
+            'concurso.*' => ['required', 'digits_between:1,3'],
+            'image_croped' => ['required', 'min:5000'],
+            'foto_asistente' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'acta_asistente' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'constancia_escuela' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
+        ]);
+
+        //dd($val);
+
+        if ($val->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($val->errors());
+        }  
         
         $idConcursos= $request->input('concurso');
         $documentos = new DocumentosController();

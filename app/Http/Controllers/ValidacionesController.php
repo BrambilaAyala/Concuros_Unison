@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Support\Facades\Validator;
 
 class ValidacionesController extends Controller
 {
@@ -66,7 +67,7 @@ class ValidacionesController extends Controller
 /*         $asistente = Asistente::where('asistentes.id', $asistente->id)->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
         ->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
  */
-        $asistente = $asistente->Join('documentos','documentos.id_asistente','=','asistentes.id')->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
+        $asistente = Asistente::where('asistentes.id', $asistente->id)->join('documentos','documentos.id_asistente','=','asistentes.id')->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
         //dd($asistente);
         return view('revisor.validacion', compact('asistente'));
     }
@@ -78,10 +79,27 @@ class ValidacionesController extends Controller
      * @param  \App\Validaciones  $validaciones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Asistente $asistente)
+    public function update(Request $request, Validaciones $validacion)
     {
+        $val = Validator::make($request->all(),[
+            'fotoRechazo' => ['sometimes', 'size:20'],
+            'textoFotoRechazo' => ['nullable', 'min:10'],
+            'actaRechazo' => ['sometimes', 'size:18'],
+            'textoActaRechazo' => ['nullable', 'min:10'],
+            'constanciaRechazo.*' => ['sometimes', 'size:18'],
+            'textoConstanciaRechazo' => ['nullable', 'min:10'],
+        ]);
+
+        if ($val->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($val->errors());
+        }  
+        dd($request);
+/*         dd($asistente);
         $documento = Documentos::where('id_asistente', $asistente->id)->get()->last();
-        $validacion = Validaciones::where('id_documento', $documento->id)->get()->last();
+        dd($documento);
+        $validacion = Validaciones::where('id_documento', $documento->id)->get()->last(); */
+        $asistente = $validacion->id_asistente;
         $fecha_actual = Carbon::now();
         $año_edicio_folio = $fecha_actual->year;
         $cursos_folio = [0,0,0];
@@ -90,6 +108,7 @@ class ValidacionesController extends Controller
         $fecha_actual = $fecha_actual->setTimezone('GMT-7')->format('d_M_Y , g:ia');
 
         if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
+            //dd('aprobado');
             $validacion->estado = "Aprobado";
 
             $asistente->fecha_registro_aceptado = $fecha_actual;
@@ -105,6 +124,7 @@ class ValidacionesController extends Controller
 
             $asistente->save();
         }else{
+            //dd('rechazo');
             $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
             $doc_rechazo = array_filter($doc_rechazo, function($v){return $v != null; });
             //dd($doc_rechazo);
