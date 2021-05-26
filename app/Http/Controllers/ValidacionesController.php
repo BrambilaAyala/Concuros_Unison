@@ -102,7 +102,9 @@ class ValidacionesController extends Controller
         $validacion = Validaciones::where('id_documento', $documento->id)->get()->last(); */
         $validacion = $asistente;
         //dd($validacion);
-        $asistente = Asistente::findOrFail($validacion->id_documento);
+        $documento = Documentos::findOrFail($validacion->id_documento);
+        //dd($documento);
+        $asistente = Asistente::findOrFail($documento->id_asistente);
         //dd($asistente);
         $fecha_actual = Carbon::now();
         $año_edicio_folio = $fecha_actual->year;
