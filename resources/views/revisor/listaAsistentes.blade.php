@@ -20,7 +20,7 @@
     <div class="content">
         <div class="container-fluid" >
           {{-- buscador --}}
-          <label for="inputBuscadorNombre">Buscador por nombre</label>
+          <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Concursos, Estado</label>
           <br>
           <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
           {{-- fin buscador --}}
