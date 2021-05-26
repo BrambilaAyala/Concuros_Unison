@@ -81,13 +81,13 @@ class ValidacionesController extends Controller
      */
     public function update(Request $request, Validaciones $asistente)
     {
-        //dd($asistente);
+        //dd($request);
         $val = Validator::make($request->all(),[
-            'fotoRechazo' => ['required', 'size:20'],
+            'fotoRechazo' => ['nullable', 'size:20'],
             'textoFotoRechazo' => ['nullable', 'min:10'],
-            'actaRechazo' => ['required', 'size:18'],
+            'actaRechazo' => ['nullable', 'size:18'],
             'textoActaRechazo' => ['nullable', 'min:10'],
-            'constanciaRechazo' => ['required', 'size:18'],
+            'constanciaRechazo' => ['nullable', 'size:18'],
             'textoConstanciaRechazo' => ['nullable', 'min:10'],
         ]);
 
@@ -95,7 +95,7 @@ class ValidacionesController extends Controller
         {
             return redirect()->back()->withInput()->withErrors($val->errors());
         }  
-        //dd($validacion);
+        //dd('paso');
 /*         dd($asistente);
         $documento = Documentos::where('id_asistente', $asistente->id)->get()->last();
         dd($documento);
