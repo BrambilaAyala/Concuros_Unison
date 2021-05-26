@@ -49,7 +49,7 @@
                             {{-- <td><p >{{$asistente->documentos->fecha_creacion}}</p></td> --}}
 
                             @if (isset($asistente->folio))
-                              <td><p >{{$asistente->folio}}</p></td>
+                              <td><p id="folio">{{$asistente->folio}}</p></td>
                             @else 
                             
                               <td><p >Alumno sin número de folio</p></td>
