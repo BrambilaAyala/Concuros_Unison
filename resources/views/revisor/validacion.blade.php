@@ -59,7 +59,7 @@
                             <img src="/storage/{{$validacion->foto_asistente}}" style="height: 180px" alt="">
     
                             <p><b>
-                                <input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="fotoRechazo" value="{{null}}" onchange="sholo('#textFoto','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','mostrar')"/>&nbsp;Rechazar
                             </b></p>
     
@@ -75,7 +75,7 @@
                             <img src="/storage/{{$validacion->acta_asistente}}" style="height: 600px" alt="">
     
                             <p><b>
-                                <input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="actaRechazo" value="{{null}}" onchange="sholo('#textActa','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','mostrar')"/>&nbsp;Rechazar
                             </b></p>
     
@@ -91,7 +91,7 @@
                             <img src="/storage/{{$validacion->constancia_escuela}}" style="height: 600px" alt="">
     
                             <p><b>
-                                <input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="constanciaRechazo" value="{{null}}" onchange="sholo('#textConstancia','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar')"/>&nbsp;Rechazar
                             </b></p>
     
