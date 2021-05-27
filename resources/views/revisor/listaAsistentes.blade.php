@@ -23,6 +23,7 @@
           <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Concursos, Estado</label>
           <br>
           <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
+          <input type="hidden" id="vistaInscritos" name="vistaInscritos" value = 0>
           {{-- fin buscador --}}
             <div class="card" style="top: 1rem;">
                 <div class="card-body table-responsive p-0" style="max-height: 700px;">

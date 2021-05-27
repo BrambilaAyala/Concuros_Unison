@@ -17,24 +17,32 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            {{-- buscador --}}
+            <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Concursos, Estado</label>
+            <br>
+            <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
+            <input type="hidden" id="vistaInscritos" name="vistaInscritos" value = 1>
+            {{-- fin buscador --}}
             <div class="card">
                 <div class="card-body table-responsive p-0" style="max-height: 700px;">
                   <table class="table table-head-fixed text-nowrap">
                     <thead>
                       <tr>
                         <th>Nombre</th>
+                        <th>No. Folio</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>Concursos</th>
-                        <th>No. Folio</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
                       @foreach ($asistentesInscritos as $asistenteInscrito)
-                        <tr>
-                          <td>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</td>
+                        <tr id='tablaTR'>
+                          <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
                           {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
-                          <td>{{$asistenteInscrito->nombre_concurso}}</td>
-                          <td>{{$asistenteInscrito->folio}}</td>
+                          <td><p>{{$asistenteInscrito->folio}}</p></td>
+                          <td><p>{{$asistenteInscrito->nombre_concurso}}</p></td>
+                          
                         </tr>
                       @endforeach
                       
@@ -46,3 +54,4 @@
     </div>
 
 @endsection
+<script src="{{asset('js/admin.js')}}"></script>
