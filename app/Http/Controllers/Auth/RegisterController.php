@@ -84,7 +84,8 @@ class RegisterController extends Controller
             $message->to($data['correo_electronico'], $data['nombre'])->subject('Por favor confirma tu correo');
         });
 
-        dd("alto");
+        //para probar los correos
+        //dd("alto");
         
         return Asistente::create([
             'nombre' => $data['nombre'],
