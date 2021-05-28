@@ -20,9 +20,10 @@
     <div class="content">
         <div class="container-fluid" >
           {{-- buscador --}}
-          <label for="inputBuscadorNombre">Buscador por nombre</label>
+          <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Concursos, Estado</label>
           <br>
           <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
+          <input type="hidden" id="vistaInscritos" name="vistaInscritos" value = 0>
           {{-- fin buscador --}}
             <div class="card" style="top: 1rem;">
                 <div class="card-body table-responsive p-0" style="max-height: 700px;">
@@ -49,7 +50,7 @@
                             {{-- <td><p >{{$asistente->documentos->fecha_creacion}}</p></td> --}}
 
                             @if (isset($asistente->folio))
-                              <td><p >{{$asistente->folio}}</p></td>
+                              <td><p id="folio">{{$asistente->folio}}</p></td>
                             @else 
                             
                               <td><p >Alumno sin número de folio</p></td>
