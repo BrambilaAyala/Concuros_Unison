@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-class Asistente extends Authenticatable
+class Asistente extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -20,7 +20,7 @@ class Asistente extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre', 'apellido_paterno', 'apellido_materno' , 'correo_electronico', 'contrasena',
+        'nombre', 'apellido_paterno', 'apellido_materno' , 'correo_electronico', 'contrasena', 'confirmation_code',
     ];
 
     /**

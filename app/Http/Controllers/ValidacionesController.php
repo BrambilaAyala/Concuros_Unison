@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\String_;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ValidacionesController extends Controller
 {
@@ -84,11 +85,11 @@ class ValidacionesController extends Controller
         //dd($request);
         $val = Validator::make($request->all(),[
             'fotoRechazo' => ['nullable', 'size:20'],
-            'textoFotoRechazo' => ['nullable', 'min:10'],
+            'textoFotoRechazo' => ['exclude_if:fotoRechazo,null',],
             'actaRechazo' => ['nullable', 'size:18'],
-            'textoActaRechazo' => ['nullable', 'min:10'],
+            'textoActaRechazo' => ['exclude_if:actaRechazo,null'],
             'constanciaRechazo' => ['nullable', 'size:18'],
-            'textoConstanciaRechazo' => ['nullable', 'min:10'],
+            'textoConstanciaRechazo' => ['exclude_if:constanciaRechazo,null'],
         ]);
 
         if ($val->fails())
@@ -113,7 +114,7 @@ class ValidacionesController extends Controller
         $alumnos_aprobados_folio = "".$cantidad_alumnos_aprobados;
         $fecha_actual = $fecha_actual->setTimezone('GMT-7')->format('d_M_Y , g:ia');
 
-        if(!$request->textoFotoRechazo && !$request->textoActaRechazo && !$request->textoConstanciaRechazo){
+        if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
             //dd('aprobado');
             $validacion->estado = "Aprobado";
 
@@ -130,7 +131,7 @@ class ValidacionesController extends Controller
 
             $asistente->save();
         }else{
-            //dd('rechazo');
+            
             $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
             $doc_rechazo = array_filter($doc_rechazo, function($v){return $v != null; });
             //dd($doc_rechazo);
@@ -138,7 +139,11 @@ class ValidacionesController extends Controller
             $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
             $comentario = array_filter($comentario, function($v){return $v != null; });
 
+            if(count($doc_rechazo) != count($comentario)){
+                return redirect()->back()->withInput()->with('jsAlert', "Faltaron una o mas areas de texto por llenar");
+            }
             $comentario = array_combine($doc_rechazo, $comentario);
+            //dd($doc_rechazo, $comentario);
             
             foreach ($comentario as $key => $value) {
                 $comentario[$key] = "$key: $value";
@@ -152,6 +157,7 @@ class ValidacionesController extends Controller
             $validacion->comentario = $comentario;
             $validacion->doc_rechazado = $doc_rechazo;
             $validacion->estado = "Rechazado";
+            //dd('rechazo');
         }
 
         $validacion->fecha_validacion = $fecha_actual;

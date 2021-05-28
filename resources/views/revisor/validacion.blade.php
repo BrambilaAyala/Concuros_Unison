@@ -50,6 +50,13 @@
 
                     <hr>
 
+
+                    @if (session('jsAlert'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session()->get('jsAlert') }}
+                        </div>
+                    @endif
+
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Imagenes del Asistente</h3>
@@ -59,12 +66,17 @@
                             <img src="/storage/{{$validacion->foto_asistente}}" style="height: 180px" alt="">
     
                             <p><b>
-                                <input type="radio" name="fotoRechazo" value="{{null}}" onchange="sholo('#textFoto','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','mostrar')"/>&nbsp;Rechazar
+                                <input type="radio" name="fotoRechazo" value="" onchange="sholo('#textFoto','esconder', 'txt1')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','mostrar', 'txt1')"/>&nbsp;Rechazar
                             </b></p>
     
                             <div class="form-group" style="font-size: 20px; display:none;" id="textFoto">
-                                <textarea style="width: 100%" name="textoFotoRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
+                                <textarea style="width: 100%" class="@error('textoFotoRechazo') is-invalid @enderror" name="textoFotoRechazo" id="txt1" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoFotoRechazo') }}</textarea>
+                                @error('textoFotoRechazo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
     
@@ -75,12 +87,17 @@
                             <img src="/storage/{{$validacion->acta_asistente}}" style="height: 600px" alt="">
     
                             <p><b>
-                                <input type="radio" name="actaRechazo" value="{{null}}" onchange="sholo('#textActa','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','mostrar')"/>&nbsp;Rechazar
+                                <input type="radio" name="actaRechazo" value="" onchange="sholo('#textActa','esconder', 'txt2')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','mostrar', 'txt2')"/>&nbsp;Rechazar
                             </b></p>
     
                             <div class="form-group" style="font-size: 20px; display: none;" id="textActa">
-                                <textarea style="width: 100%" name="textoActaRechazo" id="" cols="" rows="3" placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
+                                <textarea style="width: 100%" class="@error('textoActaRechazo') is-invalid @enderror" name="textoActaRechazo" id="txt2" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoActaRechazo') }}</textarea>
+                                @error('textoActaRechazo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
     
@@ -91,12 +108,17 @@
                             <img src="/storage/{{$validacion->constancia_escuela}}" style="height: 600px" alt="">
     
                             <p><b>
-                                <input type="radio" name="constanciaRechazo" value="{{null}}" onchange="sholo('#textConstancia','esconder')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar')"/>&nbsp;Rechazar
+                                <input type="radio" name="constanciaRechazo" value="" onchange="sholo('#textConstancia','esconder', 'txt3')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar', 'txt3')"/>&nbsp;Rechazar
                             </b></p>
     
                             <div class="form-group" style="font-size: 20px; display: none;" id="textConstancia">
-                                <textarea style="width: 100%" name="textoConstanciaRechazo"  cols="" rows="3"  placeholder="Introduzca un breve texto sobre la razón de rechazo"></textarea>
+                                <textarea style="width: 100%" class="@error('textoConstanciaRechazo') is-invalid @enderror" name="textoConstanciaRechazo" id="txt3" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoConstanciaRechazo') }}</textarea>
+                                @error('textoConstanciaRechazo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
         
@@ -113,11 +135,13 @@
 </div>
 
 <script type="text/javascript">
-    function sholo(e, e2) {
+    function sholo(e, e2, e3) {
         if(e2 =="esconder"){
             $(e).hide();
+            //document.getElementById(e3).value = "";
         } else if (e2 == "mostrar") {
             $(e).show();
+            //document.getElementById(e3).value = "Introduzca un breve texto sobre la razón de rechazo";
         } 
     };
 </script>

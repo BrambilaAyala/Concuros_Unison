@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Asistente;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,5 +27,20 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function verify($code)
+    {
+        $user = Asistente::where('confirmation_code', $code)->first();
+        
+        if (! $user) return redirect('/');
+    
+        $user->email_verified_at = Carbon::now()->setTimezone('GMT-7')->format('Y-m-d h:i:s');
+        //dd($user->email_verified_at);
+        //dd("alto");
+        $user->confirmation_code = null;
+        $user->save();
+    
+        return redirect('/')->with('notification', 'Has confirmado correctamente tu correo!');
     }
 }

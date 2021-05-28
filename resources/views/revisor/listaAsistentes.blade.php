@@ -13,9 +13,9 @@
         </div>
     </div>
     <!-- /.content-header -->
-   {{-- @php
+   @php
        dd($asistentes[1]->concursos);
-   @endphp --}}
+   @endphp
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid" >
