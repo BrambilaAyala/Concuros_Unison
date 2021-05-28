@@ -19,10 +19,16 @@ Route::get('/', function () {
 })->name('/');
 //Route::redirect('/', '/register')->middleware('guest')->name('/');
 
-Auth::routes();
+/* Route::get('send', function () {
+    mail('uncorreomasparapruebas@gmail.com', "orale", "aloooooo");
+})->name('send'); */
+
+Auth::routes(['verify' => true]);
+Route::get('/register/verify/{code}', 'HomeController@verify');
 
 Route::resource('asistentes', 'AsistenteController');
 Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->name('asistentes.rechazado');
+Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualizarDocumentosRechazados')->name('asistentes.actualizarRechazados');
 
 
 // Route::prefix('asistentes')->group(function(){
@@ -36,7 +42,6 @@ Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->nam
 // });
 
 
-
 //Route::resource('revisores', 'RevisoresController');
 
 Route::prefix('revisores')->group(function () {
@@ -46,11 +51,8 @@ Route::prefix('revisores')->group(function () {
     Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
-   
-    
 });
 
-Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualizarDocumentosRechazados')->name('asistentes.actualizarRechazados');
 Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');

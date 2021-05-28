@@ -8,9 +8,12 @@ use App\Providers\RouteServiceProvider;
 //use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\MockObject\Rule\Parameters;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -75,12 +78,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data['confirmation_code'] = Str::random(25);
+
+        Mail::send('vendor.notifications.email', $data, function($message) use ($data) {
+            $message->to($data['correo_electronico'], $data['nombre'])->subject('Por favor confirma tu correo');
+        });
+
+        dd("alto");
+        
         return Asistente::create([
             'nombre' => $data['nombre'],
             'apellido_paterno' => $data['apellido_paterno'],
             'apellido_materno' => $data['apellido_materno'],
             'correo_electronico' => $data['correo_electronico'],
             'contrasena' => Hash::make($data['contrasena']),
+            'confirmation_code' => $data['confirmation_code'],
         ]);
 /*         return Asistente::create([
             'name' => $data['name'],
@@ -88,4 +100,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]); */
     }
+
 }
