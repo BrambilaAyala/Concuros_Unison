@@ -37,7 +37,7 @@
                                     <label for="acta_asistente" class="col-md-4 col-form-label text-md-right">{{ __('Acta de nacimiento') }}</label>
         
                                     <div class="col-md-6">
-                                        <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" required autocomplete="acta_asistente">
+                                        <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" required accept="image/png, image/jpeg" autocomplete="acta_asistente">
                                         @error('acta_asistente')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -50,7 +50,7 @@
                                     <label for="constancia_escuela" class="col-md-4 col-form-label text-md-right">{{ __('Constancia escolar') }}</label>
         
                                     <div class="col-md-6">
-                                        <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" required autocomplete="constancia_escuela">
+                                        <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" accept="image/png, image/jpeg" required autocomplete="constancia_escuela">
                                         @error('constancia_escuela')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

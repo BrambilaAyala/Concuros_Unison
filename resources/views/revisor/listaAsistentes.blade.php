@@ -35,7 +35,7 @@
                         <th>No. Folio</th>
                         <th>Concursos inscrito</th>
                         <th>Estado de inscripción</th>
-                        {{-- <th>Acción</th> --}}
+                        <th>Acción</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -72,6 +72,7 @@
                             --}}
                             <td><p>{{$resultado}}</p></td>
                             <td><p>{{$asistente->documentos->validaciones->last()->estado}}</p></td>
+                            <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
                               <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}"  type="submit">Validar</a></td>
                             @endif --}}
@@ -91,5 +92,26 @@
               </div>
         </div>
     </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 <script src="{{asset('js/admin.js')}}"></script>
