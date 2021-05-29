@@ -137,17 +137,19 @@ class DocumentosController extends Controller
         $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
         //nombra la imagen guardandola en el folder seleccionado 
         file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
-
+        if ($request->hasFile('foto_asistente')) {
+            
+        }
         $extensiones = [
             //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
-            'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
-            'constancia_escuela' => $request->file('constancia_escuela')->getClientOriginalExtension()
+            'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
+            'constancia_escuela' => $request->hasFile('constancia_escuela') ? $request->file('constancia_escuela')->getClientOriginalExtension() : ''
         ];
         
         //$documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
-        $documentos->foto_asistente = "fotos-de-asistentes/$imageName";
-        $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']);
-        $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']);
+        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
+        $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']) : '';
+        $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']) : '';
         $documentos->fecha_creacion = $fecha_creacion;
         $asistente->documentos()->save($documentos);
         $documentos->validaciones()->create([$documentos->id]);

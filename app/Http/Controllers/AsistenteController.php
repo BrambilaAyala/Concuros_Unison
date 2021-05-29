@@ -139,8 +139,9 @@ class AsistenteController extends Controller
         $estadosDocumentos = DB::table('documentos')
             ->where('documentos.id_asistente', '=' ,auth()->user()->id)
             ->join('validaciones', 'validaciones.id_documento', '=' , 'documentos.id')
-            ->get();
-        $cabecera['documentos_rechazados'] = explode(',',$estadosDocumentos[0]->doc_rechazado);
+            ->latest('validaciones.updated_at')->first();
+        // dd(gettype($estadosDocumentos));
+        $cabecera['documentos_rechazados'] = explode(',',$estadosDocumentos->doc_rechazado);
         $cabecera['documentos_rechazados'] = array_map('trim',$cabecera['documentos_rechazados']);
         // dd($cabecera['estados_documentos']);
         return view('asistente.editarDocumentos', compact('cabecera'));
