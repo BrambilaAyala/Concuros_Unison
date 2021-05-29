@@ -15,6 +15,7 @@ class AddConfirmationCodeToAsistentes extends Migration
     {
         Schema::table('asistentes', function (Blueprint $table) {
             $table->string('confirmation_code')->nullable();
+            $table->string('token')->nullable();
         });
     }
 
