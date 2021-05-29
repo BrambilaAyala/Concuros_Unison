@@ -8,7 +8,9 @@
                 <div class="container container-h-secundario">
                     <div class="card-header h-secundario">{{ __('Resubida de documentos rechazados.') }}</div>
                 </div>
-                
+                {{-- @php
+                    dd($cabecera['documentos_rechazados']);
+                @endphp --}}
                 <div class="card-body">
                     <form method="POST" id="" action="{{route('asistentes.actualizarRechazados', Auth::user()->id)}}" enctype="multipart/form-data">
                         @csrf
