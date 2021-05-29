@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-class Asistente extends Authenticatable implements MustVerifyEmail
+class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use Notifiable;
 
@@ -20,7 +21,7 @@ class Asistente extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'nombre', 'apellido_paterno', 'apellido_materno' , 'correo_electronico', 'contrasena', 'confirmation_code',
+        'nombre', 'apellido_paterno', 'apellido_materno' , 'correo_electronico', 'contrasena', 'confirmation_code', 'token',
     ];
 
     /**
@@ -43,6 +44,10 @@ class Asistente extends Authenticatable implements MustVerifyEmail
 
     public function getAuthPassword(){       
         return $this->contrasena;     
+    }
+
+    public function getAuthEmail(){       
+        return $this->correo_electronico;     
     }
 
     public function asesor(){
