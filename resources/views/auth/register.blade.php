@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header h-principal">
-                    {{ __('Registrate al concurso Regional de Física y Matemáticas') }}
+                    {{ __('Registrarse al concurso Regional de Física y Matemáticas') }}
                 </div>
 
                 <div class="container container-h-secundario">
@@ -20,7 +20,7 @@
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus placeholder="Nombre/s">
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -31,10 +31,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="apellido_paterno" class="col-md-4 col-form-label text-md-right">{{ __('Appellido Paterno') }}</label>
+                            <label for="apellido_paterno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
 
                             <div class="col-md-6">
-                                <input id="apellido_paterno" type="text" class="form-control @error('apellido_paterno') is-invalid @enderror"name="apellido_paterno" value="{{ old('apellido_paterno') }}" required autocomplete="apellido_paterno" autofocus>
+                                <input id="apellido_paterno" type="text" class="form-control @error('apellido_paterno') is-invalid @enderror"name="apellido_paterno" value="{{ old('apellido_paterno') }}" required autocomplete="apellido_paterno" autofocus placeholder="Apellido paterno">
 
                                 @error('apellido_paterno')
                                     <span class="invalid-feedback" role="alert">
@@ -45,10 +45,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="apellido_materno" class="col-md-4 col-form-label text-md-right">{{ __('Appellido Materno') }}</label>
+                            <label for="apellido_materno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
 
                             <div class="col-md-6">
-                                <input id="apellido_materno" type="text" class="form-control @error('apellido_materno') is-invalid @enderror"name="apellido_materno" value="{{ old('apellido_materno') }}" required autocomplete="apellido_materno" autofocus>
+                                <input id="apellido_materno" type="text" class="form-control @error('apellido_materno') is-invalid @enderror"name="apellido_materno" value="{{ old('apellido_materno') }}" required autocomplete="apellido_materno" autofocus placeholder="Apellido materno">
 
                                 @error('apellido_materno')
                                     <span class="invalid-feedback" role="alert">
@@ -59,10 +59,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="correo_electronico" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electronico') }}</label>
+                            <label for="correo_electronico" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo_electronico" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autocomplete="correo_electronico">
+                                <input id="correo_electronico" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autocomplete="correo_electronico" placeholder="ejemplo@dominio.com">
 
                                 @error('correo_electronico')
                                     <span class="invalid-feedback" role="alert">
@@ -76,7 +76,7 @@
                             <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required autocomplete="new-contrasena">
+                                <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required autocomplete="new-contrasena" placeholder="Contraseña">
 
                                 @error('contrasena')
                                     <span class="invalid-feedback" role="alert">
@@ -90,7 +90,7 @@
                             <label for="contrasena-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contrasena-confirm" type="password" class="form-control" name="contrasena_confirmation" required autocomplete="new-contrasena">
+                                <input id="contrasena-confirm" type="password" class="form-control" name="contrasena_confirmation" required autocomplete="new-contrasena" placeholder="Repita la contraseña">
                             </div>
                         </div>
 

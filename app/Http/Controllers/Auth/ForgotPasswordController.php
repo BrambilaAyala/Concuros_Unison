@@ -50,7 +50,7 @@ class ForgotPasswordController extends Controller
         $arry_registro = ["nombre" => $registro->nombre, "apellido_paterno" => $registro->apellido_paterno, "apellido_materno" => $registro->apellido_materno, "correo_electronico" => $registro->correo_electronico, "token" => $registro->token];
         //dd(redirect()->getUrlGenerator()->previous());
 
-        Mail::send('vendor.notifications.email_r', $arry_registro, function($message) use ($arry_registro) {
+        Mail::send('vendor.notifications.email_reset', $arry_registro, function($message) use ($arry_registro) {
             $message->to($arry_registro['correo_electronico'], $arry_registro['nombre'])->subject('Reset de Contraseña');
         });
         

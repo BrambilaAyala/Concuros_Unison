@@ -7,6 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="shortcut icon" href="/img/icono-uni.ico" />
     <title>SICREFyM</title>
 
     <!-- Scripts -->
