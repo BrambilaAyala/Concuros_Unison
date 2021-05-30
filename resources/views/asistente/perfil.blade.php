@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    // dd(Auth::user()->documentos->validaciones()->latest()->first()->estado);
+    //dd(Auth::user()->documentos->validaciones()->latest()->first());
 @endphp
     <div class="container">
         <div class="justify-content-center">
@@ -81,10 +81,10 @@
                     <label class="col-md-12 col-form-label text-md-center" for="">Foto identificatoria</label>
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-12 col-form-label text-md-center" for="">Acta de nacimiento</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Foto Acta de nacimiento</label>
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-12 col-form-label text-md-center" for="">Constancia escolar</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Foto Constancia escolar</label>
                 </div>
                 <br>
                 <table class="table tabla-cursos">
@@ -123,28 +123,25 @@
                             {{ __('Estado de los documentos proporcionados') }}
                         </div>
                     </div>
-                    <div class="card-body" style="overflow: hidden;">
-                        <div style="font-size: 20px">
+                    <div class="card-body" style="overflow: hidden; font-size: 20px;">
+                        <p>A continuacion se te mostraran los archivos que que se te rechazaron y su razon de rechazo.</p>
+                        <p><b>{{ Auth::user()->documentos->validaciones()->latest()->first()->doc_rechazado }}</b></p>
+                        <pre>{{ Auth::user()->documentos->validaciones()->latest()->first()->comentario }}</pre>
+{{--                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Foto identificatoria</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
                         </div>
                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
                         </div>
                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Constancia escolar</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
-                        </div>
+                        </div> --}}
                         <div style="font-size: 20px">
                             @csrf
                             <a class="btn btn-primary" href="{{route('asistentes.rechazado')}}" style="float: right;" type="submit">Editar documento/s rechazado/s</a>

@@ -80,7 +80,7 @@ class RegisterController extends Controller
     {
         $data['confirmation_code'] = Str::random(25);
 
-        Mail::send('vendor.notifications.email_v', $data, function($message) use ($data) {
+        Mail::send('vendor.notifications.email_validacion', $data, function($message) use ($data) {
             $message->to($data['correo_electronico'], $data['nombre'])->subject('Por favor confirma tu correo');
         });
 

@@ -16,10 +16,10 @@
                             </span>
                         @enderror
                         <div class="form-group row">
-                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electronico') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 
                             <div class="col-md-6">
-                                <input id="" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autofocus>
+                                <input id="" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autofocus placeholder="ejemplo@dominio.com">
 
                                 @error('correo_electronico')
                                     <span class="invalid-feedback" role="alert">
@@ -33,7 +33,7 @@
                             <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required>
+                                <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required placeholder="Contraseña">
                                 @error('contrasena')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
