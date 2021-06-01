@@ -63,7 +63,7 @@
                         </div>
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Foto identificatoria:</label>
-                            <img src="/storage/{{$validacion->foto_asistente}}" style="height: 180px" alt="">
+                            <img src="/storage/{{$validacion->foto_asistente}}" alt="">
     
                             <p>
                                 <b style="color: green"><input type="radio" name="fotoRechazo" value="" onchange="sholo('#textFoto','esconder', 'txt1')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
@@ -84,7 +84,7 @@
     
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Acta de nacimiento:</label>
-                            <img src="/storage/{{$validacion->acta_asistente}}" style="height: 600px" alt="">
+                            <img src="/storage/{{$validacion->acta_asistente}}" alt="">
     
                             <p>
                                 <b style="color: green"><input type="radio" name="actaRechazo" value="" onchange="sholo('#textActa','esconder', 'txt2')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
@@ -105,7 +105,7 @@
     
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Constancia escolar:</label>
-                            <img src="/storage/{{$validacion->constancia_escuela}}" style="height: 600px" alt="">
+                            <img src="/storage/{{$validacion->constancia_escuela}}" alt="">
     
                             <p>
                                 <b style="color: green"><input type="radio" name="constanciaRechazo" value="" onchange="sholo('#textConstancia','esconder', 'txt3')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>

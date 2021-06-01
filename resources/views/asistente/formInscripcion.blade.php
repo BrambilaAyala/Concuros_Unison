@@ -59,7 +59,7 @@
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo_electronico" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" placeholder="Número telefónico">
+                                <input id="correo_electronico" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" placeholder="Número telefónico" pattern="[0-9]{10}">
 
                                 @error('telefono')
                                     <span class="invalid-feedback" role="alert">

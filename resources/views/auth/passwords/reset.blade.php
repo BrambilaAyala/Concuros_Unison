@@ -8,6 +8,11 @@
                 <div class="card-header">{{ __('Restablecer la contraseña') }}</div>
 
                 <div class="card-body">
+                    @if (session('notification'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session()->get('notification') }}
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
@@ -17,7 +22,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo_electronico" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ $email ?? old('correo_electronico') }}" required autocomplete="correo_electronico" autofocus placeholder="ejemplo@dominio.com">
+                                <input id="correo_electronico" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ $correo_electronico ?? old('correo_electronico') }}" required autocomplete="correo_electronico" autofocus placeholder="ejemplo@dominio.com">
 
                                 @error('correo_electronico')
                                     <span class="invalid-feedback" role="alert">
