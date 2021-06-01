@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+//use Carbon\Carbon;
+use DateTime;
 
 class ResetPasswordController extends Controller
 {
@@ -35,7 +37,17 @@ class ResetPasswordController extends Controller
     public function showResetForm($token){
         $user = Asistente::where('token', $token)->first();
         
-        if (!$user) return redirect('/');
+        if (!$user) return redirect('/')->with('notification_mal', 'El link que haz utilizado expiro o ya se uso anteriormente');
+        
+        $fecha_actual = new DateTime();
+        $token_created_at = new DateTime($user->token_created_at);
+        
+        if($fecha_actual->diff($token_created_at)->days > 1){
+            $user->token = null;
+            $user->token_created_at = null;
+            $user->save();
+            return redirect('/')->with('notification_mal', 'El link que haz utilizado expiro o ya se uso anteriormente');
+        }
 
         return view('auth.passwords.reset')->with(
             ['token' => $token, 'correo_electronico' => $user->correo_electronico]
@@ -55,7 +67,11 @@ class ResetPasswordController extends Controller
             return redirect()->back()->withInput()->withErrors($val->errors());
         }
 
-        $user = Asistente::where('correo_electronico', $request->correo_electronico)->first();
+        $user = Asistente::where('correo_electronico', $request->correo_electronico)->where('token', $request->token)->first();
+        if (!$user) {
+            return  back()->with('notification', 'El correo que usted ingreso no pidió un cambio de contraseña');
+        }
+
         $user->token = null;
         $user->contrasena = Hash::make($request->contrasena);
         $user->save();

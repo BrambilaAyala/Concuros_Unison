@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ConcursosSeeder::class,
             RevisoresSeeder::class,
             AsistenteSeeder::class,
+            ValidacionDefinicionesSeeder::class,
         ]);
     }
 }

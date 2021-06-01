@@ -21,7 +21,14 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
      * @var array
      */
     protected $fillable = [
-        'nombre', 'apellido_paterno', 'apellido_materno' , 'correo_electronico', 'contrasena', 'confirmation_code', 'token',
+        'nombre', 
+        'apellido_paterno', 
+        'apellido_materno' , 
+        'correo_electronico', 
+        'contrasena', 
+        'confirmation_code', 
+        'token',
+        'token_created_at',
     ];
 
     /**
