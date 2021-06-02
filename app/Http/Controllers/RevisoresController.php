@@ -141,6 +141,19 @@ class RevisoresController extends Controller
         //
     }
 
+    public function wsGetUserData($id){
+        
+        $userData = Asistente::findOrFail($id);
+        // dump($userData->documentos->validaciones->last());
+        $userStatus = $userData->documentos->validaciones->last();
+        
+        // $userPhoto= $userData->documentos->foto_asistente;
+        // $userCertificate= $userData->documentos->acta_asistente;
+        // $userSchool= $userData->documentos->constancia_escuela;
+        
+        $data = array($userData, $userStatus);
+        return json_encode($data);
+    }
 
 
 }

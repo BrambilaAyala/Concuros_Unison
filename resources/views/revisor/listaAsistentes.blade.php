@@ -14,7 +14,7 @@
     </div>
     <!-- /.content-header -->
    {{-- @php
-       dd($asistentes[1]->concursos);
+       dd($asistentes[1]->documentos);
    @endphp --}}
     <!-- Main content -->
     <div class="content">
@@ -33,14 +33,14 @@
                         <th>Nombre</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>No. Folio</th>
-                        <th>Concursos inscrito</th>
-                        <th>Estado de inscripción</th>
+                        <th>Concursos</th>
+                        <th>Estatus</th>
                         <th>Acción</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="listaTabla">
                       {{-- @php
-                          dd($asistentes[1]->documentos->last()->validaciones);
+                          dd($asistentes[0]->documentos->validaciones->last());
                       @endphp --}}
                       @foreach ($asistentes as $key => $asistente)
                       
@@ -71,8 +71,15 @@
                               FIN CODIGO
                             --}}
                             <td><p>{{$resultado}}</p></td>
-                            <td><p>{{$asistente->documentos->validaciones->last()->estado}}</p></td>
-                            <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
+                            @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
+                              <td><p>En revisión</p></td>
+                            @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
+                              <td><p>Renvío</p></td>
+                            @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
+                              <td><p>Inscrito</p></td>
+                            @endif
+                            
+                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
                               <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}"  type="submit">Validar</a></td>
                             @endif --}}
@@ -98,16 +105,36 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Datos de alumno</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body" id="modalBody">
+        {{-- SE LLENA CON JS EN ADMIN.JS --}}
+        <label for="divNombre">Nombre </label>
+        <div id="divNombre"></div>
+        <label for="divNacimiento">Fecha de Nacimiento</label>
+        <div id="divNacimiento"></div>
+        <label for="divTelefono">Telefono</label>
+        <div id="divTelefono"></div>
+        <label for="divCurp">CURP</label>
+        <div id="divCurp"></div>
+        <label for="divFolio">Número de Folio</label>
+        <div id="divFolio"></div>
+        <label for="divEstatus">Estatus</label>
+        <div id="divEstatus"></div>
+        <label for="divImgAsistente">Foto identificatoria</label>
+        <div id="divImgAsistente"></div>
+        <label for="divImgAsistenteActa">Acta de nacimiento</label>
+        <div id="divImgAsistenteActa"></div>
+        <label for="divImgAsistenteConstancia">Constancia escolar</label>
+        <div id="divImgAsistenteConstancia"></div>
+        {{-- FIN --}}
+        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar ventana</button>
         {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
       </div>
     </div>

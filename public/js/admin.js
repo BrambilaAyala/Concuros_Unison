@@ -1,6 +1,7 @@
+
 function buscadorPorNombre() {
 
-    let input, filter, tr, td, vistaInscrito, inputInscritos;
+    let input, filter, tr, td, vistaInscrito;
     input = document.getElementById("inputBuscadorNombre");
     filter = input.value.toUpperCase();
     tr = document.querySelectorAll("#tablaTR");
@@ -9,6 +10,7 @@ function buscadorPorNombre() {
     
     for (let i = 0; i < tr.length; i++) {
       td = tr[i];
+      
       /**
        * valores de la que tiene cada celda de la tabla
        */
@@ -60,5 +62,76 @@ function buscadorPorNombre() {
       
       
     }
+
     
+}
+
+//FUNCION PARA EL MODAL DE MAS INFORMACION EN LA LISTA DE ASISTENTES
+window.onload = function(){
+  let botonesInfo = document.querySelectorAll('.botonInfo');
+  let divNombre = document.getElementById('divNombre');
+  let divNacimiento = document.getElementById('divNacimiento');
+  let divTelefono = document.getElementById('divTelefono');
+  let divCurp = document.getElementById('divCurp');
+  let divFolio = document.getElementById('divFolio');
+  let divEstatus = document.getElementById('divEstatus');
+  let divImgAsistente = document.getElementById('divImgAsistente');
+  let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
+  let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
+  botonesInfo.forEach(botonInfo => {
+    botonInfo.addEventListener('click', cargarInfoBoton);
+  });
+  
+  function cargarInfoBoton(){
+    let valor = this.value;  
+    let containerImgAsistente, containerImgAsistenteActa, containerImgAsistenteConstancia, imgContainer;
+    fetch(`/wsgetuserdata/${valor}`)
+        .then(response => response.json())
+        .then(data => {
+          let pNombreCompleto = document.createElement('p'), pCurp = document.createElement('p');
+          let pNacimiento = document.createElement('p'), pTelefono = document.createElement('p');
+          let pFolio = document.createElement('p'), pEstatus = document.createElement('p');
+          containerImgAsistente = document.createElement('img');
+          containerImgAsistenteActa = document.createElement('img');
+          containerImgAsistenteConstancia = document.createElement('img');
+          
+          pNombreCompleto.innerText = `${data[0].nombre} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
+          pNacimiento.innerText = `${data[0].fecha_nacimiento}`;
+          pTelefono.innerText = `${data[0].telefono}`;
+          pCurp.innerText = `${data[0].curp}`;
+          data[0].folio ? pFolio.innerText = `${data[0].folio}` : pFolio.innerText = 'Alumno sin número de folio';
+          if (data[1].estado == 'Espera') {
+            pEstatus.innerText = `En revisión`;
+          }else if(data[1].estado == 'Rechazado'){
+            pEstatus.innerText = `Renvío`;
+          }else{
+            pEstatus.innerText = `Inscrito`;
+          }   
+          containerImgAsistente.src = `/storage/${data[0].documentos.foto_asistente}`;
+          containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
+          containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
+          divNombre.appendChild(pNombreCompleto);
+          divNacimiento.appendChild(pNacimiento);
+          divTelefono.appendChild(pTelefono);
+          divCurp.appendChild(pCurp);
+          divFolio.appendChild(pFolio);
+          divEstatus.appendChild(pEstatus);
+          divImgAsistente.appendChild(containerImgAsistente);
+          divImgAsistenteActa.appendChild(containerImgAsistenteActa);
+          divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
+          // console.log(data[0].documentos);
+          // console.log(data);
+        });
+        divNombre.innerHTML = '';
+        divNacimiento.innerHTML = '';
+        divTelefono.innerHTML = '';
+        divCurp.innerHTML = '';
+        divFolio.innerHTML = '';
+        divEstatus.innerHTML = '';
+        divImgAsistente.innerHTML = '';
+        divImgAsistenteActa.innerHTML = '';
+        divImgAsistenteConstancia.innerHTML = '';
   }
+
+}
+//FIN FUNCION MODAL

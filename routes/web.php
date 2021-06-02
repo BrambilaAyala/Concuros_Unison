@@ -57,7 +57,9 @@ Route::prefix('revisores')->group(function () {
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
 });
+Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData');
 
 Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');
+

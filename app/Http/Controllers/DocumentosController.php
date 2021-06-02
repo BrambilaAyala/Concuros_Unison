@@ -137,9 +137,7 @@ class DocumentosController extends Controller
         $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
         //nombra la imagen guardandola en el folder seleccionado 
         file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
-        if ($request->hasFile('foto_asistente')) {
-            
-        }
+        
         $extensiones = [
             //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
             'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
