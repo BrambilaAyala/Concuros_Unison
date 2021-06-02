@@ -17,7 +17,7 @@
                             <label for="curp" class="col-md-4 col-form-label text-md-right">{{ __('CURP') }}</label>
 
                             <div class="col-md-6">
-                                <input id="curp" type="text" class="form-control @error('curp') is-invalid @enderror"name="curp" value="{{ old('curp') }}" required autocomplete="curp" pattern="^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$" autofocus>
+                                <input id="curp" type="text" class="form-control @error('curp') is-invalid @enderror"name="curp" value="{{ old('curp') }}" required autocomplete="curp" pattern="^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$" autofocus placeholder="Clave Única de Registro de Población">
 
                                 @error('curp')
                                     <span class="invalid-feedback" role="alert">
@@ -45,7 +45,7 @@
                             <label for="escuela_origen" class="col-md-4 col-form-label text-md-right">{{ __('Escuela de origen') }}</label>
 
                             <div class="col-md-6">
-                                <input id="escuela_origen" type="text" class="form-control @error('escuela_origen') is-invalid @enderror"name="escuela_origen" value="{{ old('escuela_origen') }}" required autocomplete="escuela_origen" autofocus>
+                                <input id="escuela_origen" type="text" class="form-control @error('escuela_origen') is-invalid @enderror"name="escuela_origen" value="{{ old('escuela_origen') }}" required autocomplete="escuela_origen" autofocus placeholder="Escuela en la cual te encuentras estudiando">
 
                                 @error('escuela_origen')
                                     <span class="invalid-feedback" role="alert">
@@ -56,10 +56,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
+                            <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo_electronico" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono">
+                                <input id="correo_electronico" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" placeholder="Número telefónico" pattern="[0-9]{10}">
 
                                 @error('telefono')
                                     <span class="invalid-feedback" role="alert">
@@ -99,6 +99,7 @@
                             <div class="col-md-6">
                                 <input id="foto_asistente" type="file" class="form-control @error('foto_asistente') is-invalid @enderror" name="foto_asistente" id="foto_asistente" accept="image/png, image/jpeg" required>
                                 <input type="hidden" name="image_croped" id="image_croped" value="">
+                                <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                 @error('foto_asistente')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -112,6 +113,7 @@
 
                             <div class="col-md-6">
                                 <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" accept="image/png, image/jpeg" required>
+                                <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                 @error('acta_asistente')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -125,6 +127,7 @@
 
                             <div class="col-md-6">
                                 <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" accept="image/png, image/jpeg" required>
+                                <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                 @error('constancia_escuela')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -136,7 +139,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Empesar inscripcion') }}
+                                    {{ __('Empezar inscripción') }}
                                 </button>
                             </div>
                         </div>

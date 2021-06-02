@@ -25,6 +25,7 @@
                                         {{-- <input id="foto_asistente" type="file" class="form-control" name="foto_asistente" required autocomplete="foto_asistente"> --}}
                                         <input id="foto_asistente" type="file" class="form-control @error('foto_asistente') is-invalid @enderror" name="foto_asistente" id="foto_asistente" accept="image/png, image/jpeg" required>
                                         <input type="hidden" name="image_croped" id="image_croped" value="">
+                                        <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                         @error('foto_asistente')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -38,6 +39,7 @@
         
                                     <div class="col-md-6">
                                         <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" required accept="image/png, image/jpeg" autocomplete="acta_asistente">
+                                        <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                         @error('acta_asistente')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -51,6 +53,7 @@
         
                                     <div class="col-md-6">
                                         <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" accept="image/png, image/jpeg" required autocomplete="constancia_escuela">
+                                        <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
                                         @error('constancia_escuela')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

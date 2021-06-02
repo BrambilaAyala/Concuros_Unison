@@ -63,12 +63,12 @@
                         </div>
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Foto identificatoria:</label>
-                            <img src="/storage/{{$validacion->foto_asistente}}" style="height: 180px" alt="">
+                            <img src="/storage/{{$validacion->foto_asistente}}" alt="">
     
-                            <p><b>
-                                <input type="radio" name="fotoRechazo" value="" onchange="sholo('#textFoto','esconder', 'txt1')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','mostrar', 'txt1')"/>&nbsp;Rechazar
-                            </b></p>
+                            <p>
+                                <b style="color: green"><input type="radio" name="fotoRechazo" value="" onchange="sholo('#textFoto','esconder', 'txt1')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
+                                <b style="color: red"><input type="radio" name="fotoRechazo" value="Foto identificatoria" onchange="sholo('#textFoto','mostrar', 'txt1')"/>&nbsp;Rechazar</b>
+                            </p>
     
                             <div class="form-group" style="font-size: 20px; display:none;" id="textFoto">
                                 <textarea style="width: 100%" class="@error('textoFotoRechazo') is-invalid @enderror" name="textoFotoRechazo" id="txt1" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoFotoRechazo') }}</textarea>
@@ -84,12 +84,12 @@
     
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Acta de nacimiento:</label>
-                            <img src="/storage/{{$validacion->acta_asistente}}" style="height: 600px" alt="">
+                            <img src="/storage/{{$validacion->acta_asistente}}" alt="">
     
-                            <p><b>
-                                <input type="radio" name="actaRechazo" value="" onchange="sholo('#textActa','esconder', 'txt2')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','mostrar', 'txt2')"/>&nbsp;Rechazar
-                            </b></p>
+                            <p>
+                                <b style="color: green"><input type="radio" name="actaRechazo" value="" onchange="sholo('#textActa','esconder', 'txt2')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
+                                <b style="color: red"><input type="radio" name="actaRechazo" value="Acta de nacimiento" onchange="sholo('#textActa','mostrar', 'txt2')"/>&nbsp;Rechazar</b>
+                            </p>
     
                             <div class="form-group" style="font-size: 20px; display: none;" id="textActa">
                                 <textarea style="width: 100%" class="@error('textoActaRechazo') is-invalid @enderror" name="textoActaRechazo" id="txt2" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoActaRechazo') }}</textarea>
@@ -105,12 +105,12 @@
     
                         <div class="form-group" style="font-size: 20px">
                             <label class="col-md-2 col-form-label text-md-left" for="">Constancia escolar:</label>
-                            <img src="/storage/{{$validacion->constancia_escuela}}" style="height: 600px" alt="">
+                            <img src="/storage/{{$validacion->constancia_escuela}}" alt="">
     
-                            <p><b>
-                                <input type="radio" name="constanciaRechazo" value="" onchange="sholo('#textConstancia','esconder', 'txt3')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar', 'txt3')"/>&nbsp;Rechazar
-                            </b></p>
+                            <p>
+                                <b style="color: green"><input type="radio" name="constanciaRechazo" value="" onchange="sholo('#textConstancia','esconder', 'txt3')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
+                                <b style="color: red"><input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar', 'txt3')"/>&nbsp;Rechazar</b>
+                            </b>
     
                             <div class="form-group" style="font-size: 20px; display: none;" id="textConstancia">
                                 <textarea style="width: 100%" class="@error('textoConstanciaRechazo') is-invalid @enderror" name="textoConstanciaRechazo" id="txt3" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoConstanciaRechazo') }}</textarea>

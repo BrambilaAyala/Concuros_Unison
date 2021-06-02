@@ -2,7 +2,8 @@
 
 @section('content')
 @php
-    // dd(Auth::user()->documentos->validaciones()->latest()->first()->estado);
+    //dd(Auth::user()->documentos->validaciones()->latest()->first());
+    //dd(Auth::user()->concursos()->get()->all());
 @endphp
     <div class="container">
         <div class="justify-content-center">
@@ -15,16 +16,16 @@
                     <label for=""><b>Estatus de la inscripción</b></label>
                     @if (Auth::user()->documentos)
                         @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Rechazado")
-                            <span class="badge badge-danger">Rechazado</span>
+                            <span class="badge badge-danger">Reenvio</span>
                         @endif
                         @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Espera")
-                            <span class="badge badge-secondary">En proceso</span>
+                            <span class="badge badge-secondary">Revisión</span>
                         @endif
                         @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Aprobado")
                             <span class="badge badge-success">Inscrito</span>
                         @endif
                     @else
-                        <span class="badge badge-dark">Aún no se han subido los archivos requeridos</span>
+                        <span class="badge badge-dark">Enviando</span>
                     @endif
                 </div>
                 <div style="font-size: 20px">
@@ -43,13 +44,48 @@
                     <label class="col-md-3 col-form-label text-md-left" for="">Correo utilizado: </label>
                     <label for="">{{Auth::user()->correo_electronico}}</label>
                 </div>
-{{--                 <div style="font-size: 20px">
-                    <label class="col-md-3 col-form-label text-md-left" for="">Congreso/s registrados:</label>
-                    <label for=""> {{Auth::user()->}}</label>
-                </div> --}}
-                {{-- <div style="font-size: 20px">
-                    <button class="btn btn-primary" style="float: right;" type="submit">Editar información de acceso</button>
-                </div> --}}
+                @if (Auth::user()->documentos)
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">CURP:</label>
+                        <label for=""> {{Auth::user()->curp}}</label>
+                    </div>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Fecha de nacimiento:</label>
+                        <label for=""> {{Auth::user()->fecha_nacimiento}}</label>
+                    </div>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Escuela de origen:</label>
+                        <label for=""> {{Auth::user()->escuela_origen}}</label>
+                    </div>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Teléfono:</label>
+                        <label for=""> {{Auth::user()->telefono}}</label>
+                    </div>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Concurso/s:</label>
+                        <label for="">
+                            @foreach (Auth::user()->concursos()->get()->all() as $concurso)
+                                {{ $concurso->nombre }},
+                            @endforeach
+                        </label>
+                    </div>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Foto:</label>
+                        <img src="/storage/{{ Auth::user()->documentos->foto_asistente }}" alt="">
+                    </div>
+                    <br>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Acta de nacimiento:</label>
+                        <img src="/storage/{{ Auth::user()->documentos->acta_asistente }}" alt="">
+                    </div>
+                    <br>
+                    <div style="font-size: 20px">
+                        <label class="col-md-3 col-form-label text-md-left" for="">Constancia escolar:</label>
+                        <img src="/storage/{{ Auth::user()->documentos->constancia_escuela }}" alt="">
+                    </div>
+
+                @endif
+
             </div>
         </div>
 
@@ -81,10 +117,10 @@
                     <label class="col-md-12 col-form-label text-md-center" for="">Foto identificatoria</label>
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-12 col-form-label text-md-center" for="">Acta de nacimiento</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Foto Acta de nacimiento</label>
                 </div>
                 <div style="font-size: 20px">
-                    <label class="col-md-12 col-form-label text-md-center" for="">Constancia escolar</label>
+                    <label class="col-md-12 col-form-label text-md-center" for="">Foto Constancia escolar</label>
                 </div>
                 <br>
                 <table class="table tabla-cursos">
@@ -123,28 +159,25 @@
                             {{ __('Estado de los documentos proporcionados') }}
                         </div>
                     </div>
-                    <div class="card-body" style="overflow: hidden;">
-                        <div style="font-size: 20px">
+                    <div class="card-body" style="overflow: hidden; font-size: 20px;">
+                        <p>A continuacion se te mostraran los archivos que se te rechazaron y su razon de rechazo.</p>
+                        <p><b>{{ Auth::user()->documentos->validaciones()->latest()->first()->doc_rechazado }}</b></p>
+                        <pre>{{ Auth::user()->documentos->validaciones()->latest()->first()->comentario }}</pre>
+{{--                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Foto identificatoria</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
                         </div>
                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
                         </div>
                         <div style="font-size: 20px">
                             <label class="col-md-6 col-form-label text-md-center" for="">Constancia escolar</label>
                             <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-secondary">En proceso</span>
                             <span class="badge badge-danger">Rechazado</span>
-                            <span class="badge badge-dark">Sin subir</span>
-                        </div>
+                        </div> --}}
                         <div style="font-size: 20px">
                             @csrf
                             <a class="btn btn-primary" href="{{route('asistentes.rechazado')}}" style="float: right;" type="submit">Editar documento/s rechazado/s</a>

@@ -8,6 +8,7 @@ use App\Validaciones;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\Cast\String_;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -114,6 +115,11 @@ class ValidacionesController extends Controller
         $alumnos_aprobados_folio = "".$cantidad_alumnos_aprobados;
         $fecha_actual = $fecha_actual->setTimezone('GMT-7')->format('d_M_Y , g:ia');
 
+        $concursos = "";
+        foreach ($asistente->concursos()->get() as $concursos_id) {
+            $concursos .= $concursos_id->nombre . ", ";
+        }
+
         if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
             //dd('aprobado');
             $validacion->estado = "Aprobado";
@@ -130,6 +136,20 @@ class ValidacionesController extends Controller
             $asistente->folio = $folio;
 
             $asistente->save();
+
+            //dd($concursos);
+            $data = [
+                "nombre" => $asistente->nombre, 
+                "apellido_paterno" => $asistente->apellido_paterno, 
+                "apellido_materno" => $asistente->apellido_materno, 
+                "correo_electronico" => $asistente->correo_electronico, 
+                "estado" => $validacion->estado,
+                "concursos" => $concursos,
+            ];
+            Mail::send('vendor.notifications.email_aprobado', $data, function($message) use ($data) {
+                $message->to($data['correo_electronico'], $data['nombre'])->subject('Actualización de Concurso Regional de Física y Matemáticas');
+            });
+
         }else{
             
             $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
@@ -158,6 +178,22 @@ class ValidacionesController extends Controller
             $validacion->doc_rechazado = $doc_rechazo;
             $validacion->estado = "Rechazado";
             //dd('rechazo');
+
+            //dd($validacion);
+            $data = [
+                "nombre" => $asistente->nombre, 
+                "apellido_paterno" => $asistente->apellido_paterno, 
+                "apellido_materno" => $asistente->apellido_materno, 
+                "correo_electronico" => $asistente->correo_electronico, 
+                "estado" => $validacion->estado, 
+                "doc_rechazado" => $validacion->doc_rechazado, 
+                "comentario" => $validacion->comentario,
+                "concursos" => $concursos,
+            ];
+            Mail::send('vendor.notifications.email_rechazado', $data, function($message) use ($data) {
+                $message->to($data['correo_electronico'], $data['nombre'])->subject('Actualización de Concurso Regional de Física y Matemáticas');
+            });
+            //dd("dd");
         }
 
         $validacion->fecha_validacion = $fecha_actual;
