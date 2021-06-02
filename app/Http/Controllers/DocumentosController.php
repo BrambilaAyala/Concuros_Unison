@@ -127,19 +127,6 @@ class DocumentosController extends Controller
         // dd($documentos);
         $validacion = new Validaciones();
 
-<<<<<<< HEAD
-        //Desarma la informacion obtenida de la imagen recortada
-        $data = $request->image_croped;
-        $image_array_1 = explode(";", $data);
-        $image_array_2 = explode(",", $image_array_1[1]);
-        //crea la imagen apartir del codigo desarmado
-        $data = base64_decode($image_array_2[1]);
-        //crea el nombre de la imagen
-        $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
-        //nombra la imagen guardandola en el folder seleccionado 
-        file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
-        
-=======
         if ($request->hasFile('foto_asistente')) {
             //Desarma la informacion obtenida de la imagen recortada
             $data = $request->image_croped;
@@ -153,7 +140,6 @@ class DocumentosController extends Controller
             file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
         }
 
->>>>>>> 53fb19418d76a0dedeae2c4fbe6d616bdf8360d8
         $extensiones = [
             //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
             'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
