@@ -40,7 +40,9 @@ class RevisoresController extends Controller
 
     public function listaAsistentes()
     {
-        $asistentes = Asistente::with('documentos')->has('documentos')->get();
+        // $asistentes = Asistente::with('documentos')->has('documentos')->get(); ASISNTENTE CON DOCUMENTOS
+
+
         // $asistentes = Asistente::join('documentos','asistentes.id', '=', 'documentos.id_asistente')
         // ->orderBy('nombre')->latest('documentos.created_at')->get();
         // collect($asistentes);
@@ -51,6 +53,7 @@ class RevisoresController extends Controller
         // }
         // $asistentes = $asistentes->unique('nombre')->values()->all();
         // dd($asistentes);
+        $asistentes = Asistente::all();
         
         
         return view('revisor.listaAsistentes',compact('asistentes'));
@@ -145,13 +148,21 @@ class RevisoresController extends Controller
         
         $userData = Asistente::findOrFail($id);
         // dump($userData->documentos->validaciones->last());
-        $userStatus = $userData->documentos->validaciones->last();
+        if ($userData->documentos()->exists()) {
+            $userStatus = $userData->documentos->validaciones->last();
+            $data = array($userData, $userStatus);
+        }else{
+            $inscrito = false;
+            $data = array($userData, $inscrito);
+        }
+        
+        
         
         // $userPhoto= $userData->documentos->foto_asistente;
         // $userCertificate= $userData->documentos->acta_asistente;
         // $userSchool= $userData->documentos->constancia_escuela;
         
-        $data = array($userData, $userStatus);
+        
         return json_encode($data);
     }
 

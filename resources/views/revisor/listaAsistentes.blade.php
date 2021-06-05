@@ -39,9 +39,10 @@
                       </tr>
                     </thead>
                     <tbody id="listaTabla">
-                      {{-- @php
-                          dd($asistentes[0]->documentos->validaciones->last());
-                      @endphp --}}
+                      @php
+                          // dd($asistentes[0]->documentos->validaciones->last());
+                          // dd($asistentes[1]->documentos()->exists());
+                      @endphp
                       @foreach ($asistentes as $key => $asistente)
                       
                         <tr id='tablaTR'>
@@ -58,26 +59,36 @@
                             {{-- 
                               Codigo para concatenar los concursos inscrito del alumno  
                             --}}
-                            @php
+                            @if ($asistente->documentos()->exists())
+                              @php
+                                  
+                                $arrayConcursos = Array();
+                                for($i = 0 ; $i <  count($asistente->concursos) ; $i++){
+                                  $arrayConcursos[] = $asistente->concursos[$i]->nombre ;
+                                  
+                                }
+                                $concursos = implode(", ",$arrayConcursos);
+                              @endphp
+                              {{-- 
+                                FIN CODIGO
+                              --}}
+                              <td><p>{{$concursos}}</p></td>
+                              @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
+                                <td><p>En revisión</p></td>
+                              @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
+                                <td><p>Renvío</p></td>
+                              @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
+                                <td><p>Inscrito</p></td>
+                              @endif
+                            
+                            @else
+                              <td><p>Sin cursos inscrito</p></td>
                               
-                              $concursos = Array();
-                              for($i = 0 ; $i <  count($asistente->concursos) ; $i++){
-                                $concursos[] = $asistente->concursos[$i]->nombre ;
-                                
-                              }
-                              $resultado = implode(", ",$concursos);
-                            @endphp
-                            {{-- 
-                              FIN CODIGO
-                            --}}
-                            <td><p>{{$resultado}}</p></td>
-                            @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
-                              <td><p>En revisión</p></td>
-                            @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
-                              <td><p>Renvío</p></td>
-                            @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
-                              <td><p>Inscrito</p></td>
+                              <td><p>Enviando</p></td>
+                             
+                            
                             @endif
+                            
                             
                             <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
@@ -114,21 +125,21 @@
         {{-- SE LLENA CON JS EN ADMIN.JS --}}
         <label for="divNombre">Nombre </label>
         <div id="divNombre"></div>
-        <label for="divNacimiento">Fecha de Nacimiento</label>
+        <label for="divNacimiento" id="fNacimiento">Fecha de Nacimiento</label>
         <div id="divNacimiento"></div>
-        <label for="divTelefono">Telefono</label>
+        <label for="divTelefono" id="telefono">Telefono</label>
         <div id="divTelefono"></div>
-        <label for="divCurp">CURP</label>
+        <label for="divCurp" id="curp">CURP</label>
         <div id="divCurp"></div>
         <label for="divFolio">Número de Folio</label>
         <div id="divFolio"></div>
         <label for="divEstatus">Estatus</label>
         <div id="divEstatus"></div>
-        <label for="divImgAsistente">Foto identificatoria</label>
+        <label for="divImgAsistente" id="identificacion">Foto identificatoria</label>
         <div id="divImgAsistente"></div>
-        <label for="divImgAsistenteActa">Acta de nacimiento</label>
+        <label for="divImgAsistenteActa" id="acta">Acta de nacimiento</label>
         <div id="divImgAsistenteActa"></div>
-        <label for="divImgAsistenteConstancia">Constancia escolar</label>
+        <label for="divImgAsistenteConstancia" id="constancia">Constancia escolar</label>
         <div id="divImgAsistenteConstancia"></div>
         {{-- FIN --}}
         

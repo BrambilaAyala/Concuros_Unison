@@ -78,6 +78,12 @@ window.onload = function(){
   let divImgAsistente = document.getElementById('divImgAsistente');
   let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
   let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
+  let labelNacimiento = document.getElementById('fNacimiento');
+  let labelTelefono = document.getElementById('telefono');
+  let labelCurp = document.getElementById('curp');
+  let labelIdentificacion = document.getElementById('identificacion');
+  let labelActa = document.getElementById('acta');
+  let labelConstancia = document.getElementById('constancia');
   botonesInfo.forEach(botonInfo => {
     botonInfo.addEventListener('click', cargarInfoBoton);
   });
@@ -88,6 +94,7 @@ window.onload = function(){
     fetch(`/wsgetuserdata/${valor}`)
         .then(response => response.json())
         .then(data => {
+          // console.log(data[1]);
           let pNombreCompleto = document.createElement('p'), pCurp = document.createElement('p');
           let pNacimiento = document.createElement('p'), pTelefono = document.createElement('p');
           let pFolio = document.createElement('p'), pEstatus = document.createElement('p');
@@ -100,25 +107,47 @@ window.onload = function(){
           pTelefono.innerText = `${data[0].telefono}`;
           pCurp.innerText = `${data[0].curp}`;
           data[0].folio ? pFolio.innerText = `${data[0].folio}` : pFolio.innerText = 'Alumno sin número de folio';
-          if (data[1].estado == 'Espera') {
-            pEstatus.innerText = `En revisión`;
-          }else if(data[1].estado == 'Rechazado'){
-            pEstatus.innerText = `Renvío`;
+          
+          if (data[1]) {
+            if (data[1].estado == 'Espera') {
+              pEstatus.innerText = `En revisión`;
+            }else if(data[1].estado == 'Rechazado'){
+              pEstatus.innerText = `Renvío`;
+            }else{
+              pEstatus.innerText = `Inscrito`;
+            } 
+            labelNacimiento.style.display = '';
+            labelTelefono.style.display = '';
+            labelCurp.style.display = '';
+            labelIdentificacion.style.display = '';
+            labelActa.style.display = '';
+            labelConstancia.style.display = '';
+            containerImgAsistente.src = `/storage/${data[0].documentos.foto_asistente}`;
+            containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
+            containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
+            divNombre.appendChild(pNombreCompleto);
+            divNacimiento.appendChild(pNacimiento);
+            divTelefono.appendChild(pTelefono);
+            divCurp.appendChild(pCurp);
+            divFolio.appendChild(pFolio);
+            divEstatus.appendChild(pEstatus);
+            divImgAsistente.appendChild(containerImgAsistente);
+            divImgAsistenteActa.appendChild(containerImgAsistenteActa);
+            divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
           }else{
-            pEstatus.innerText = `Inscrito`;
-          }   
-          containerImgAsistente.src = `/storage/${data[0].documentos.foto_asistente}`;
-          containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
-          containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
-          divNombre.appendChild(pNombreCompleto);
-          divNacimiento.appendChild(pNacimiento);
-          divTelefono.appendChild(pTelefono);
-          divCurp.appendChild(pCurp);
-          divFolio.appendChild(pFolio);
-          divEstatus.appendChild(pEstatus);
-          divImgAsistente.appendChild(containerImgAsistente);
-          divImgAsistenteActa.appendChild(containerImgAsistenteActa);
-          divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
+            divNombre.appendChild(pNombreCompleto);
+            divFolio.appendChild(pFolio);
+            pEstatus.innerText = `Enviando`;
+            divEstatus.appendChild(pEstatus);
+            labelNacimiento.style = 'display:none;'
+            labelTelefono.style = 'display:none;'
+            labelCurp.style = 'display:none;'
+            labelIdentificacion.style = 'display:none;'
+            labelActa.style = 'display:none;'
+            labelConstancia.style = 'display:none;'
+            
+          }
+          
           // console.log(data[0].documentos);
           // console.log(data);
         });
