@@ -147,7 +147,7 @@ class ValidacionesController extends Controller
                 "concursos" => $concursos,
             ];
             Mail::send('vendor.notifications.email_aprobado', $data, function($message) use ($data) {
-                $message->to($data['correo_electronico'], $data['nombre'])->subject('Actualización de Concurso Regional de Física y Matemáticas');
+                $message->to($data['correo_electronico'], $data['nombre'])->bcc("")->subject('Actualización de Concurso Regional de Física y Matemáticas');
             });
 
         }else{
@@ -191,7 +191,7 @@ class ValidacionesController extends Controller
                 "concursos" => $concursos,
             ];
             Mail::send('vendor.notifications.email_rechazado', $data, function($message) use ($data) {
-                $message->to($data['correo_electronico'], $data['nombre'])->subject('Actualización de Concurso Regional de Física y Matemáticas');
+                $message->to($data['correo_electronico'], $data['nombre'])->bcc("")->subject('Actualización de Concurso Regional de Física y Matemáticas');
             });
             //dd("dd");
         }
