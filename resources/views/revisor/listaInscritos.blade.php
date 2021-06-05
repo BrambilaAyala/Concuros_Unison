@@ -13,7 +13,10 @@
         </div>
     </div>
     <!-- /.content-header -->
-
+    {{-- @php
+        // dd($asistentesInscritos[0]->documentos->validaciones->last()->estado =='Aprobado');
+        dd(isset($asistentesInscritos[0]->documentos->validaciones));
+    @endphp --}}
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -37,13 +40,28 @@
                     </thead>
                     <tbody>
                       @foreach ($asistentesInscritos as $asistenteInscrito)
-                        <tr id='tablaTR'>
-                          <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
-                          {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
-                          <td><p>{{$asistenteInscrito->folio}}</p></td>
-                          <td><p>{{$asistenteInscrito->nombre_concurso}}</p></td>
+                        @if (isset($asistenteInscrito->documentos->validaciones))
+                          @if ($asistenteInscrito->documentos->validaciones->last()->estado == 'Aprobado')
+                            @php
+                                  
+                              $arrayConcursos = Array();
+                              for($i = 0 ; $i <  count($asistenteInscrito->concursos) ; $i++){
+                                $arrayConcursos[] = $asistenteInscrito->concursos[$i]->nombre ;
+                                
+                              }
+                              $concursos = implode(", ",$arrayConcursos);
+                            @endphp
+                            <tr id='tablaTR'>
+                              <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
+                              {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
+                              <td><p>{{$asistenteInscrito->folio}}</p></td>
+                              <td><p>{{$concursos}}</p></td>
+                              
+                            </tr>
+                          @endif
                           
-                        </tr>
+                        @endif
+                        
                       @endforeach
                       
                     </tbody>

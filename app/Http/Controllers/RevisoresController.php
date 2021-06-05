@@ -64,16 +64,17 @@ class RevisoresController extends Controller
         /**
          * 
          */
-        $asistentesInscritos = DB::table('asistentes')
-            ->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
-            ->join('validaciones', function($join){
-                $join->on('documentos.id', '=', 'validaciones.id_documento' )
-                        ->where('validaciones.estado', '=', 'Aprobado');
-            })
-            ->join('concursos','asistentes.id', '=','concursos.id')
-            ->select('asistentes.*', 'validaciones.estado','documentos.fecha_creacion','concursos.nombre as nombre_concurso')
-            ->orderBy('nombre_concurso')->orderBy('asistentes.folio')
-            ->get();
+        // $asistentesInscritos = DB::table('asistentes')
+        //     ->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
+        //     ->join('validaciones', function($join){
+        //         $join->on('documentos.id', '=', 'validaciones.id_documento' )
+        //                 ->where('validaciones.estado', '=', 'Aprobado');
+        //     })
+        //     ->join('concursos','asistentes.id', '=','concursos.id')
+        //     ->select('asistentes.*', 'validaciones.estado','documentos.fecha_creacion','concursos.nombre as nombre_concurso')
+        //     ->orderBy('nombre_concurso')->orderBy('asistentes.folio')
+        //     ->get();
+        $asistentesInscritos = Asistente::all();
 
         return view('revisor.listaInscritos', compact('asistentesInscritos'));
     }
