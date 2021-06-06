@@ -83,8 +83,8 @@ class DocumentosController extends Controller
         
         /* $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']); */
         $documentos->foto_asistente = "fotos-de-asistentes/$imageName";
-        $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']);
-        $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']);
+        $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public');
+        $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela'],'public');
         $documentos->fecha_creacion = $fecha_creacion;
 
         //dd($documentos);
@@ -149,9 +149,9 @@ class DocumentosController extends Controller
         ];
         
         //$documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
-        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
-        $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']) : '';
-        $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']) : '';
+         $documentos->foto_asistente = "fotos-de-asistentes/$imageName" ;
+        $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('public/actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']) ;
+         $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('public/constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']) ;
         $documentos->fecha_creacion = $fecha_creacion;
         // dd($request->all());
         if ($request->input('concurso') !=null) {
