@@ -56,8 +56,10 @@
                               {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
                               <td><p>{{$asistenteInscrito->folio}}</p></td>
                               <td><p>{{$concursos}}</p></td>
-                              
+                              <td><button value="{{$asistenteInscrito->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             </tr>
+
+                            
                           @endif
                           
                         @endif
@@ -71,5 +73,53 @@
         </div>
     </div>
 
+        <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Datos de alumno</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        {{-- SE LLENA CON JS EN ADMIN.JS --}}
+        <label for="divNombre">Nombre </label>
+        <div id="divNombre"></div>
+        <label for="divNacimiento" id="fNacimiento">Fecha de Nacimiento</label>
+        <div id="divNacimiento"></div>
+        <label for="divEscuela" id="escuela">Escuela</label>
+        <div id="divEscuela"></div>
+        <label for="divCorreo" id="correo">Correo electronico</label>
+        <div id="divCorreo"></div>
+        <label for="divTelefono" id="telefono">Telefono</label>
+        <div id="divTelefono"></div>
+        <label for="divCurp" id="curp">CURP</label>
+        <div id="divCurp"></div>
+        <label for="divFolio">Número de Folio</label>
+        <div id="divFolio"></div>
+        <label for="divConcursos" id="concursos">Concursos</label>
+        <div id="divConcursos">
+          
+        </div>
+        <label for="divEstatus">Estatus</label>
+        <div id="divEstatus"></div>
+        <label for="divImgAsistente" id="identificacion">Foto identificatoria</label>
+        <div id="divImgAsistente"></div>
+        <label for="divImgAsistenteActa" id="acta">Acta de nacimiento</label>
+        <div id="divImgAsistenteActa"></div>
+        <label for="divImgAsistenteConstancia" id="constancia">Constancia escolar</label>
+        <div id="divImgAsistenteConstancia"></div>
+        {{-- FIN --}}
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar ventana</button>
+        {{-- <button type="button" class="btn btn-primary">Understood</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 <script src="{{asset('js/admin.js')}}"></script>

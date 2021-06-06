@@ -18,8 +18,8 @@
                         @csrf
                         @method("PUT")
                         <input type="hidden" name="doc" value="{{Auth::user()->documentos->id}}">
-                        <div class="form-group row">
-                            <div>
+                        <div class="form-group">
+                            <div style="text-align: center;">
                                 <h2>Actualmente estas inscrito a los cursos:</h2>
                                 @foreach (Auth::user()->concursos as $concurso)
                                     <ul>
@@ -27,7 +27,7 @@
                                             {{$concurso->nombre}}
                                         </li>
                                         
-                                    </ul></p>
+                                    </ul>
                                 @endforeach
                             </div>
                             <table class="table table-hover tabla-cursos">
