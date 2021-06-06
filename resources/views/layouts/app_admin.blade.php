@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SICRFyM - Admin</title>
+    <title>SICREFyM - Admin</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/css/admin/all.min.css">
