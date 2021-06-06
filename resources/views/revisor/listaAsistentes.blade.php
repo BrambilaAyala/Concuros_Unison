@@ -40,7 +40,7 @@
                     </thead>
                     <tbody id="listaTabla">
                       @php
-                          // dd($asistentes[0]->documentos->validaciones->last());
+                          // dd($asistentes[3]->documentos->validaciones->last());
                           // dd($asistentes[1]->documentos()->exists());
                       @endphp
                       @foreach ($asistentes as $key => $asistente)

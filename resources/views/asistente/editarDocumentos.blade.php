@@ -8,14 +8,50 @@
                 <div class="container container-h-secundario">
                     <div class="card-header h-secundario">{{ __('Resubida de documentos rechazados.') }}</div>
                 </div>
-                {{-- @php
-                    dd($cabecera['documentos_rechazados']);
-                @endphp --}}
+                @php
+                    // dd($cabecera['documentos_rechazados']);
+                    // dd(Auth::user()->concursos);
+                @endphp
                 <div class="card-body">
+                    
                     <form method="POST" id="" action="{{route('asistentes.actualizarRechazados', Auth::user()->id)}}" enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
                         <input type="hidden" name="doc" value="{{Auth::user()->documentos->id}}">
+                        <div class="form-group row">
+                            <div>
+                                <h2>Actualmente estas inscrito a los cursos:</h2>
+                                @foreach (Auth::user()->concursos as $concurso)
+                                    <ul>
+                                        <li>
+                                            {{$concurso->nombre}}
+                                        </li>
+                                        
+                                    </ul></p>
+                                @endforeach
+                            </div>
+                            <table class="table table-hover tabla-cursos">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col" colspan="3">Si gustas cambiar de concursos, favor de seleccionarlo/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td>Concurso Regional de Física</td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[0]" value="1" {{Auth::user()->documentos->id}}></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Concurso Regional de Matemáticas</td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[1]" value="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Preselectivo para la Olimpiada Nacional de Fisíca</td>
+                                        <td><input type="checkbox" aria-label="" name="concurso[2]" value="3" ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         @foreach ($cabecera['documentos_rechazados'] as $item)
                             @if ($item == 'Foto identificatoria')
                                 <div class="form-group row">

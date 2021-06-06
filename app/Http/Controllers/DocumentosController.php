@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asistente as Asistente;
+use App\Concursos;
 use App\Documentos;
 use App\Validaciones;
 use Carbon\Carbon;
@@ -62,7 +63,6 @@ class DocumentosController extends Controller
         $fecha_creacion = Carbon::now()->setTimezone('GMT-7')->format('d_M_Y , g:ia');
         $asistente = Asistente::findOrFail($asistente->id);
         $documentos = new Documentos();
-        $validacion = new Validaciones();
 
         //Desarma la informacion obtenida de la imagen recortada
         $data = $request->image_croped;
@@ -100,6 +100,7 @@ class DocumentosController extends Controller
     }
     
     public function actualizarDocumentosRechazados(Request $request, Asistente $asistente){
+        
         $val = Validator::make($request->all(),[
             'image_croped' => ['sometimes', 'min:5000'],
             'foto_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
@@ -119,6 +120,7 @@ class DocumentosController extends Controller
          * se llama a la funcion store del controlador DocumentosController.
          */
         // dd($request->input('doc'));
+        
         $fecha_actual = Carbon::now();
         $fecha_actual->setTimezone('GMT-7');
         $fecha_creacion = Carbon::now()->setTimezone('GMT-7')->format('d_M_Y , g:ia');
@@ -151,6 +153,14 @@ class DocumentosController extends Controller
         $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente']) : '';
         $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela']) : '';
         $documentos->fecha_creacion = $fecha_creacion;
+        // dd($request->all());
+        if ($request->input('concurso') !=null) {
+            $idConcursos= $request->input('concurso');
+            $concursos = Concursos::findOrFail($idConcursos);
+            // dd('entro a cursos');
+            $asistente->concursos()->sync($concursos);
+        }
+        // dd('hola');
         $asistente->documentos()->save($documentos);
         $documentos->validaciones()->create([$documentos->id]);
         $documentos->save();
