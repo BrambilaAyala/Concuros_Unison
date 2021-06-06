@@ -30,7 +30,7 @@
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
 			<a href="{{route('revisores.index')}}" class="brand-link">
-				<span class="brand-text font-weight-light" >SICRFyM Admin</span>
+				<span class="brand-text font-weight-light" >SICREFyM Admin</span>
 			</a>
 
 			<!-- Sidebar -->
