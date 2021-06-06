@@ -151,7 +151,9 @@ class RevisoresController extends Controller
         // dump($userData->documentos->validaciones->last());
         if ($userData->documentos()->exists()) {
             $userStatus = $userData->documentos->validaciones->last();
-            $data = array($userData, $userStatus);
+            $userCourses = $userData->concursos;
+            // dump(gettype($userCourses));
+            $data = array($userData, $userStatus,$userCourses);
         }else{
             $inscrito = false;
             $data = array($userData, $inscrito);

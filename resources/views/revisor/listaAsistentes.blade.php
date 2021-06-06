@@ -127,12 +127,20 @@
         <div id="divNombre"></div>
         <label for="divNacimiento" id="fNacimiento">Fecha de Nacimiento</label>
         <div id="divNacimiento"></div>
+        <label for="divEscuela" id="escuela">Escuela</label>
+        <div id="divEscuela"></div>
+        <label for="divCorreo" id="correo">Correo electronico</label>
+        <div id="divCorreo"></div>
         <label for="divTelefono" id="telefono">Telefono</label>
         <div id="divTelefono"></div>
         <label for="divCurp" id="curp">CURP</label>
         <div id="divCurp"></div>
         <label for="divFolio">Número de Folio</label>
         <div id="divFolio"></div>
+        <label for="divConcursos" id="concursos">Concursos</label>
+        <div id="divConcursos">
+          
+        </div>
         <label for="divEstatus">Estatus</label>
         <div id="divEstatus"></div>
         <label for="divImgAsistente" id="identificacion">Foto identificatoria</label>

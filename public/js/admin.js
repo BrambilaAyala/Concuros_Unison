@@ -71,9 +71,13 @@ window.onload = function(){
   let botonesInfo = document.querySelectorAll('.botonInfo');
   let divNombre = document.getElementById('divNombre');
   let divNacimiento = document.getElementById('divNacimiento');
+  let divEscuela = document.getElementById('divEscuela');
+  let divCorreo = document.getElementById('divCorreo');
   let divTelefono = document.getElementById('divTelefono');
   let divCurp = document.getElementById('divCurp');
   let divFolio = document.getElementById('divFolio');
+  // let ulConcursos = document.getElementById('ulConcursos');
+  let divConcursos = document.getElementById('divConcursos');
   let divEstatus = document.getElementById('divEstatus');
   let divImgAsistente = document.getElementById('divImgAsistente');
   let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
@@ -84,6 +88,9 @@ window.onload = function(){
   let labelIdentificacion = document.getElementById('identificacion');
   let labelActa = document.getElementById('acta');
   let labelConstancia = document.getElementById('constancia');
+  let labelEscuela = document.getElementById('escuela');
+  let labelCorreo = document.getElementById('correo');
+  let labelConcursos = document.getElementById('concursos');
   botonesInfo.forEach(botonInfo => {
     botonInfo.addEventListener('click', cargarInfoBoton);
   });
@@ -98,14 +105,19 @@ window.onload = function(){
           let pNombreCompleto = document.createElement('p'), pCurp = document.createElement('p');
           let pNacimiento = document.createElement('p'), pTelefono = document.createElement('p');
           let pFolio = document.createElement('p'), pEstatus = document.createElement('p');
+          let pEscuela = document.createElement('p'), pCorreo = document.createElement('p');
+          let liConcursos , ulConcursos = document.createElement('ul'), item;
           containerImgAsistente = document.createElement('img');
           containerImgAsistenteActa = document.createElement('img');
           containerImgAsistenteConstancia = document.createElement('img');
-          
+          // console.log(data[2].length);
           pNombreCompleto.innerText = `${data[0].nombre} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
           pNacimiento.innerText = `${data[0].fecha_nacimiento}`;
+          pCorreo.innerText = `${data[0].correo_electronico}`;
+          pEscuela.innerText = `${data[0].escuela_origen}`;
           pTelefono.innerText = `${data[0].telefono}`;
           pCurp.innerText = `${data[0].curp}`;
+          
           data[0].folio ? pFolio.innerText = `${data[0].folio}` : pFolio.innerText = 'Alumno sin número de folio';
           
           if (data[1]) {
@@ -116,9 +128,19 @@ window.onload = function(){
             }else{
               pEstatus.innerText = `Inscrito`;
             } 
+            for (let i = 0; i < data[2].length; i++) {
+              // console.log(data[2][i].nombre);
+              liConcursos = document.createElement('li')
+              liConcursos.appendChild(document.createTextNode(data[2][i].nombre));
+              ulConcursos.appendChild(liConcursos);
+              
+            }
             labelNacimiento.style.display = '';
             labelTelefono.style.display = '';
+            labelEscuela.style.display = '';
+            labelCorreo.style.display = '';
             labelCurp.style.display = '';
+            labelConcursos.style = ''
             labelIdentificacion.style.display = '';
             labelActa.style.display = '';
             labelConstancia.style.display = '';
@@ -127,9 +149,12 @@ window.onload = function(){
             containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
             divNombre.appendChild(pNombreCompleto);
             divNacimiento.appendChild(pNacimiento);
+            divEscuela.appendChild(pEscuela);
+            divCorreo.appendChild(pCorreo);
             divTelefono.appendChild(pTelefono);
             divCurp.appendChild(pCurp);
             divFolio.appendChild(pFolio);
+            divConcursos.appendChild(ulConcursos);
             divEstatus.appendChild(pEstatus);
             divImgAsistente.appendChild(containerImgAsistente);
             divImgAsistenteActa.appendChild(containerImgAsistenteActa);
@@ -140,8 +165,11 @@ window.onload = function(){
             pEstatus.innerText = `Enviando`;
             divEstatus.appendChild(pEstatus);
             labelNacimiento.style = 'display:none;'
+            labelEscuela.style = 'display:none;'
+            labelCorreo.style = 'display:none;'
             labelTelefono.style = 'display:none;'
             labelCurp.style = 'display:none;'
+            labelConcursos.style = 'display:none;'
             labelIdentificacion.style = 'display:none;'
             labelActa.style = 'display:none;'
             labelConstancia.style = 'display:none;'
@@ -154,7 +182,10 @@ window.onload = function(){
         divNombre.innerHTML = '';
         divNacimiento.innerHTML = '';
         divTelefono.innerHTML = '';
+        divEscuela.innerHTML = '';
+        divCorreo.innerHTML = '';
         divCurp.innerHTML = '';
+        divConcursos.innerHTML = '';
         divFolio.innerHTML = '';
         divEstatus.innerHTML = '';
         divImgAsistente.innerHTML = '';
