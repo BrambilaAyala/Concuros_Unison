@@ -8,7 +8,7 @@ class Documentos extends Model
 {
     //
     protected $fillable = [
-        'foto_asistente', 'acta_asistente', 'constancia_escuela','fecha_creacion', 
+        'foto_asistente', 'acta_asistente', 'constancia_escuela', 'fecha_creacion', 
     ];
 
     /**
@@ -19,7 +19,7 @@ class Documentos extends Model
     // }
 
     public function asistente(){
-        return $this->belongsTo(Asistente::class);
+        return $this->belongsTo(Asistente::class, 'id_asistente');
     }
 
     public function validaciones(){

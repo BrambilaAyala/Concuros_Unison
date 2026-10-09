@@ -7,8 +7,8 @@
         
         {{-- Contenido --}}
 
-        <div><p  style="text-align: center"><h1>Los registros han finalizado!</h1></p></div>
-        <div><h3>nos vemos a la proxima!</h3></div>
+        <div><p  style="text-align: center"><h1>Las inscripción al Concurso Regional de Física y Matemáticas ha finalizado!</h1></p></div>
+        <div><h3>¡Próximamente tendremos nuevamente este evento!</h3></div>
 
     </div>
 </div>

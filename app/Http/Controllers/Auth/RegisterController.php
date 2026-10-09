@@ -48,6 +48,48 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function showRegistrationForm()
+    {
+        $evento = \App\Evento::first();
+        if ($evento && !$evento->activo) {
+            return redirect('/')->with('notification_mal', 'El periodo de registro oficial ha concluido. Consulta el aviso oficial en la página principal.');
+        }
+        return view('auth.register');
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $evento = \App\Evento::first();
+        if ($evento && !$evento->activo) {
+            return redirect('/')->with('notification_mal', 'El periodo de registro oficial ha concluido. No se aceptan nuevas solicitudes.');
+        }
+
+        $this->validator($request->all())->validate();
+
+        event(new \Illuminate\Auth\Events\Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+                    ? new \Illuminate\Http\JsonResponse([], 201)
+                    : redirect($this->redirectPath());
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -78,28 +120,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $data['confirmation_code'] = Str::random(25);
+        $confirmation_code = Str::random(25);
+        $data['confirmation_code'] = $confirmation_code;
 
-        Mail::send('vendor.notifications.email_validacion', $data, function($message) use ($data) {
-            $message->to($data['correo_electronico'], $data['nombre'])->subject('Por favor confirma tu correo');
-        });
-
-        //para probar los correos
-        //dd("alto");
-        
-        return Asistente::create([
+        $asistente = Asistente::create([
             'nombre' => $data['nombre'],
             'apellido_paterno' => $data['apellido_paterno'],
             'apellido_materno' => $data['apellido_materno'],
             'correo_electronico' => $data['correo_electronico'],
             'contrasena' => Hash::make($data['contrasena']),
-            'confirmation_code' => $data['confirmation_code'],
+            'confirmation_code' => $confirmation_code,
         ]);
-/*         return Asistente::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]); */
+
+        try {
+            Mail::send('vendor.notifications.email_validacion', $data, function($message) use ($data) {
+                $message->to($data['correo_electronico'], $data['nombre'])->subject('CRFyM - Verifica tu dirección de correo electrónico');
+            });
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning("No se pudo enviar correo de validación a " . $data['correo_electronico'] . ": " . $e->getMessage());
+        }
+
+        return $asistente;
     }
 
 }

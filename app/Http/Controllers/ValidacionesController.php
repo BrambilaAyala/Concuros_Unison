@@ -15,6 +15,11 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ValidacionesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:revisor');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,8 +75,7 @@ class ValidacionesController extends Controller
         ->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
  */
         $validacion = Asistente::where('asistentes.id', $asistente->id)->join('documentos','documentos.id_asistente','=','asistentes.id')->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->get()->last();
-        //dd($validacion);
-        return view('revisor.validacion', compact('validacion'));
+        return view('revisor.validacion', compact('validacion', 'asistente'));
     }
 
     /**
@@ -87,8 +91,8 @@ class ValidacionesController extends Controller
         $val = Validator::make($request->all(),[
             'fotoRechazo' => ['nullable', 'size:20'],
             'textoFotoRechazo' => ['exclude_if:fotoRechazo,null',],
-            'actaRechazo' => ['nullable', 'size:18'],
-            'textoActaRechazo' => ['exclude_if:actaRechazo,null'],
+            /*'actaRechazo' => ['nullable', 'size:18'],
+            'textoActaRechazo' => ['exclude_if:actaRechazo,null'],*/
             'constanciaRechazo' => ['nullable', 'size:18'],
             'textoConstanciaRechazo' => ['exclude_if:constanciaRechazo,null'],
         ]);
@@ -120,7 +124,7 @@ class ValidacionesController extends Controller
             $concursos .= $concursos_id->nombre . ", ";
         }
 
-        if(!$request->fotoRechazo && !$request->actaRechazo && !$request->constanciaRechazo){
+        if(!$request->fotoRechazo && /*!$request->actaRechazo &&*/ !$request->constanciaRechazo){
             //dd('aprobado');
             $validacion->estado = "Aprobado";
 
@@ -145,25 +149,30 @@ class ValidacionesController extends Controller
                 "correo_electronico" => $asistente->correo_electronico, 
                 "estado" => $validacion->estado,
                 "concursos" => $concursos,
+                "folio" => $folio,
             ];
-            Mail::send('vendor.notifications.email_aprobado', $data, function($message) use ($data) {
-                $message->to($data['correo_electronico'], $data['nombre'])->bcc("uncorreomasparapruebas@gmail.com")->subject('Actualización de Concurso Regional de Física y Matemáticas');
-            });
+            try {
+                Mail::send('vendor.notifications.email_aprobado', $data, function($message) use ($data) {
+                    $message->to($data['correo_electronico'], $data['nombre'])->subject('CRFyM - Confirmación de inscripción');
+                });
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("No se pudo enviar correo de aprobación: " . $e->getMessage());
+            }
+
+            $mensajeFeedback = "¡Aspirante {$asistente->nombre} {$asistente->apellido_paterno} APROBADO exitosamente! • Folio Oficial asignado: {$folio}";
 
         }else{
             
-            $doc_rechazo = [$request->fotoRechazo, $request->actaRechazo, $request->constanciaRechazo];
+            $doc_rechazo = [$request->fotoRechazo, $request->constanciaRechazo];
             $doc_rechazo = array_filter($doc_rechazo, function($v){return $v != null; });
-            //dd($doc_rechazo);
 
-            $comentario = [$request->textoFotoRechazo, $request->textoActaRechazo, $request->textoConstanciaRechazo];
+            $comentario = [$request->textoFotoRechazo, $request->textoConstanciaRechazo];
             $comentario = array_filter($comentario, function($v){return $v != null; });
 
             if(count($doc_rechazo) != count($comentario)){
-                return redirect()->back()->withInput()->with('jsAlert', "Faltaron una o mas areas de texto por llenar");
+                return redirect()->back()->withInput()->with('jsAlert', "Faltaron una o más áreas de texto por llenar con el motivo del rechazo.");
             }
             $comentario = array_combine($doc_rechazo, $comentario);
-            //dd($doc_rechazo, $comentario);
             
             foreach ($comentario as $key => $value) {
                 $comentario[$key] = "$key: $value";
@@ -172,14 +181,10 @@ class ValidacionesController extends Controller
             $doc_rechazo = implode(", ", $doc_rechazo);
             $comentario = implode("\n", $comentario);
 
-            //dd($comentario, $doc_rechazo);
-
             $validacion->comentario = $comentario;
             $validacion->doc_rechazado = $doc_rechazo;
             $validacion->estado = "Rechazado";
-            //dd('rechazo');
 
-            //dd($validacion);
             $data = [
                 "nombre" => $asistente->nombre, 
                 "apellido_paterno" => $asistente->apellido_paterno, 
@@ -190,17 +195,22 @@ class ValidacionesController extends Controller
                 "comentario" => $validacion->comentario,
                 "concursos" => $concursos,
             ];
-            Mail::send('vendor.notifications.email_rechazado', $data, function($message) use ($data) {
-                $message->to($data['correo_electronico'], $data['nombre'])->bcc("uncorreomasparapruebas@gmail.com")->subject('Actualización de Concurso Regional de Física y Matemáticas');
-            });
-            //dd("dd");
+            try {
+                Mail::send('vendor.notifications.email_rechazado', $data, function($message) use ($data) {
+                    $message->to($data['correo_electronico'], $data['nombre'])->subject('CRFyM - Inscripción pendiente');
+                });
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("No se pudo enviar correo de rechazo: " . $e->getMessage());
+            }
+
+            $mensajeFeedback = "Se ha marcado como RECHAZADA la documentación de {$asistente->nombre} {$asistente->apellido_paterno} y se le ha notificado para reenvío.";
         }
 
         $validacion->fecha_validacion = $fecha_actual;
-        
+        $validacion->id_revisor = auth('revisor')->id();
         $validacion->save();
 
-        return redirect()->route('revisores.lista-espera');
+        return redirect()->route('revisores.lista-espera')->with('notification', $mensajeFeedback);
         
     }
 

@@ -55,7 +55,7 @@ class ForgotPasswordController extends Controller
         //dd(redirect()->getUrlGenerator()->previous());
 
         Mail::send('vendor.notifications.email_reset', $arry_registro, function($message) use ($arry_registro) {
-            $message->to($arry_registro['correo_electronico'], $arry_registro['nombre'])->subject('Reset de Contraseña');
+            $message->to($arry_registro['correo_electronico'], $arry_registro['nombre'])->subject('CRFyM - Reset de Contraseña');
         });
         
         //dd("alto");

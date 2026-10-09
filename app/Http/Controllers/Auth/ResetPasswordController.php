@@ -37,7 +37,7 @@ class ResetPasswordController extends Controller
     public function showResetForm($token){
         $user = Asistente::where('token', $token)->first();
         
-        if (!$user) return redirect('/')->with('notification_mal', 'El link que haz utilizado expiro o ya se uso anteriormente');
+        if (!$user) return redirect('/')->with('notification_mal', 'El link que haz utilizado expiró o ya se usó anteriormente');
         
         $fecha_actual = new DateTime();
         $token_created_at = new DateTime($user->token_created_at);
@@ -46,7 +46,7 @@ class ResetPasswordController extends Controller
             $user->token = null;
             $user->token_created_at = null;
             $user->save();
-            return redirect('/')->with('notification_mal', 'El link que haz utilizado expiro o ya se uso anteriormente');
+            return redirect('/')->with('notification_mal', 'El link que haz utilizado expiró o ya se uso anteriormente');
         }
 
         return view('auth.passwords.reset')->with(
@@ -69,7 +69,7 @@ class ResetPasswordController extends Controller
 
         $user = Asistente::where('correo_electronico', $request->correo_electronico)->where('token', $request->token)->first();
         if (!$user) {
-            return  back()->with('notification', 'El correo que usted ingreso no pidió un cambio de contraseña');
+            return  back()->with('notification', 'El correo que usted ingresó no pidió un cambio de contraseña');
         }
 
         $user->token = null;

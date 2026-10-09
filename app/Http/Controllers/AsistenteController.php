@@ -59,6 +59,9 @@ class AsistenteController extends Controller
      */
     public function show(Asistente $asistente)
     {
+        if (!auth('revisor')->check() && auth()->id() !== $asistente->id) {
+            abort(403, 'Acceso Denegado: No tienes autorización para consultar el expediente de otro participante.');
+        }
         return view('asistente.perfil');
     }
 
@@ -70,6 +73,9 @@ class AsistenteController extends Controller
      */
     public function edit(Asistente $asistente)
     {
+        if (!auth('revisor')->check() && auth()->id() !== $asistente->id) {
+            abort(403, 'Acceso Denegado: No tienes autorización para ver o modificar los datos de otro participante.');
+        }
         return view('asistente.formInscripcion', compact('asistente'));
     }
 
@@ -82,6 +88,9 @@ class AsistenteController extends Controller
      */
     public function update(Request $request, Asistente $asistente)
     {
+        if (!auth('revisor')->check() && auth()->id() !== $asistente->id) {
+            abort(403, 'Acceso Denegado: No tienes autorización para modificar los datos de otro participante.');
+        }
         //
         //dd($request);
 
@@ -91,10 +100,15 @@ class AsistenteController extends Controller
             'escuela_origen' => ['required', ],
             'telefono' => ['required', 'digits:10',],
             'concurso.*' => ['required', 'digits_between:1,3'],
-            'image_croped' => ['required', 'min:5000'],
-            'foto_asistente' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
-            'acta_asistente' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
-            'constancia_escuela' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'image_croped' => ['required', 'min:500'],
+            'foto_asistente' => ['sometimes', 'nullable'],
+            'constancia_escuela' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:30720'],
+            'asesor_nombre' => ['required', 'string', 'max:191'],
+            'asesor_apellido_paterno' => ['required', 'string', 'max:191'],
+            'asesor_apellido_materno' => ['nullable', 'string', 'max:191'],
+            'asesor_correo' => ['required', 'email', 'max:191'],
+            'asesor_telefono' => ['required', 'digits:10'],
+            'asesor_escuela' => ['nullable', 'string', 'max:191'],
         ]);
 
         //dd($val);
@@ -118,6 +132,25 @@ class AsistenteController extends Controller
         $asistente->concursos()->attach($concursos);        
        
         $asistente->save();
+
+        // Guardar o actualizar información del Maestro Asesor / Tutor
+        $escuelaAsesor = $request->input('asesor_escuela');
+        if (empty($escuelaAsesor)) {
+            $escuelaAsesor = $request->input('escuela_origen');
+        }
+
+        $asistente->asesor()->updateOrCreate(
+            ['id_asistente' => $asistente->id],
+            [
+                'nombre' => trim($request->input('asesor_nombre')),
+                'apellido_paterno' => trim($request->input('asesor_apellido_paterno')),
+                'apellido_materno' => trim($request->input('asesor_apellido_materno')),
+                'correo_electronico' => trim($request->input('asesor_correo')),
+                'telefono' => $request->input('asesor_telefono'),
+                'escuela_origen' => trim($escuelaAsesor),
+            ]
+        );
+
         /**
          * DOCUMENTOS
          * se llama a la funcion store del controlador DocumentosController.
@@ -149,6 +182,22 @@ class AsistenteController extends Controller
         
         // return view('asistente.editarDocumentos');
     }
+    public function credencial()
+    {
+        $asistente = auth()->user();
+        if (!$asistente || !$asistente->folio) {
+            return redirect()->route('asistentes.index')->with('notification_mal', 'Tu inscripción aún no ha sido aprobada o no cuentas con folio oficial asignado.');
+        }
+
+        $validacion = optional(optional($asistente->documentos)->validaciones())->latest()->first();
+        if (!$validacion || $validacion->estado !== 'Aprobado') {
+            return redirect()->route('asistentes.index')->with('notification_mal', 'Tu solicitud de inscripción debe estar en estado Aprobado para acceder a la credencial.');
+        }
+
+        $concursos = $asistente->concursos;
+        return view('asistente.credencial', compact('asistente', 'concursos', 'validacion'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

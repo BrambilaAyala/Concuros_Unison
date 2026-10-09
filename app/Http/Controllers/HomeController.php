@@ -16,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('verify');
     }
 
     /**
@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         $user = Asistente::where('confirmation_code', $code)->first();
         
-        if (!$user) return redirect('/')->with('notification_mal', 'El link que haz utilizado expiro o ya se uso anteriormente');
+        if (!$user) return redirect('/')->with('notification_mal', 'El link que haz utilizado expiró o ya se uso anteriormente');
     
         $user->email_verified_at = Carbon::now()->setTimezone('GMT-7')->format('Y-m-d h:i:s');
         //dd($user->email_verified_at);

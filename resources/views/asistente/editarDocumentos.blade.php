@@ -5,13 +5,6 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="container container-h-secundario">
-                    <div class="card-header h-secundario">{{ __('Resubida de documentos rechazados.') }}</div>
-                </div>
-                @php
-                    // dd($cabecera['documentos_rechazados']);
-                    // dd(Auth::user()->concursos);
-                @endphp
                 <div class="card-body">
                     
                     <form method="POST" id="" action="{{route('asistentes.actualizarRechazados', Auth::user()->id)}}" enctype="multipart/form-data">
@@ -19,21 +12,10 @@
                         @method("PUT")
                         <input type="hidden" name="doc" value="{{Auth::user()->documentos->id}}">
                         <div class="form-group">
-                            <div style="text-align: center;">
-                                <h2>Actualmente estas inscrito a los cursos:</h2>
-                                @foreach (Auth::user()->concursos as $concurso)
-                                    <ul>
-                                        <li>
-                                            {{$concurso->nombre}}
-                                        </li>
-                                        
-                                    </ul>
-                                @endforeach
-                            </div>
                             <table class="table table-hover tabla-cursos">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" colspan="3">Si gustas cambiar de concursos, favor de seleccionarlo/s</th>
+                                        <th scope="col" colspan="3">Selecciona los concursos a los cuales te quieres inscribir</th>
                                     </tr>
                                 </thead>
                                 <tbody >
@@ -69,23 +51,9 @@
                                         @enderror
                                     </div>
                                 </div>
-                            @elseif($item == 'Acta de nacimiento')
-                                <div class="form-group row">
-                                    <label for="acta_asistente" class="col-md-4 col-form-label text-md-right">{{ __('Acta de nacimiento') }}</label>
-        
-                                    <div class="col-md-6">
-                                        <input id="acta_asistente" type="file" class="form-control @error('acta_asistente') is-invalid @enderror" name="acta_asistente" required accept="image/png, image/jpeg" autocomplete="acta_asistente">
-                                        <span>Imagenes con terminacion JPG, JPEG y PNG.</span>
-                                        @error('acta_asistente')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
                             @elseif($item == 'Constancia escolar')
                                 <div class="form-group row">
-                                    <label for="constancia_escuela" class="col-md-4 col-form-label text-md-right">{{ __('Constancia escolar') }}</label>
+                                    <label for="constancia_escuela" class="col-md-4 col-form-label text-md-right">{{ __('Constancia de estudio o credencial escolar:') }}</label>
         
                                     <div class="col-md-6">
                                         <input id="constancia_escuela" type="file" class="form-control @error('constancia_escuela') is-invalid @enderror" name="constancia_escuela" accept="image/png, image/jpeg" required autocomplete="constancia_escuela">
@@ -101,13 +69,18 @@
                             
                         @endforeach
                         
+                        <center>
+                        <div class="col-md-9"><b>IMPORTANTE:</b> Recuerda que tu inscripción estará finalizada hasta que el comité así te lo confirme por correo electrónico, de modo que te pedimos estar atento al mismo.</div>
+                        </center><br>
+<!--HABILITAR/DESHABILITAR para los registros de asistentes    -->                    
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Resubir archivo/s') }}
+                                    {{ __('Enviar solicitud de inscripción') }}
                                 </button>
                             </div>
                         </div>
+                    <!--hasta aqui-->
                     </form>
                 </div>
             </div>

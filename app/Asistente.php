@@ -58,7 +58,7 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     }
 
     public function asesor(){
-        return $this->belongsTo(Asesor::class);
+        return $this->hasOne(Asesor::class, 'id_asistente');
     }
 
     public function concursos(){
@@ -73,6 +73,7 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     // }
 
     public function documentos(){
-        return $this->hasOne(Documentos::class,'id_asistente');
+        //return $this->hasOne(Documentos::class,'id_asistente'); //retorna el primer elemento encontrado.
+        return $this->hasOne(Documentos::class,'id_asistente')->latest()->limit(1);
     }
 }

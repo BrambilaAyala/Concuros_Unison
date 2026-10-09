@@ -25,41 +25,43 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 Route::get('/register/verify/{code}', 'HomeController@verify');
+Route::get('/verify/{code}', 'HomeController@verify');
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{code}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-Route::resource('asistentes', 'AsistenteController');
-Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->name('asistentes.rechazado');
-Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualizarDocumentosRechazados')->name('asistentes.actualizarRechazados');
+// Rutas protegidas para Participantes (Asistentes)
+Route::group(['middleware' => ['auth:web', 'verified']], function () {
+    Route::resource('asistentes', 'AsistenteController')->middleware('own.profile');
+    Route::get('/documentos-rechazados', 'AsistenteController@indexRechazados')->name('asistentes.rechazado');
+    Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualizarDocumentosRechazados')
+        ->name('asistentes.actualizarRechazados')
+        ->middleware('own.profile');
+    Route::get('/credencial-asistente', 'AsistenteController@credencial')->name('asistentes.credencial');
+});
 
-
-// Route::prefix('asistentes')->group(function(){
-//     Route::get('/', 'AsistenteController@index')->name('asistentes.index');
-//     Route::post('/', 'AsistenteController@store')->name('asistentes.store');
-//     Route::get('/create', 'AsistenteController@create')->name('asistentes.create');
-//     Route::put('/{asistente}', 'AsistenteController@update')->name('asistentes.update');
-//     Route::get('/{asistente}', 'AsistenteController@show')->name('asistentes.show');
-//     Route::get('/{asistente}/edit', 'AsistenteController@edit')->name('asistentes.edit');
-//     Route::get('/documentos-rechazados', 'AsistenteController@actualizarDocumentosRechazados')->name('asistentes.rechazado');
-// });
-
-
-//Route::resource('revisores', 'RevisoresController');
-
-Route::prefix('revisores')->group(function () {
+// Rutas protegidas para Administradores y Revisores
+Route::group(['prefix' => 'revisores', 'middleware' => 'auth:revisor'], function () {
     Route::get('/', 'RevisoresController@index')->name('revisores.index');
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
     Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
     Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
+    Route::get('/inscribir-asistente', 'RevisoresController@createAsistente')->name('revisores.crear-asistente');
+    Route::post('/inscribir-asistente', 'RevisoresController@storeAsistente')->name('revisores.guardar-asistente');
+    Route::post('/toggle-convocatoria', 'RevisoresController@toggleConvocatoria')->name('revisores.toggle-convocatoria');
+    Route::post('/actualizar-mensaje-cierre', 'RevisoresController@actualizarMensajeCierre')->name('revisores.actualizar-mensaje-cierre');
 });
-Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData');
 
-Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
+// Endpoint seguro de consulta AJAX protegido por guard revisor
+Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData')
+    ->middleware('auth:revisor')
+    ->name('revisores.wsgetuserdata');
+
+Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest:revisor')->name('admin');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');
 

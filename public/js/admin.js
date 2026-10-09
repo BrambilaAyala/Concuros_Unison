@@ -81,23 +81,26 @@ window.onload = function(){
   let divEstatus = document.getElementById('divEstatus');
   let divImgAsistente = document.getElementById('divImgAsistente');
   let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
-  let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
+  //let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
   let labelNacimiento = document.getElementById('fNacimiento');
   let labelTelefono = document.getElementById('telefono');
   let labelCurp = document.getElementById('curp');
   let labelIdentificacion = document.getElementById('identificacion');
-  let labelActa = document.getElementById('acta');
+  //let labelActa = document.getElementById('acta');
   let labelConstancia = document.getElementById('constancia');
   let labelEscuela = document.getElementById('escuela');
   let labelCorreo = document.getElementById('correo');
   let labelConcursos = document.getElementById('concursos');
+  let seccionAsesor = document.getElementById('seccionAsesor');
+  let divAsesorNombre = document.getElementById('divAsesorNombre');
+  let divAsesorContacto = document.getElementById('divAsesorContacto');
   botonesInfo.forEach(botonInfo => {
     botonInfo.addEventListener('click', cargarInfoBoton);
   });
   
   function cargarInfoBoton(){
     let valor = this.value;  
-    let containerImgAsistente, containerImgAsistenteActa, containerImgAsistenteConstancia, imgContainer;
+    let containerImgAsistente, /*containerImgAsistenteActa,*/ containerImgAsistenteConstancia, imgContainer;
     fetch(`/wsgetuserdata/${valor}`)
         .then(response => response.json())
         .then(data => {
@@ -108,7 +111,7 @@ window.onload = function(){
           let pEscuela = document.createElement('p'), pCorreo = document.createElement('p');
           let liConcursos , ulConcursos = document.createElement('ul'), item;
           containerImgAsistente = document.createElement('img');
-          containerImgAsistenteActa = document.createElement('img');
+          //containerImgAsistenteActa = document.createElement('img');
           containerImgAsistenteConstancia = document.createElement('img');
           // console.log(data[2].length);
           pNombreCompleto.innerText = `${data[0].nombre} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
@@ -120,6 +123,19 @@ window.onload = function(){
           
           data[0].folio ? pFolio.innerText = `${data[0].folio}` : pFolio.innerText = 'Alumno sin número de folio';
           
+          // Mostrar datos de asesor si está registrado
+          if (data[0].asesor && seccionAsesor && divAsesorNombre) {
+            seccionAsesor.style.display = '';
+            divAsesorNombre.innerText = `${data[0].asesor.nombre} ${data[0].asesor.apellido_paterno} ${data[0].asesor.apellido_materno || ''}`;
+            let contactoTexto = `${data[0].asesor.correo_electronico} • Tel: ${data[0].asesor.telefono}`;
+            if (data[0].asesor.escuela_origen) {
+              contactoTexto += ` • ${data[0].asesor.escuela_origen}`;
+            }
+            divAsesorContacto.innerText = contactoTexto;
+          } else if (seccionAsesor) {
+            seccionAsesor.style.display = 'none';
+          }
+
           if (data[1]) {
             if (data[1].estado == 'Espera') {
               pEstatus.innerText = `En revisión`;
@@ -142,10 +158,10 @@ window.onload = function(){
             labelCurp.style.display = '';
             labelConcursos.style = ''
             labelIdentificacion.style.display = '';
-            labelActa.style.display = '';
+            //labelActa.style.display = '';
             labelConstancia.style.display = '';
             containerImgAsistente.src = `/storage/${data[0].documentos.foto_asistente}`;
-            containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
+            //containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
             containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
             divNombre.appendChild(pNombreCompleto);
             divNacimiento.appendChild(pNacimiento);
@@ -157,7 +173,7 @@ window.onload = function(){
             divConcursos.appendChild(ulConcursos);
             divEstatus.appendChild(pEstatus);
             divImgAsistente.appendChild(containerImgAsistente);
-            divImgAsistenteActa.appendChild(containerImgAsistenteActa);
+            //divImgAsistenteActa.appendChild(containerImgAsistenteActa);
             divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
           }else{
             divNombre.appendChild(pNombreCompleto);
@@ -171,7 +187,7 @@ window.onload = function(){
             labelCurp.style = 'display:none;'
             labelConcursos.style = 'display:none;'
             labelIdentificacion.style = 'display:none;'
-            labelActa.style = 'display:none;'
+            //labelActa.style = 'display:none;'
             labelConstancia.style = 'display:none;'
             
           }
@@ -189,8 +205,11 @@ window.onload = function(){
         divFolio.innerHTML = '';
         divEstatus.innerHTML = '';
         divImgAsistente.innerHTML = '';
-        divImgAsistenteActa.innerHTML = '';
+        //divImgAsistenteActa.innerHTML = '';
         divImgAsistenteConstancia.innerHTML = '';
+        if (seccionAsesor) seccionAsesor.style.display = 'none';
+        if (divAsesorNombre) divAsesorNombre.innerHTML = '';
+        if (divAsesorContacto) divAsesorContacto.innerHTML = '';
   }
 
 }

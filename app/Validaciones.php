@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Validaciones extends Model
 {
     protected $fillable = [
-        'id_documento', 'id_revisor', 
+        'id_documento', 'id_revisor', 'estado', 'comentario', 'doc_aprobado', 'doc_rechazado', 'fecha_validacion',
     ];
     
     public function documento(){

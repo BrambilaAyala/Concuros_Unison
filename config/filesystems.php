@@ -80,7 +80,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('storage/actas-asistentes') => storage_path('app/public/actas-asistentes'),
+        //public_path('storage/actas-asistentes') => storage_path('app/public/actas-asistentes'),
         public_path('storage/constancias-escuelas') => storage_path('app/public/constancias-escuelas'),
         public_path('storage/fotos-de-asistentes') => storage_path('app/public/fotos-de-asistentes'),
     ],

@@ -72,6 +72,12 @@
           if ($('input[type=checkbox]:checked').length === 0) {
             e.preventDefault();
             alert('Debe seleccionar al menos un valor dentro de la tabla que contiene los concursos para continuar.');
+            return false;
+          }
+          if ($('#foto_asistente').length > 0 && $('#foto_asistente').prop('required') && !$('#image_croped').val()) {
+            e.preventDefault();
+            alert('Por favor selecciona y recorta tu fotografía para la credencial en la ventana emergente antes de enviar la solicitud.');
+            return false;
           }
         });    
     </script>
@@ -95,6 +101,7 @@
         });
         
         $('#foto_asistente').on('change', function(){
+            if (!this.files || !this.files[0]) return;
             var reader = new FileReader();
             reader.onload = function (event) {
             $image_crop.croppie('bind', {
@@ -112,19 +119,10 @@
                 type: 'canvas',
                 size: 'viewport'
             }).then(function(response){
-                console.log(response);
-                $('#image_croped').val(response)
+                $('#image_croped').val(response);
+                $('#crop_status').fadeIn();
+                $('#foto_asistente').removeAttr('required');
                 $('#uploadimageModal').modal('hide');
-                /* $.ajax({
-                    url:"upload.php",
-                    type: "POST",
-                    data:{"image": response},
-                    success:function(data)
-                    {
-                    $('#uploadimageModal').modal('hide');
-                    $('#uploaded_image').html(data);
-                    }
-                }); */
             })
         });
     

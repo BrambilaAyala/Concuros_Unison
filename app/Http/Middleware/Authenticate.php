@@ -15,6 +15,16 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            if ($request->is('revisores*') || $request->is('admin*') || $request->is('wsgetuserdata*')) {
+                session()->flash('notification_mal', 'Debes iniciar sesión con una cuenta de Administrador/Revisor para acceder a esta sección.');
+                return route('admin');
+            }
+
+            if ($request->is('asistentes*') || $request->is('credencial-asistente*') || $request->is('documentos-rechazados*')) {
+                session()->flash('notification_mal', 'Debes iniciar sesión con tu cuenta de participante para acceder a esta sección.');
+                return route('login');
+            }
+
             return route('/');
         }
     }

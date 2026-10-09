@@ -5,22 +5,26 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                <!--
                 <div class="card-header h-principal">
                     {{ __('Registrarse al concurso Regional de Física y Matemáticas') }}
                 </div>
+            -->
 
+                <!--
                 <div class="container container-h-secundario">
                     <div class="card-header h-secundario">{{ __('Información para la cuenta de acceso a la pagina') }}</div>
                 </div>
-                
+                -->
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="form-group row">
-                            <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
+                            <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre(s):') }}</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus placeholder="Nombre/s">
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus placeholder="Nombre(s)">
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -31,7 +35,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="apellido_paterno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Paterno') }}</label>
+                            <label for="apellido_paterno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido paterno:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="apellido_paterno" type="text" class="form-control @error('apellido_paterno') is-invalid @enderror"name="apellido_paterno" value="{{ old('apellido_paterno') }}" required autocomplete="apellido_paterno" autofocus placeholder="Apellido paterno">
@@ -45,7 +49,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="apellido_materno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido Materno') }}</label>
+                            <label for="apellido_materno" class="col-md-4 col-form-label text-md-right">{{ __('Apellido materno:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="apellido_materno" type="text" class="form-control @error('apellido_materno') is-invalid @enderror"name="apellido_materno" value="{{ old('apellido_materno') }}" required autocomplete="apellido_materno" autofocus placeholder="Apellido materno">
@@ -59,7 +63,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="correo_electronico" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
+                            <label for="correo_electronico" class="col-md-4 col-form-label text-md-right">{{ __('Correo electrónico:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="correo_electronico" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autocomplete="correo_electronico" placeholder="ejemplo@dominio.com">
@@ -73,7 +77,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
+                            <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required autocomplete="new-contrasena" placeholder="Contraseña">
@@ -87,16 +91,19 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="contrasena-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
+                            <label for="contrasena-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contrasena-confirm" type="password" class="form-control" name="contrasena_confirmation" required autocomplete="new-contrasena" placeholder="Repita la contraseña">
+                                <input id="contrasena-confirm" type="password" class="form-control" name="contrasena_confirmation" required autocomplete="new-contrasena" placeholder="Confirma la contraseña">
                             </div>
                         </div>
 
+                        <div style="text-align: center;">
+                            <p><br>Es importante que conserves estos datos, pues te servirán para completar tu solicitud de inscripción.</p><br>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-lg font-weight-bold px-4 shadow-sm">
                                     {{ __('Registrarse') }}
                                 </button>
                             </div>

@@ -5,7 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header h-secundario">{{ __('Inicia tu sesión') }}</div>
+                <!--<div class="card-header h-secundario">{{ __('Inicia tu sesión') }}</div>
+                -->
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -16,7 +17,7 @@
                             </span>
                         @enderror
                         <div class="form-group row">
-                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Correo Electrónico') }}</label>
+                            <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Correo electrónico:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="" type="email" class="form-control @error('correo_electronico') is-invalid @enderror" name="correo_electronico" value="{{ old('correo_electronico') }}" required autofocus placeholder="ejemplo@dominio.com">
@@ -30,7 +31,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
+                            <label for="contrasena" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="contrasena" type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" required placeholder="Contraseña">

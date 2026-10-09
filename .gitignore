@@ -1,12 +1,116 @@
-/node_modules
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
+# ==============================================================================
+# .gitignore - SICREFyM (Sistema de Inscripción al CRFyM - UNISON)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Dependencias y Paquetes de Terceros
+# ------------------------------------------------------------------------------
+/vendor/
+/node_modules/
+npm-debug.log
+yarn-error.log
+
+# ------------------------------------------------------------------------------
+# 2. Variables de Entorno, Configuración Local y Llaves Criptográficas
+# ------------------------------------------------------------------------------
 .env
 .env.backup
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+*.cert
+
+# ------------------------------------------------------------------------------
+# 3. Almacenamiento, Sesiones, Logs y Archivos Subidos por Alumnos
+# ------------------------------------------------------------------------------
+# Enlace simbólico público generado por artisan storage:link
+/public/storage
+/public/hot
+
+# Almacenamiento local de archivos y documentos de alumnos
+/storage/*.key
+/storage/app/public/*
+!/storage/app/public/.gitignore
+/storage/fotos-de-asistentes/
+/storage/constancias-escuelas/
+/storage/actas-asistentes/
+
+# Caché, Vistas compiladas y Sesiones de Laravel
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+# Registros de Logs
+/storage/logs/*
+!/storage/logs/.gitignore
+*.log
+
+# ------------------------------------------------------------------------------
+# 4. Respaldos Temporales y Archivos Históricos de Ediciones Previas
+# ------------------------------------------------------------------------------
+*.bak
+*.backup
+*.tmp
+*.temp
+*_tmp.*
+*.swp
+*~
+*_respaldo*
+*.php_respaldo*
+
+# Archivos de respaldo de años anteriores y copias manuales
+*2023*
+*2024*
+*.blade_2026.php
+*.blade_tmp.php
+*.blade_habilitar.php
+*.blade_x.php
+*.blade_y.php
+app/Http/Controllers/*_2026.php
+
+# Scripts temporales de depuración y pruebas locales
+crearUsuario.sh
+validate
+busquedaActa.txt
+
+# ------------------------------------------------------------------------------
+# 5. Entornos de Desarrollo (IDEs y Editores)
+# ------------------------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.fleet/
+
+# ------------------------------------------------------------------------------
+# 6. Archivos Ocultos del Sistema Operativo
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# ------------------------------------------------------------------------------
+# 7. Herramientas de Testing y Calidad de Código
+# ------------------------------------------------------------------------------
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
-npm-debug.log
-yarn-error.log
+.php_cs.cache

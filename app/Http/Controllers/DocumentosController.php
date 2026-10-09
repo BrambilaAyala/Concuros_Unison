@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class DocumentosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:web', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,33 +69,24 @@ class DocumentosController extends Controller
         $asistente = Asistente::findOrFail($asistente->id);
         $documentos = new Documentos();
 
-        //Desarma la informacion obtenida de la imagen recortada
-        $data = $request->image_croped;
-        $image_array_1 = explode(";", $data);
-        $image_array_2 = explode(",", $image_array_1[1]);
-        //crea la imagen apartir del codigo desarmado
-        $data = base64_decode($image_array_2[1]);
-        //crea el nombre de la imagen
-        $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
-        //nombra la imagen guardandola en el folder seleccionado 
-        file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+        $fotoPath = $this->saveCroppedPhoto($request->image_croped, $asistente->curp, $fecha_actual, $request->file('foto_asistente'));
+        if ($fotoPath) {
+            $documentos->foto_asistente = $fotoPath;
+        }
 
         $extensiones = [
-            /* 'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(), */
-            'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
             'constancia_escuela' => $request->file('constancia_escuela')->getClientOriginalExtension()
         ];
         
-        /* $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']); */
-        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
-        $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
         $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela'], 'public') : '';
         $documentos->fecha_creacion = $fecha_creacion;
 
         //dd($documentos);
 
         $asistente->documentos()->save($documentos);
-        $documentos->validaciones()->create([$documentos->id]);
+        $documentos->validaciones()->create([
+            'estado' => 'Espera',
+        ]);
         $documentos->save();
         
         
@@ -100,12 +96,15 @@ class DocumentosController extends Controller
     }
     
     public function actualizarDocumentosRechazados(Request $request, Asistente $asistente){
-        
+        if (auth()->id() !== $asistente->id) {
+            abort(403, 'Acceso Denegado: No tienes autorización para modificar la documentación de otro participante.');
+        }
+
         $val = Validator::make($request->all(),[
-            'image_croped' => ['sometimes', 'min:5000'],
-            'foto_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
-            'acta_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
-            'constancia_escuela' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'image_croped' => ['sometimes', 'nullable', 'min:500'],
+            'foto_asistente' => ['sometimes', 'nullable'],
+            //'acta_asistente' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'constancia_escuela' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:30720'],
         ]);
 
         //dd($val);
@@ -129,28 +128,17 @@ class DocumentosController extends Controller
         // dd($documentos);
         $validacion = new Validaciones();
 
-        if ($request->hasFile('foto_asistente')) {
-            //Desarma la informacion obtenida de la imagen recortada
-            $data = $request->image_croped;
-            $image_array_1 = explode(";", $data);
-            $image_array_2 = explode(",", $image_array_1[1]);
-            //crea la imagen apartir del codigo desarmado
-            $data = base64_decode($image_array_2[1]);
-            //crea el nombre de la imagen
-            $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
-            //nombra la imagen guardandola en el folder seleccionado 
-            file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+        if ($request->hasFile('foto_asistente') || !empty($request->image_croped)) {
+            $fotoPath = $this->saveCroppedPhoto($request->image_croped, $asistente->curp, $fecha_actual, $request->file('foto_asistente'));
+            if ($fotoPath) {
+                $documentos->foto_asistente = $fotoPath;
+            }
         }
 
         $extensiones = [
-            //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
-            'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
             'constancia_escuela' => $request->hasFile('constancia_escuela') ? $request->file('constancia_escuela')->getClientOriginalExtension() : ''
         ];
         
-        //$documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
-        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
-        $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
         $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela'],'public') : '';
         $documentos->fecha_creacion = $fecha_creacion;
         // dd($request->all());
@@ -162,7 +150,9 @@ class DocumentosController extends Controller
         }
         // dd('hola');
         $asistente->documentos()->save($documentos);
-        $documentos->validaciones()->create([$documentos->id]);
+        $documentos->validaciones()->create([
+            'estado' => 'Espera',
+        ]);
         $documentos->save();
         return redirect()->route('asistentes.show', compact('asistente'));
     }
@@ -210,5 +200,41 @@ class DocumentosController extends Controller
     public function destroy(Documentos $documentos)
     {
         //
+    }
+
+    /**
+     * Guarda la fotografía recortada (o archivo directo) en las ubicaciones de storage
+     */
+    private function saveCroppedPhoto($imageCroped, $curp, $fechaActual, $fileFallback = null)
+    {
+        $data = null;
+        if (!empty($imageCroped) && strpos($imageCroped, ',') !== false) {
+            $image_array_1 = explode(";", $imageCroped);
+            $image_array_2 = explode(",", $image_array_1[1]);
+            $data = base64_decode($image_array_2[1]);
+        } elseif ($fileFallback && file_exists($fileFallback->getRealPath())) {
+            $data = file_get_contents($fileFallback->getRealPath());
+        }
+
+        if (!$data) {
+            return null;
+        }
+
+        $imageName = $curp . '_' . $fechaActual->format('d_M_Y_h') . '.png';
+
+        $paths = [
+            public_path("storage/fotos-de-asistentes"),
+            storage_path("app/public/fotos-de-asistentes"),
+            base_path("storage/fotos-de-asistentes")
+        ];
+
+        foreach ($paths as $path) {
+            if (!file_exists($path)) {
+                @mkdir($path, 0755, true);
+            }
+            @file_put_contents("$path/$imageName", $data);
+        }
+
+        return "fotos-de-asistentes/$imageName";
     }
 }

@@ -7,16 +7,74 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SICREFyM - Admin</title>
+    <title>SICREFyM - Panel de Administración</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/css/admin/all.min.css">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="/css/admin/adminlte.min.css">
+
+    <style>
+        /* Paleta visual limpia, moderna y equilibrada */
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .content-wrapper {
+            background-color: #f8fafc;
+        }
+        .main-header {
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        
+        /* Menú lateral gris clásico (#343a40) mejorado, sin iconografía y sin colores estridentes */
+        .main-sidebar {
+            background-color: #343a40 !important;
+            box-shadow: 0 0 15px rgba(0,0,0,0.08) !important;
+        }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link {
+            color: #c2c7d0;
+            font-weight: 500;
+            padding: 9px 16px;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            transition: all 0.15s ease;
+        }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+            background-color: #004990 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link .badge {
+            background-color: rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active .badge {
+            background-color: #ffffff !important;
+            color: #004990 !important;
+        }
+
+        /* Tarjetas con sombras suaves y bordes limpios */
+        .card {
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+            border-radius: 6px;
+        }
+    </style>
+    @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -27,16 +85,14 @@
 		<div class="content-wrapper">
 			@yield('content')
 		</div>
-	<!-- /.content-wrapper -->
+	    <!-- /.content-wrapper -->
     
-      <!-- Main Footer -->
-		<footer class="main-footer">
-		<!-- To the right -->
-			{{--<div class="float-right d-none d-sm-inline">
-				Anything you want
+        <!-- Main Footer -->
+		<footer class="main-footer text-sm py-2 bg-white border-top">
+			<div class="float-right d-none d-sm-inline text-muted font-weight-bold">
+				SICREFyM v2026.1
 			</div>
-		<!-- Default to the left -->
-			<strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. --}}
+			<span class="text-muted">Concurso Regional de Física y Matemáticas &copy; 2026 <a href="https://www.unison.mx" target="_blank" class="text-primary font-weight-bold">Universidad de Sonora</a>.</span>
 		</footer>
     </div>
     <!-- ./wrapper -->
@@ -44,34 +100,7 @@
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/js/admin/adminlte.min.js"></script>
-    <script>
-      /// Url actual
-      let pathname = new String(window.location.pathname);
-      let url = pathname.replace("/revisores/", "");
-
-      /// Elementos de li
-      const tabs = ["lista-espera", "lista-asistentes", "lista-inscritos"];
-
-      tabs.forEach(e => {
-          /// Compara el url actual con el arreglo
-          if ( url === e) {
-              /// Agregar tab- para hacer que coincida la Id
-              setActive("tab-" + e);
-          }
-          if (url === "lista-espera" || url === "lista-asistentes" || url === "lista-inscritos"){
-            setMenuOpen("dd")
-          }
-      });
-
-      /// Funcion que asigna la clase active
-      function setActive(id) {
-          document.getElementById(id).setAttribute("class", "nav-link active");
-      }
-      /// Funcion que asigna la clase menu-open
-      function setMenuOpen(id){
-        document.getElementById(id).setAttribute("class", "nav-item has-treeview menu-open");
-      }
-  </script>
+    <script src="/js/admin.js"></script>
+    @stack('scripts')
 </body>
-
 </html>
