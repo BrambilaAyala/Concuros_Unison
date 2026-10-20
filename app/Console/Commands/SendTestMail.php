@@ -41,9 +41,9 @@ class SendTestMail extends Command
         $destinatario = $this->argument('email') ?? 'brambila4a@outlook.com';
         $mailer = config('mail.default');
 
-        $this->info("==================================================");
+        #$this->info("==================================================");
         $this->info("     SICREFyM - Diagnóstico de Envío de Correo    ");
-        $this->info("==================================================");
+        #$this->info("==================================================");
         $this->line("• Driver activo:       <comment>{$mailer}</comment>");
         
         if ($mailer === 'smtp') {
