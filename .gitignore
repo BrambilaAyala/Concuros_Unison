@@ -1,18 +1,12 @@
-# ==============================================================================
 # .gitignore - SICREFyM (Sistema de Inscripción al CRFyM - UNISON)
-# ==============================================================================
 
-# ------------------------------------------------------------------------------
 # 1. Dependencias y Paquetes de Terceros
-# ------------------------------------------------------------------------------
 /vendor/
 /node_modules/
 npm-debug.log
 yarn-error.log
 
-# ------------------------------------------------------------------------------
 # 2. Variables de Entorno, Configuración Local y Llaves Criptográficas
-# ------------------------------------------------------------------------------
 .env
 .env.backup
 .env.*
@@ -22,9 +16,7 @@ yarn-error.log
 *.crt
 *.cert
 
-# ------------------------------------------------------------------------------
 # 3. Almacenamiento, Sesiones, Logs y Archivos Subidos por Alumnos
-# ------------------------------------------------------------------------------
 # Enlace simbólico público generado por artisan storage:link
 /public/storage
 /public/hot
@@ -40,6 +32,7 @@ yarn-error.log
 # Caché, Vistas compiladas y Sesiones de Laravel
 /storage/framework/cache/*
 !/storage/framework/cache/.gitignore
+!/storage/framework/cache/data/
 /storage/framework/cache/data/*
 !/storage/framework/cache/data/.gitignore
 /storage/framework/sessions/*
@@ -54,9 +47,7 @@ yarn-error.log
 !/storage/logs/.gitignore
 *.log
 
-# ------------------------------------------------------------------------------
 # 4. Respaldos Temporales y Archivos Históricos de Ediciones Previas
-# ------------------------------------------------------------------------------
 *.bak
 *.backup
 *.tmp
@@ -82,9 +73,7 @@ crearUsuario.sh
 validate
 busquedaActa.txt
 
-# ------------------------------------------------------------------------------
 # 5. Entornos de Desarrollo (IDEs y Editores)
-# ------------------------------------------------------------------------------
 .idea/
 .vscode/
 *.sublime-project
@@ -95,9 +84,7 @@ busquedaActa.txt
 *.sln
 .fleet/
 
-# ------------------------------------------------------------------------------
 # 6. Archivos Ocultos del Sistema Operativo
-# ------------------------------------------------------------------------------
 .DS_Store
 .DS_Store?
 ._*
@@ -107,9 +94,7 @@ ehthumbs.db
 Thumbs.db
 [Dd]esktop.ini
 
-# ------------------------------------------------------------------------------
 # 7. Herramientas de Testing y Calidad de Código
-# ------------------------------------------------------------------------------
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
