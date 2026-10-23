@@ -202,7 +202,7 @@ Acceda mediante la opción **"En Espera de Revisión"**:
    * Fecha exacta de envío.
 4. Para evaluar un expediente, haga clic en el botón azul **`[Revisar y Validar]`**.
 
-![EnEspera](EnEspera.png)
+![EnEspera](Bandera_Espera.png)
 ---
 
 ### 3.5. Mesa de Trabajo para Validación de Documentos y Asesor
@@ -223,9 +223,15 @@ Esta pantalla funciona como una estación de dictamen ergonómica dividida en do
   * Previsualización confinada y enlace a tamaño original.
   * Selector: `[Aceptar Constancia]` o `[Rechazar]` con campo de motivo.
 
+![EnEspera](Validar_Documentos.png)
 #### Finalización del Dictamen:
 * **Si Aprueba:** El sistema calcula el folio con la regla oficial `Año-Concursos-Consecutivo` (ej. `2026-110-005`), almacena la fecha y su ID de revisor, y envía el correo automático de aprobación al alumno.
+
+![EnEspera](Aprobar_Documento.png)
+
 * **Si Rechaza:** El sistema compila los comentarios, marca el expediente como "Rechazado" y envía el correo con las observaciones precisas para que el alumno subsane.
+
+![EnEspera](Denegar_Documento.png)
 
 ---
 

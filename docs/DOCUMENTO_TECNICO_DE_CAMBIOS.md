@@ -36,7 +36,7 @@ Se llevó a cabo una refactorización arquitectónica en tres ejes fundamentales
 ### 2.3. Controladores de Revisión y Validación
 * **`app/Http/Controllers/RevisoresController.php`:**
   * **Eager Loading Anti N+1:** Se optimizaron las consultas de `listaEspera()`, `listaInscritos()` y `listaAsistentes()`, precargando las relaciones `documentos.validaciones` y `concursos`.
-  * **Módulo de Inscripción Manual:** Se agregó el método `crearAsistente()` y `guardarAsistenteManual()` permitiendo al administrador registrar directamente alumnos extemporáneos, asignarles sus concursos y generarles folio oficial sin depender del flujo del alumno.
+  * **Módulo de Inscripción Manual:** Se agregó el método `createAsistente()`, `storeAsistente(Request $request)`,  permitiendo al administrador registrar directamente alumnos extemporáneos, asignarles sus concursos y generarles folio oficial sin depender del flujo del alumno.
 * **`app/Http/Controllers/ValidacionesController.php`:**
   * **Resiliencia en el Envío de Correos:** Se protegieron las llamadas a `Mail::send` con bloques `try-catch (\Throwable $e)` registrando en log cualquier incidencia SMTP sin interrumpir la transacción ni arrojar errores 500 al revisor.
   * **Trazabilidad de Auditoría:** Ahora se guarda explícitamente el `id_revisor` del usuario autenticado que dictaminó la solicitud (`$validacion->id_revisor = auth('revisor')->id();`).
@@ -69,6 +69,34 @@ Se llevó a cabo una refactorización arquitectónica en tres ejes fundamentales
   * Si escribe rutas privadas de aspirantes, se le redirige a `/login`.
 * **Vistas de Excepción Personalizadas:**
   * Creación de `resources/views/errors/403.blade.php` y `404.blade.php` con identidad visual UNISON y opciones seguras de retorno.
+
+### 2.7. Módulo del Maestro Asesor o Tutor Escolar
+* **Ampliación del Esquema (`asesores`):**
+  * Migración `database/migrations/2026_10_09_000001_update_asesores_table_schema.php`.
+  * Corrección de desbordamiento de enteros: el campo `telefono` fue elevado a `BIGINT UNSIGNED` para soportar números móviles mexicanos de 10 dígitos (anteriormente limitados a 4,294,967,295 por `INT UNSIGNED`).
+  * Los campos `apellido_materno` y `escuela_origen` se configuraron como `NULLABLE` para soportar registros flexibles.
+* **Modelos y Relaciones Eloquent:**
+  * [`app/Asistente.php`](/sicrefym/app/Asistente.php): Relación `asesor() { return $this->hasOne(Asesor::class, 'id_asistente'); }`.
+  * [`app/Asesor.php`](/sicrefym/app/Asesor.php): `$fillable` configurado y relación inversa `asistente() { return $this->belongsTo(Asistente::class, 'id_asistente'); }`.
+* **Persistencia y Flujo Operativo:**
+  * En [`AsistenteController@update`](/sicrefym/app/Http/Controllers/AsistenteController.php), se validan los campos (`asesor_nombre`, `asesor_apellido_paterno`, `asesor_correo`, `asesor_telefono` con 10 dígitos) y se persiste mediante `updateOrCreate`.
+  * En [`RevisoresController@storeAsistente`](/sicrefym/app/Http/Controllers/RevisoresController.php), se admiten campos opcionales del asesor al realizar inscripciones manuales/extemporáneas.
+* **Visualización Multicanal:**
+  * Perfil del alumno ([`perfil.blade.php`](/sicrefym/resources/views/asistente/perfil.blade.php)): Tarjeta informativa con los datos del tutor escolar.
+  * Mesa de revisión ([`validacion.blade.php`](/sicrefym/resources/views/revisor/validacion.blade.php)): Bloque de datos del asesor en el expediente lateral izquierdo del dictaminador.
+  * Modales de consulta rápida ([`admin.js`](/sicrefym/public/js/admin.js), [`listaAsistentes.blade.php`](/sicrefym/resources/views/revisor/listaAsistentes.blade.php) y [`listaInscritos.blade.php`](/sicrefym/resources/views/revisor/listaInscritos.blade.php)): Eager loading en `wsGetUserData` y pintado dinámico en la ficha modal.
+
+### 2.8. Módulo de Control de Convocatoria (Apertura y Cierre Automatizado)
+* **Persistencia de Estado del Concurso (`eventos`):**
+  * Migración `database/migrations/2026_10_09_000002_add_activo_to_eventos_table.php` agregando `activo` (boolean, default true) y `mensaje_cierre` (text, nullable).
+  * Inyección global mediante `AppServiceProvider.php` compartiendo `$eventoGlobal` a todas las vistas Blade del sistema.
+* **Control en el Panel de Administración:**
+  * En [`revisor/index.blade.php`](/sicrefym/resources/views/revisor/index.blade.php), se integró una tarjeta ejecutiva que muestra el estatus en tiempo real (`ABIERTA` o `CERRADA`), con un botón de conmutación directa (`toggle-convocatoria`) y un formulario para personalizar el mensaje oficial de clausura.
+  * Elimina completamente la necesidad de comentar o modificar código PHP/Blade en el servidor al concluir el concurso.
+* **Comportamiento Dinámico del Portal Público:**
+  * En [`header.blade.php`](/sicrefym/resources/views/includes/header.blade.php): Al estar inactiva la convocatoria, se oculta el botón de **"Registro"** y se mantiene visible **"Acceso"**.
+  * En [`welcome.blade.php`](/sicrefym/resources/views/welcome.blade.php): Se reemplazan las instrucciones de inscripción por un aviso formal y estilizado con el mensaje de cierre oficial configurado por los organizadores, permitiendo el ingreso directo a los alumnos ya registrados para consultar sus expedientes y descargar credenciales.
+  * En [`RegisterController.php`](/sicrefym/app/Http/Controllers/Auth/RegisterController.php): Bloqueo estricto a nivel controlador tanto en `showRegistrationForm()` como en `register()` redirigiendo con alerta en caso de intentos directos por URL.
 
 ---
 
@@ -120,33 +148,7 @@ Se llevó a cabo una refactorización arquitectónica en tres ejes fundamentales
 | **Retroalimentación** | Alertas JavaScript intrusivas (`alert()`) | Notificaciones estilizadas de Bootstrap 4 y badges interactivos |
 | **Impresión** | Páginas no optimizadas con menús visibles en el papel | Hoja limpia con estilos `@media print` para emitir listas de asistencia |
 
-### 2.7. Módulo del Maestro Asesor o Tutor Escolar
-* **Ampliación del Esquema (`asesores`):**
-  * Migración `database/migrations/2026_10_09_000001_update_asesores_table_schema.php`.
-  * Corrección de desbordamiento de enteros: el campo `telefono` fue elevado a `BIGINT UNSIGNED` para soportar números móviles mexicanos de 10 dígitos (anteriormente limitados a 4,294,967,295 por `INT UNSIGNED`).
-  * Los campos `apellido_materno` y `escuela_origen` se configuraron como `NULLABLE` para soportar registros flexibles.
-* **Modelos y Relaciones Eloquent:**
-  * [`app/Asistente.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/app/Asistente.php): Relación `asesor() { return $this->hasOne(Asesor::class, 'id_asistente'); }`.
-  * [`app/Asesor.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/app/Asesor.php): `$fillable` configurado y relación inversa `asistente() { return $this->belongsTo(Asistente::class, 'id_asistente'); }`.
-* **Persistencia y Flujo Operativo:**
-  * En [`AsistenteController@update`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/app/Http/Controllers/AsistenteController.php), se validan los campos (`asesor_nombre`, `asesor_apellido_paterno`, `asesor_correo`, `asesor_telefono` con 10 dígitos) y se persiste mediante `updateOrCreate`.
-  * En [`RevisoresController@storeAsistente`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/app/Http/Controllers/RevisoresController.php), se admiten campos opcionales del asesor al realizar inscripciones manuales/extemporáneas.
-* **Visualización Multicanal:**
-  * Perfil del alumno ([`perfil.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/asistente/perfil.blade.php)): Tarjeta informativa con los datos del tutor escolar.
-  * Mesa de revisión ([`validacion.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/revisor/validacion.blade.php)): Bloque de datos del asesor en el expediente lateral izquierdo del dictaminador.
-  * Modales de consulta rápida ([`admin.js`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/public/js/admin.js), [`listaAsistentes.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/revisor/listaAsistentes.blade.php) y [`listaInscritos.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/revisor/listaInscritos.blade.php)): Eager loading en `wsGetUserData` y pintado dinámico en la ficha modal.
 
-### 2.8. Módulo de Control de Convocatoria (Apertura y Cierre Automatizado)
-* **Persistencia de Estado del Concurso (`eventos`):**
-  * Migración `database/migrations/2026_10_09_000002_add_activo_to_eventos_table.php` agregando `activo` (boolean, default true) y `mensaje_cierre` (text, nullable).
-  * Inyección global mediante `AppServiceProvider.php` compartiendo `$eventoGlobal` a todas las vistas Blade del sistema.
-* **Control en el Panel de Administración:**
-  * En [`revisor/index.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/revisor/index.blade.php), se integró una tarjeta ejecutiva que muestra el estatus en tiempo real (`ABIERTA` o `CERRADA`), con un botón de conmutación directa (`toggle-convocatoria`) y un formulario para personalizar el mensaje oficial de clausura.
-  * Elimina completamente la necesidad de comentar o modificar código PHP/Blade en el servidor al concluir el concurso.
-* **Comportamiento Dinámico del Portal Público:**
-  * En [`header.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/includes/header.blade.php): Al estar inactiva la convocatoria, se oculta el botón de **"Registro"** y se mantiene visible **"Acceso"**.
-  * En [`welcome.blade.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/resources/views/welcome.blade.php): Se reemplazan las instrucciones de inscripción por un aviso formal y estilizado con el mensaje de cierre oficial configurado por los organizadores, permitiendo el ingreso directo a los alumnos ya registrados para consultar sus expedientes y descargar credenciales.
-  * En [`RegisterController.php`](file:///C:/Users/leona/Downloads/sicrefym20260930/sicrefym/app/Http/Controllers/Auth/RegisterController.php): Bloqueo estricto a nivel controlador tanto en `showRegistrationForm()` como en `register()` redirigiendo con alerta en caso de intentos directos por URL.
 
 ---
 

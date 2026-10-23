@@ -193,7 +193,8 @@ Asegúrese de que el servidor web (`www-data`, `apache` o `nginx`) tenga permiso
 chmod -R 775 storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 ```
-
+> [!Advertencia]  
+> El entorno variara, puede que los permisos cambien o se necesiten nuevos. Por eso se necesita tener cuidado al momento de la ejecucion.
 ---
 
 ## 4. Configuración del Servicio de Correos
@@ -218,7 +219,8 @@ MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=concurso.fismat@unison.mx
 MAIL_FROM_NAME="Comité Organizador CRFyM - UNISON"
 ```
-
+> [!NOTE]  
+> El 'Modo de Prueba' es cuando no estas conectado a la red de Unison. Cuando se conecte a la red de Unison, cambiar el '.env', para el 'Modo de Produccion'.
 ---
 
 ## 5. Despliegue y Ejecución
@@ -288,3 +290,6 @@ sudo systemctl restart apache2
 * **Causa:** Las sesiones de los guards `web` y `revisor` se encontraban entrelazadas en middleware previo.
 * **Solución:**
   Se solucionó con el middleware actualizado `RedirectIfAuthenticated.php`. Si ocurre en desarrollo, abra una ventana de incógnito o borre la cookie `sicrefym_session`.
+
+> [!NOTE]  
+> Los errores pueden ver variados, estos son los errores mas comunes para este proyecto. Y las soluciones tambien pueden ser variadas, asi que los errores y soluciones pueden no ser iguales a las documentadas.

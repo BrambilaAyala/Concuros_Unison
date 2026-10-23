@@ -79,6 +79,13 @@ class RevisoresSeeder extends Seeder
             'correo' => 'a224216851@unison.mx',
             'contrasena' => Hash::make('MJ1L2r1V'),
         ]);
+    DB::table('revisores')->insert([
+            'nombre' => 'Administrador',
+            'apellido_paterno' => 'General',
+            'apellido_materno' => 'UNISON',
+            'correo' => 'admin@unison.mx',
+            'contrasena' => Hash::make('admin123'),
+        ]);
 /*    DB::table('revisores')->insert([
             'nombre' => 'ALEJANDRA',
             'apellido_paterno' => 'FONSECA',

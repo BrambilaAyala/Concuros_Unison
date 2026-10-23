@@ -29,6 +29,12 @@ yarn-error.log
 /storage/constancias-escuelas/
 /storage/actas-asistentes/
 
+# CVS
+/ CVS / *
+** / CVS / *
+.cvsignore
+* / .cvsignore
+
 # Caché, Vistas compiladas y Sesiones de Laravel
 /storage/framework/cache/*
 !/storage/framework/cache/.gitignore
